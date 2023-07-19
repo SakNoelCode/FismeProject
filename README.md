@@ -19,32 +19,32 @@ composer install
 npm install
 ```
 
-1. En el directorio raíz encontrará el arhivo **.env.example**, dupliquelo, al archivo duplicado cambiar de nombre como **.env**, este archivo se debe modificar según las configuraciones de nuestro proyecto **(base de datos, etc)**
+5. En el directorio raíz encontrará el arhivo **.env.example**, dupliquelo, al archivo duplicado cambiar de nombre como **.env**, este archivo se debe modificar según las configuraciones de nuestro proyecto **(base de datos, etc)**
 ```bash
 DB_DATABASE=nombreBasedeDatos
 ```
 
-1. Ejecutar el comando en la terminal para crear la **key**
+7. Ejecutar el comando en la terminal para crear la **key**
 ```bash
 php artisan key:generate 
 ```
 
-1. Correr la migraciones del proyecto
+8. Correr la migraciones del proyecto
 ```bash
 php artisan migrate
 ```
 
-1. Compilar archivos
+9. Compilar archivos
 ```bash
 npm run dev
 ```
 
-1. Ejecute el proyecto
+10. Ejecute el proyecto
 ```bash
 php artisan serve
 ```
 
-##Guía de contribución
+## Guía de contribución
 La siguiente guía proporciona información valiosa sobre como puedes contribuir al proyecto.
 - Lee las directrices de contribución antes de enviar cualquier cambio.
 - Sé respetuoso con otros contribuidores y usuarios del proyecto.
