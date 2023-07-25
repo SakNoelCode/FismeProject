@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Secretaria extends Model
 {
     use HasFactory;
+
+    public function escuela()
+    {
+        return $this->belongsTo(Escuela::class);
+    }
+    public function user()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
