@@ -26,7 +26,7 @@ Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login'
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::prefix('administracion')->group(function () {
+    Route::prefix('admin')->group(function () {
 
         Route::get('/dashboard', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
         Route::post('/logout', [AdminHomeController::class, 'logout'])->name('admin.logout');
