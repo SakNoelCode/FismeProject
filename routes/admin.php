@@ -23,7 +23,7 @@ Route::prefix('admin')->group(function () {
 Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login');
 
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','role:administrador']], function () {
 
     Route::prefix('admin')->group(function () {
 
@@ -38,11 +38,3 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 });
-
-/* 
-Route::group(['middleware' => ['auth','role:admin']], function () {
-    Route::get('/hola', function () {
-
-        return 'Hola';
-    });
-});*/
