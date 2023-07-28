@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminHomeController::class, 'index'])->name('admin.index');
 });
@@ -35,9 +34,15 @@ Route::group(['middleware' => ['auth']], function () {
         //Route::resource('/usuarios', AdminUserController::class, ["as" => "admin"]);
         //Route::post('/buscar-usuario', [AdminUserController::class, 'buscarUsuario'])->name('admin.usuarios.buscar');
 
-
-
         Route::prefix('iconos')->group(function () {
         });
     });
 });
+
+/* 
+Route::group(['middleware' => ['auth','role:admin']], function () {
+    Route::get('/hola', function () {
+
+        return 'Hola';
+    });
+});*/
