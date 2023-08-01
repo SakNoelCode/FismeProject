@@ -19,6 +19,11 @@
                     <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
                         {{ __('Usuarios') }}
                     </x-nav-link>
+
+                    <x-nav-link>
+                        <x-theme-button :isMobile='false' />
+                    </x-nav-link>
+
                 </div>
             </div>
 
@@ -81,10 +86,16 @@
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            <div class="flex">
+                <div class="w-9/12 px-4">
+                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                </div>
+                <div class="w-3/12 ml-0">
+                    <x-theme-button :isMobile='true' />
+                </div>
             </div>
+
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('admin.dashboard')">
