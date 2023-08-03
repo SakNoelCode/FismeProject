@@ -42,7 +42,7 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            //Realizar validaciones
+            /*Realizar validaciones
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255',
@@ -57,7 +57,7 @@ class UserController extends Controller
                     'status' => 400,
                     'errors' => $validator->messages()
                 ]);
-            }
+            }*/
 
             /*Si no falla se crear un nuevo usuario tesista
             $user = User::create([$validator->safe()->only('name', 'email', 'password')]);

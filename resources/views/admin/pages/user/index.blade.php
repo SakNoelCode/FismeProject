@@ -434,7 +434,7 @@
                 success: function(response) {
 
                     if (response.status == 200) {
-                        //$('#createTesistaUserModal').addClass('hidden');
+                        $('#createTesistaUserModal').addClass('hidden');
                         showMessage(response.message);
                         $('#createTesistaUserModal').find('input').val();
                         $('#createTesistaUserModal').find('select').val();
