@@ -9,6 +9,12 @@ class Tesista extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'codigo',
+        'escuela_id',
+        'user_id',
+    ];
+
     public function escuela(){
         return $this->belongsTo(Escuela::class);
     }
