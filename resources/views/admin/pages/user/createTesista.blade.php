@@ -3,49 +3,60 @@
 @section('styles')
 @endsection
 @section('header')
-<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-4">
-    {{ __('Módulo para la creación de un nuevo tesista') }}
-</h2>
+<x-flowbite.header value='Módulo para la creación de un nuevo tesista' />
 
 <!-- Breadcrumb -->
-<div class="hidden sm:block">
-    <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-3">
-            <li class="inline-flex items-center">
-                <a href="{{route('admin.dashboard')}}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                    <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
-                    </svg>
-                    Inicio
-                </a>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                    </svg>
-                    <a href="{{route('usuarios.index')}}" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Usuarios</a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                    </svg>
-                    <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Crear nuevo tesista</span>
-                </div>
-            </li>
-        </ol>
-    </nav>
-</div>
+<x-flowbite.breadcrumb>
+    <x-slot name='li_inicio'>Inicio</x-slot>
+    <x-slot name='li_intermedio'>
+        <x-flowbite.breadcrumb-item :href="route('usuarios.index')" value='Usuarios' />
+    </x-slot>
+    <x-slot name='li_final'>Crear nuevo tesista</x-slot>
+</x-flowbite.breadcrumb>
 @endsection
 
 @section('content')
-<section class="bg-white dark:bg-gray-900">
+<x-flowbite.form-section-create :action="route('tesistas.store')">
+    <x-slot name='title'>Crear nuevo tesista</x-slot>
+
+    <x-slot name='form'>
+        <div class="sm:col-span-2">
+            <x-flowbite.form-label for='name' value='Nombres y apellidos' />
+            <x-flowbite.form-input name='name' type='text' placeholder='Pepe González' />
+        </div>
+        <div class="sm:col-span-2">
+            <x-flowbite.form-label for='email' value='Correo eléctrónico(institucional)' />
+            <x-flowbite.form-input name='email' type='email' placeholder='67345621@untrm.edu.pe' />
+        </div>
+        <div>
+            <x-flowbite.form-label for='codigo' value='Código' />
+            <x-flowbite.form-input name='codigo' type='text' placeholder='45678RT421' />
+        </div>
+        <div>
+            <x-flowbite.form-label for='escuela_id' value='Escuela' />
+            <select id="escuela_id" name="escuela_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option selected="">Seleciona</option>
+                @foreach ($escuelas as $item)
+                <option value="{{$item->id}}" {{old('escuela_id') == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <x-flowbite.form-label for='password' value='Contraseña' />
+            <x-flowbite.form-input name='password' type='password' placeholder='' />
+        </div>
+        <div>
+            <x-flowbite.form-label for='password_confirm' value='Confirma contraseña' />
+            <x-flowbite.form-input name='password_confirm' type='password' placeholder='' />
+        </div>
+    </x-slot>
+</x-flowbite.form-section-create>
+<!---section class="bg-white dark:bg-gray-900">
     <div class="py-6 px-4 mx-auto max-w-2xl lg:py-10">
+        
         <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Crear nuevo tesista</h2>
 
-        <!-----Errores de validación---->
+        
         @if ($errors->any())
         <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
             <svg class="flex-shrink-0 inline w-4 h-4 mr-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -103,7 +114,7 @@
 
         </form>
     </div>
-</section>
+</section--->
 @endsection
 @section('scripts')
 <script>
