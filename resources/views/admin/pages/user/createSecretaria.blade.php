@@ -1,9 +1,9 @@
 @extends('admin.layouts.app')
-@section('title','Crear asesor')
+@section('title','Crear secretaría')
 @section('styles')
 @endsection
 @section('header')
-<x-flowbite.header value='Módulo para la creación de un nuevo asesor' />
+<x-flowbite.header value='Módulo para la creación de una nueva secretaría' />
 
 <!-- Breadcrumb -->
 <x-flowbite.breadcrumb>
@@ -11,26 +11,26 @@
     <x-slot name='li_intermedio'>
         <x-flowbite.breadcrumb-item :href="route('usuarios.index')" value='Usuarios' />
     </x-slot>
-    <x-slot name='li_final'>Crear nuevo asesor</x-slot>
+    <x-slot name='li_final'>Crear nueva secretaría</x-slot>
 </x-flowbite.breadcrumb>
 @endsection
 
 @section('content')
-<x-flowbite.form-section-create :action="route('asesores.store')">
-    <x-slot name='title'>Crear nuevo asesor</x-slot>
+<x-flowbite.form-section-create :action="route('secretarias.store')">
+    <x-slot name='title'>Crear nueva secretaría</x-slot>
 
     <x-slot name='form'>
         <div class="sm:col-span-2">
             <x-flowbite.form-label for='name' value='Nombres y apellidos' />
-            <x-flowbite.form-input name='name' type='text' placeholder='Pepe González' />
+            <x-flowbite.form-input name='name' type='text' placeholder='Ederly Ramírez' />
         </div>
         <div class="sm:col-span-2">
             <x-flowbite.form-label for='email' value='Correo eléctrónico(institucional)' />
             <x-flowbite.form-input name='email' type='email' placeholder='67345621@untrm.edu.pe' />
         </div>
         <div>
-            <x-flowbite.form-label for='especialidad' value='Especialidad' />
-            <x-flowbite.form-input name='especialidad' type='text' placeholder='Programación web' />
+            <x-flowbite.form-label for='cargo' value='Cargo' />
+            <x-flowbite.form-input name='cargo' type='text' placeholder='Admisión' />
         </div>
         <div>
             <x-flowbite.form-label for='escuela_id' value='Escuela' />

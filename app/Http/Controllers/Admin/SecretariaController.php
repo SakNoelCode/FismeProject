@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class TesistaController extends Controller
+class SecretariaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,38 +27,40 @@ class TesistaController extends Controller
     public function create(): View
     {
         $escuelas = Escuela::all();
-        return view('admin.pages.user.createTesista', compact('escuelas'));
+        return view('admin.pages.user.createSecretaria', compact('escuelas'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
+        //dd($request->all());
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users,email',
-            'codigo' => 'required|max:50',
+            'cargo' => 'required|max:100',
             'escuela_id' => 'required|integer|exists:escuelas,id',
             'password'  => 'required|same:password_confirm|min:6|different:email'
         ]);
 
+
         try {
             DB::beginTransaction();
             $user = User::create($request->only('name', 'email', 'password'));
-            $user->tesistas()->create(
+            $user->secretarias()->create(
                 $request->merge(['user_id' => $user->id])->except('name', 'email', 'password')
             );
 
             //Agregar rol al usuario
-            $user->assignRole('tesista');
+            $user->assignRole('secretaria');
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
         }
 
-        return redirect()->route('usuarios.index')->with('success','Tesista agregado exitosamente');
+        return redirect()->route('usuarios.index')->with('success', 'Secretaría agregada exitosamente');
     }
 
     /**

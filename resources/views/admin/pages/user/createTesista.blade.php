@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title','Usuarios')
+@section('title','Crear tesista')
 @section('styles')
 @endsection
 @section('header')

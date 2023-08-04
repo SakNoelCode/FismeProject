@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AsesorController;
+use App\Http\Controllers\Admin\SecretariaController;
 use App\Http\Controllers\Admin\TesistaController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +38,8 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
         Route::resources([
             'usuarios' => UserController::class,
             'tesistas' => TesistaController::class,
-            'asesores' => AsesorController::class
+            'asesores' => AsesorController::class,
+            'secretarias' => SecretariaController::class
         ]);
         //Route::post('/buscar-usuario', [AdminUserController::class, 'buscarUsuario'])->name('admin.usuarios.buscar');
 

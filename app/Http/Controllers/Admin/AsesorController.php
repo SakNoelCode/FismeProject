@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Escuela;
 use App\Models\User;
 use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class AsesorController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create():View
     {
         $escuelas = Escuela::all();
         return view('admin.pages.user.createAsesor', compact('escuelas'));
@@ -35,7 +36,7 @@ class AsesorController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:asesores,email',
+            'email' => 'required|email|max:255|unique:users,email',
             'especialidad' => 'required|max:100',
             'escuela_id' => 'required|integer|exists:escuelas,id',
             'password'  => 'required|same:password_confirm|min:6|different:email'

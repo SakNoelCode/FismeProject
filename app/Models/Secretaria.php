@@ -9,6 +9,8 @@ class Secretaria extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['cargo','escuela_id','user_id'];
+
     public function escuela()
     {
         return $this->belongsTo(Escuela::class);
