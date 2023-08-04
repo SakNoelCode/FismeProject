@@ -11,6 +11,8 @@ class Asesor extends Model
 
     protected $table = 'asesores';
 
+    protected $fillable = ['especialidad','escuela_id','user_id'];
+
     public function escuela(){
         return $this->belongsTo(Escuela::class);
     }

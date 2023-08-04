@@ -74,7 +74,7 @@
                                             <a href="{{ route('tesistas.create') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crear nuevo tesista</a>
                                         </li>
                                         <li>
-                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crear nuevo asesor</a>
+                                            <a href="{{route('asesores.create')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crear nuevo asesor</a>
                                         </li>
                                         <li>
                                             <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crear nueva secretaría</a>
