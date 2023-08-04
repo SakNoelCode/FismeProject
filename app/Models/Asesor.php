@@ -17,7 +17,7 @@ class Asesor extends Model
         return $this->belongsTo(Escuela::class);
     }
     public function user(){
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
     public function proyectos(){
         return $this->hasMany(Proyecto::class);

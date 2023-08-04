@@ -46,7 +46,7 @@ class TesistaController extends Controller
         try {
             DB::beginTransaction();
             $user = User::create($request->only('name', 'email', 'password'));
-            $user->tesistas()->create(
+            $user->tesista()->create(
                 $request->merge(['user_id' => $user->id])->except('name', 'email', 'password')
             );
 

@@ -44,16 +44,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function tesistas()
+    public function tesista()
     {
-        return $this->hasMany(Tesista::class);
+        return $this->hasOne(Tesista::class);
     }
-    public function asesores()
+    public function asesor()
     {
-        return $this->hasMany(Asesor::class);
+        return $this->hasOne(Asesor::class);
     }
-    public function secretarias()
+    public function secretaria()
     {
-        return $this->hasMany(Secretaria::class);
+        return $this->hasOne(Secretaria::class);
     }
 }

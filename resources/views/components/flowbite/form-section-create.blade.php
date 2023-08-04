@@ -15,7 +15,7 @@
                 {{$form}}
             </div>
 
-            <x-flowbite.btn-blue type='submit' value='Crear nuevo registro' />
+            {{$actions}}
         </form>
 
     </div>

@@ -48,7 +48,7 @@ class SecretariaController extends Controller
         try {
             DB::beginTransaction();
             $user = User::create($request->only('name', 'email', 'password'));
-            $user->secretarias()->create(
+            $user->secretaria()->create(
                 $request->merge(['user_id' => $user->id])->except('name', 'email', 'password')
             );
 

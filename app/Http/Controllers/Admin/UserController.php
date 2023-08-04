@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index(): View
     {
-        $users = User::with('tesistas.escuela','asesores.escuela','secretarias.escuela')
+        $users = User::with('tesista.escuela','asesor.escuela','secretaria.escuela')
         ->latest()
         ->paginate(5);
 

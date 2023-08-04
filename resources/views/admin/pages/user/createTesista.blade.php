@@ -50,6 +50,9 @@
             <x-flowbite.form-input name='password_confirm' type='password' placeholder='' />
         </div>
     </x-slot>
+    <x-slot name='actions'>
+        <x-flowbite.btn-blue type='submit' value='Crear nuevo registro' />
+    </x-slot>
 </x-flowbite.form-section-create>
 @endsection
 @section('scripts')
