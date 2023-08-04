@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Escuela;
-use Exception;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -16,7 +14,11 @@ class UserController extends Controller
      */
     public function index(): View
     {
-        return view('admin.pages.user.index');
+        $users = User::with('tesistas.escuela','asesores.escuela','secretarias.escuela')
+        ->paginate(5);
+
+        //dd($users);
+        return view('admin.pages.user.index',compact('users'));
     }
 
     /**

@@ -9,6 +9,8 @@ class Asesor extends Model
 {
     use HasFactory;
 
+    protected $table = 'asesores';
+
     public function escuela(){
         return $this->belongsTo(Escuela::class);
     }

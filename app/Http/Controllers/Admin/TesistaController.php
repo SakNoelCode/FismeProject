@@ -50,6 +50,9 @@ class TesistaController extends Controller
                 $request->merge(['user_id' => $user->id])->except('name', 'email', 'password')
             );
 
+            //Agregar rol al usuario
+            $user->assignRole('tesista');
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

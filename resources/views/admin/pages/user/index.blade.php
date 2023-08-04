@@ -124,39 +124,47 @@
                     </div>
 
                     <!-----Tabla---->
+                    @if ($users->count())
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Name
+                                        Nombres y apellidos
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Position
+                                        Rol
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Status
+                                        Estado
                                     </th>
                                     <th scope="col" class="px-4 py-3">
-                                        <span class="sr-only">Actions</span>
+                                        <span class="sr-only">Acciones</span>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($users as $item)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                         <div class="pl-3">
-                                            <div class="text-base font-semibold">Neil Sims</div>
-                                            <div class="font-normal text-gray-500">neil.sims@flowbite.com</div>
+                                            <div class="text-base font-semibold">{{$item->name}}</div>
+                                            <div class="font-normal text-gray-500">{{$item->email}}</div>
                                         </div>
                                     </th>
                                     <td class="px-6 py-4">
-                                        React Developer
+                                        {{$item->roles->first()->name}}
                                     </td>
                                     <td class="px-6 py-4">
+                                        @if (Auth::check())
                                         <div class="flex items-center">
-                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
+                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> En Línea
                                         </div>
+                                        @else
+                                        <div class="flex items-center">
+                                            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Fuera de Línea
+                                        </div>
+                                        @endif
                                     </td>
                                     <td class="px-4 py-3 flex items-center justify-end">
                                         <button id="apple-watch-se-dropdown-button" data-dropdown-toggle="apple-watch-se-dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
@@ -169,38 +177,8 @@
                                                 <li>
                                                     <a href="#" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar</a>
                                                 </li>
-                                            </ul>
-                                            <div class="py-1">
-                                                <a href="#" type="button" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Eliminar</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div class="pl-3">
-                                            <div class="text-base font-semibold">Neil Sims</div>
-                                            <div class="font-normal text-gray-500">neil.sims@flowbite.com</div>
-                                        </div>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        React Developer
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Offline
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 flex items-center justify-end">
-                                        <button id="apple-watch-se-dropdown-button" data-dropdown-toggle="apple-watch-se-dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                            </svg>
-                                        </button>
-                                        <div id="apple-watch-se-dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-watch-se-dropdown-button">
                                                 <li>
-                                                    <a href="#" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar</a>
+                                                    <a href="#" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ver</a>
                                                 </li>
                                             </ul>
                                             <div class="py-1">
@@ -209,52 +187,25 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
+                    @else
+                    <div class="px-6 py-4">
+                        <p class="text-center text-base text-gray-900 dark:text-white">No existen resultados</p>
+                    </div>
+                    @endif
+
 
                     <!-----Paginación---->
-                    <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                            Mostrando
-                            <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-                            de
-                            <span class="font-semibold text-gray-900 dark:text-white">1000</span>
-                        </span>
-                        <ul class="inline-flex items-stretch -space-x-px">
-                            <li>
-                                <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Previous</span>
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                            </li>
-                            <li>
-                                <a href="#" aria-current="page" class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Next</span>
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    @if ($users->hasPages())
+                    <div class="px-6 py-4">
+                        {{ $users->links() }}
+                        
+                    </div>
+                    @endif
 
                 </div>
             </div>
