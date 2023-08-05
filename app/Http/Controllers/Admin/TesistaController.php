@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Escuela;
+use App\Models\Tesista;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class TesistaController extends Controller
 {
@@ -33,7 +36,7 @@ class TesistaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|max:255',
@@ -58,7 +61,7 @@ class TesistaController extends Controller
             DB::rollBack();
         }
 
-        return redirect()->route('usuarios.index')->with('success','Tesista agregado exitosamente');
+        return redirect()->route('usuarios.index')->with('success', 'Tesista agregado exitosamente');
     }
 
     /**
@@ -72,9 +75,12 @@ class TesistaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): View
     {
-        //
+        //Comprobar la existencia del tesista
+        $tesista = Tesista::where('user_id', $id)->firstOrFail();
+        $escuelas = Escuela::all();
+        return view('admin.pages.user.editarTesista', compact('tesista', 'escuelas'));
     }
 
     /**
@@ -82,7 +88,42 @@ class TesistaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //Buscar un usuario que una relación con tesista y que coincida con el campo que esta
+        //viniendo de la vista
+        $user = User::whereHas('tesista', function ($query) use ($id) {
+            $query->where('id', '=', $id);
+        })->first();
+
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'codigo' => 'required|max:50',
+            'escuela_id' => 'required|integer|exists:escuelas,id',
+            'password'  => 'nullable|same:password_confirm|min:6|different:email'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            /*Comprobar el password y aplicar el Hash*/
+            if (empty($request->password)) {
+                $request = Arr::except($request, array('password'));
+            } else {
+                $fieldHash = Hash::make($request->password);
+                $request->merge(['password' => $fieldHash]);
+            }
+
+            $user->update($request->except('codigo', 'escuela_id'));
+
+            Tesista::where('user_id', $user->id)
+                ->update($request->only('codigo', 'escuela_id'));
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        return redirect()->route('usuarios.index')->with('success', 'Tesista editado exitosamente');
     }
 
     /**

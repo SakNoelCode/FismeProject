@@ -179,6 +179,11 @@
                                                     <a href="{{route('asesores.edit',['asesore'=>$item->id])}}" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar</a>
                                                 </li>
                                                 @endif
+                                                @if ($item->roles->first()->name == 'tesista')
+                                                <li>
+                                                    <a href="{{route('tesistas.edit',['tesista'=>$item->id])}}" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar</a>
+                                                </li>
+                                                @endif
                                                 <li>
                                                     <a href="#" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ver</a>
                                                 </li>

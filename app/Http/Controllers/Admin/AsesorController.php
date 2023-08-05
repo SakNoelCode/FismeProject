@@ -76,8 +76,8 @@ class AsesorController extends Controller
      */
     public function edit(String $id): View
     {
+        $asesor = Asesor::where('user_id', $id)->firstOrFail();
         $escuelas = Escuela::all();
-        $asesor = User::findOrfail($id)->load('asesor');
         return view('admin.pages.user.editarAsesor', compact('asesor', 'escuelas'));
     }
 
@@ -86,8 +86,11 @@ class AsesorController extends Controller
      */
     public function update(Request $request, String $id): RedirectResponse
     {
-        $user = User::findOrfail($id);
-        //dd($user);
+        //Buscar un usuario que una relación con tesista y que coincida con el campo que esta
+        //viniendo de la vista
+        $user = User::whereHas('asesor', function ($query) use ($id) {
+            $query->where('id', '=', $id);
+        })->first();
 
         $request->validate([
             'name' => 'required|max:255',
@@ -108,10 +111,10 @@ class AsesorController extends Controller
                 $request->merge(['password' => $fieldHash]);
             }
 
-            $user->update($request->except('especialidad','escuela_id'));
+            $user->update($request->except('especialidad', 'escuela_id'));
 
             Asesor::where('user_id', $user->id)
-                ->update($request->only('especialidad','escuela_id'));
+                ->update($request->only('especialidad', 'escuela_id'));
 
             DB::commit();
         } catch (Exception $e) {
