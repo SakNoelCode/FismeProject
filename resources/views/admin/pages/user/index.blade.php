@@ -20,11 +20,11 @@
 
             <header>
                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    {{ __('Tabla Usuarios') }}
+                    {{ __('Usuarios') }}
                 </h2>
 
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    {{ __("Lista de todos los usuarios creados, como tesistas, asesores o secretarías. También puede crear nuevos usuarios.") }}
+                    {{ __("Los usuarios son aquellos que pueden usar nuestra aplicación, como tesistas, asesores o secretarías.") }}
                 </p>
             </header>
 

@@ -20,6 +20,10 @@
                         {{ __('Usuarios') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('empresas.index')" :active="request()->routeIs('empresas.index')">
+                        {{ __('Empresas') }}
+                    </x-nav-link>
+
                     <x-nav-link>
                         <x-theme-button :isMobile='false' />
                     </x-nav-link>
@@ -81,6 +85,10 @@
 
             <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
                 {{ __('Usuarios') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('empresas.index')" :active="request()->routeIs('empresas.index')">
+                {{ __('Empresas') }}
             </x-responsive-nav-link>
         </div>
 
