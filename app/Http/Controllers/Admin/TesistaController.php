@@ -86,7 +86,7 @@ class TesistaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id) : RedirectResponse
     {
         //Buscar un usuario que una relación con tesista y que coincida con el campo que esta
         //viniendo de la vista

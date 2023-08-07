@@ -184,13 +184,18 @@
                                                     <a href="{{route('tesistas.edit',['tesista'=>$item->id])}}" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar</a>
                                                 </li>
                                                 @endif
+                                                @if ($item->roles->first()->name == 'secretaria')
+                                                <li>
+                                                    <a href="{{route('secretarias.edit',['secretaria'=>$item->id])}}" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar</a>
+                                                </li>
+                                                @endif
                                                 <li>
                                                     <a href="#" type="button" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ver</a>
                                                 </li>
                                             </ul>
-                                            <div class="py-1">
+                                            <!--div class="py-1">
                                                 <a href="#" type="button" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Eliminar</a>
-                                            </div>
+                                            </div--->
                                         </div>
                                     </td>
                                 </tr>
