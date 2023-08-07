@@ -9,6 +9,8 @@ class Empresa extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function proyectos(){
         return $this->hasMany(Proyecto::class);
     }

@@ -295,18 +295,6 @@
 </div>
 @endsection
 @section('scripts')
-<!---script type="module" src="">
-    import {
-        Dismiss
-    } from 'flowbite';
-
-    // target element that will be dismissed
-    const $targetEl = document.getElementById('toast-top-left');
-
-    const dismiss = new Dismiss($targetEl);
-
-    dismiss.hide();
-</script--->
 <script>
     /**Mostar mensaje emergente */
     let message = "{{ session('success') }}";

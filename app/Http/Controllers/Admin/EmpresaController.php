@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmpresaController extends Controller
 {
@@ -30,7 +31,29 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:255|unique:empresas,name',
+            'email' => 'nullable|unique:empresas,email',
+            'phone' => 'nullable|max:40',
+            'address' => 'nullable|max:100',
+            'web_url' => 'nullable',
+            'city' => 'nullable|max:100',
+            'description' => 'nullable'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages()
+            ]);
+        }
+
+        Empresa::create($validator->validated());
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Empresa creada exitosamente'
+        ]);
     }
 
     /**
