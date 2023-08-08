@@ -139,6 +139,11 @@ class EmpresaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $empresa = Empresa::find($id)->delete();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Empresa eliminada exitosamente'
+        ]);
     }
 }
