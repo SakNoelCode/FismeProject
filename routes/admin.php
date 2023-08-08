@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
         Route::get('/dashboard', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
         Route::post('/logout', [AdminHomeController::class, 'logout'])->name('admin.logout');
 
+        Route::get('/empresas-fetch',[EmpresaController::class,'fetchEmpresas'])->name('fetchEmpresas');
+        Route::get('/edit-empresa/{id}',[EmpresaController::class,'editEmpresa'])->name('editEmpresa');
+        Route::put('/edit-empresa/{id}',[EmpresaController::class,'updateEmpresa'])->name('updateEmpresa');
 
         Route::resources([
             'usuarios' => UserController::class,
@@ -43,6 +46,7 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
             'secretarias' => SecretariaController::class,
             'empresas' => EmpresaController::class
         ]);
+        
         //Route::post('/buscar-usuario', [AdminUserController::class, 'buscarUsuario'])->name('admin.usuarios.buscar');
 
         Route::prefix('iconos')->group(function () {
