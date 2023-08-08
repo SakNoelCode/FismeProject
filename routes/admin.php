@@ -25,7 +25,7 @@ Route::prefix('admin')->group(function () {
 });
 
 
-Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login');
+Route::post('/login-admin', [AdminAuthController::class, 'login'])->name('admin.login');
 
 
 Route::group(['middleware' => ['auth', 'role:administrador']], function () {
@@ -48,8 +48,8 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
         ]);
         
         //Route::post('/buscar-usuario', [AdminUserController::class, 'buscarUsuario'])->name('admin.usuarios.buscar');
-
+/*
         Route::prefix('iconos')->group(function () {
-        });
+        });*/
     });
 });

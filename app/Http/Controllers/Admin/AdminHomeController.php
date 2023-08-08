@@ -13,10 +13,14 @@ class AdminHomeController extends Controller
     /**
      * Mostrar vista de Login
      */
-    public function index(): View
+    public function index()
     {
         if (!Auth::check()) {
             return view('admin.login');
+        }
+
+        if(auth()->user()->roles->first()->name != 'administrador'){
+            return redirect()->route('dashboard');
         }
         return view('admin.dashboard');
     }
