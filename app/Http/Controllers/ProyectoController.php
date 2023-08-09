@@ -15,9 +15,9 @@ class ProyectoController extends Controller
      */
     public function index()
     {
-        $proyectos = Proyecto::with('tesista.user','asesor.user','empresa')
-        ->get();
-        return view('secretaria.proyecto.index',compact('proyectos'));
+        $proyectos = Proyecto::with('tesista.user', 'asesor.user', 'empresa')
+            ->paginate(5);
+        return view('secretaria.proyecto.index', compact('proyectos'));
     }
 
     /**
@@ -28,7 +28,7 @@ class ProyectoController extends Controller
         $tesistas = Tesista::all();
         $asesores = Asesor::all();
         $empresas = Empresa::all();
-        return view('secretaria.proyecto.create',[
+        return view('secretaria.proyecto.create', [
             'tesistas' => $tesistas,
             'asesores' => $asesores,
             'empresas' => $empresas
@@ -52,7 +52,7 @@ class ProyectoController extends Controller
 
         Proyecto::create($request->all());
 
-        return redirect()->route('proyectos.index')->with('success','Registro exitoso');
+        return redirect()->route('proyectos.index')->with('success', 'Registro exitoso');
     }
 
     /**
@@ -66,17 +66,29 @@ class ProyectoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Proyecto $proyecto)
     {
-        //
+        //$tesistas = Tesista::all();
+        $asesores = Asesor::all();
+        $empresas = Empresa::all();
+        return view('secretaria.proyecto.edit', compact('proyecto', 'asesores', 'empresas'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Proyecto $proyecto)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255|unique:proyectos,name,'.$proyecto->id,
+            'descripcion' => 'nullable|max:255',
+            'asesor_id' => 'required|exists:asesores,id',
+            'empresa_id' => 'required|exists:empresas,id'
+        ]);
+
+        $proyecto->update($request->all());
+
+        return redirect()->route('proyectos.index')->with('success', 'Edición exitosa');
     }
 
     /**
