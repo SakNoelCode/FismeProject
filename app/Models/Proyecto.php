@@ -13,11 +13,11 @@ class Proyecto extends Model
 
     public function empresa()
     {
-        return $this->belongsToMany(Empresa::class);
+        return $this->belongsTo(Empresa::class);
     }
     public function asesor()
     {
-        return $this->belongsToMany(Asesor::class);
+        return $this->belongsTo(Asesor::class);
     }
     public function tesista()
     {

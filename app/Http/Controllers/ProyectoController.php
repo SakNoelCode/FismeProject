@@ -15,7 +15,9 @@ class ProyectoController extends Controller
      */
     public function index()
     {
-        return view('secretaria.proyecto.index');
+        $proyectos = Proyecto::with('tesista.user','asesor.user','empresa')
+        ->get();
+        return view('secretaria.proyecto.index',compact('proyectos'));
     }
 
     /**
