@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProyectoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified','role:tesista|secretaria|asesor'])->name('dashboard');
+
+//Rutas para la secretaría:
+Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
+    Route::resources([
+        'proyectos' => ProyectoController::class
+    ]);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

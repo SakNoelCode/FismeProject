@@ -15,6 +15,13 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <!--Menú secretaría--->
+                    @hasrole('secretaria')
+                    <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
+                        {{ __('Proyectos de Tesis') }}
+                    </x-nav-link>
+                    @endhasrole
                 </div>
             </div>
 
@@ -42,8 +49,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -70,6 +76,14 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <!--Menú secretaría--->
+            @hasrole('secretaria')
+            <x-responsive-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
+                {{ __('Proyectos de Tesis') }}
+            </x-responsive-nav-link>
+            @endhasrole
+
         </div>
 
         <!-- Responsive Settings Options -->
@@ -88,8 +102,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
