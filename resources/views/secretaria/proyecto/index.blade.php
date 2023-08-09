@@ -23,7 +23,7 @@
         </nav>
     </x-slot>
 
-    @include('secretaria.include.alert')
+    @include('include.alert')
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -35,7 +35,7 @@
                     </h2>
 
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        {{ __("Los proyectos de tesis son aquellas investigaciones que están siendo creadas por los tesistas") }}
+                        {{ __("En este módulo podrá gestionar todo lo relacionado a proyectos de tesis") }}
                     </p>
                 </header>
             </div>

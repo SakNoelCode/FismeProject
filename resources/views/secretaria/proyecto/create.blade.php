@@ -64,7 +64,7 @@
             <form action="{{route('proyectos.store')}}" method="post">
                 @csrf
 
-                @include('secretaria.include.errors')
+                @include('include.errors')
 
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                     <div class="sm:col-span-2">
