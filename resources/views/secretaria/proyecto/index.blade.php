@@ -116,10 +116,10 @@
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                     </svg>
                                 </a>
+                                
                             </div>
                             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="services-{{$item->id}}" role="tabpanel" aria-labelledby="services-tab-{{$item->id}}">
                                 <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">We invest in the world’s potential</h2>
-                                <!-- List -->
                                 <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
                                     <li class="flex space-x-2 items-center">
                                         <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -146,6 +146,12 @@
                                         <span class="leading-tight">Limitless business automation</span>
                                     </li>
                                 </ul>
+                                <a href="{{(route('proyecto.cambiarEstado',['proyecto' => $item]))}}" class="mt-5 inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
+                                    Cambiar estado
+                                    <svg class="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                    </svg>
+                                </a>
                             </div>
                             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="statistics-{{$item->id}}" role="tabpanel" aria-labelledby="statistics-tab-{{$item->id}}">
                                 <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">

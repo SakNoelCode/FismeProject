@@ -28,6 +28,10 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::resources([
         'proyectos' => ProyectoController::class
     ]);
+
+    Route::get('/cambiar-estado/{proyecto}',[ProyectoController::class,'cambiarEstado'])->name('proyecto.cambiarEstado');
+    Route::patch('/cambiar-estado/{proyecto}',[ProyectoController::class,'updateEstado'])->name('proyecto.updateEstado');
+    Route::patch('/cambiar-etapa/{proyecto}',[ProyectoController::class,'updateEtapa'])->name('proyecto.updateEtapa');
 });
 
 Route::middleware('auth')->group(function () {

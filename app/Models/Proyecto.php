@@ -35,4 +35,8 @@ class Proyecto extends Model
     {
         return $this->hasMany(Resolucion::class);
     }
+
+    public function etapa(){
+        return $this->belongsTo(Etapa::class);
+    }
 }

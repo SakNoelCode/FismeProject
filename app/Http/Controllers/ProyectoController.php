@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asesor;
 use App\Models\Empresa;
+use App\Models\Etapa;
 use App\Models\Proyecto;
 use App\Models\Tesista;
 use Illuminate\Http\Request;
@@ -80,7 +81,7 @@ class ProyectoController extends Controller
     public function update(Request $request, Proyecto $proyecto)
     {
         $request->validate([
-            'name' => 'required|max:255|unique:proyectos,name,'.$proyecto->id,
+            'name' => 'required|max:255|unique:proyectos,name,' . $proyecto->id,
             'descripcion' => 'nullable|max:255',
             'asesor_id' => 'required|exists:asesores,id',
             'empresa_id' => 'required|exists:empresas,id'
@@ -97,5 +98,29 @@ class ProyectoController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function cambiarEstado(Proyecto $proyecto)
+    {
+        $etapas = Etapa::all();
+        return view('secretaria.proyecto.cambiar-estado', compact('proyecto', 'etapas'));
+    }
+
+    public function updateEstado(Request $request, Proyecto $proyecto)
+    {
+        $proyecto->update([
+            'estado' => $request->get('estado')
+        ]);
+
+        return redirect()->route('proyectos.index')->with('success', 'Operación exitosa');
+    }
+
+    public function updateEtapa(Request $request, Proyecto $proyecto)
+    {
+        $proyecto->update([
+            'etapa_id' => $request->get('etapa_id')
+        ]);
+
+        return redirect()->route('proyectos.index')->with('success', 'Operación exitosa');
     }
 }
