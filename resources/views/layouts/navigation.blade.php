@@ -22,6 +22,20 @@
                         {{ __('Proyectos de Tesis') }}
                     </x-nav-link>
                     @endhasrole
+
+                    <!--Menú Tesista--->
+                    @hasrole('tesista')
+                    <x-nav-link :href="route('proyectoTesista.index')" :active="request()->routeIs('proyectoTesista.index')">
+                        {{ __('Proyectos de Tesis') }}
+                    </x-nav-link>
+                    @endhasrole
+
+                    <!--Menú Asesor-->
+                    @hasrole('asesor')
+                    <x-nav-link :href="route('proyectoAsesor.index')" :active="request()->routeIs('proyectoAsesor.index')">
+                        {{ __('Proyectos de Tesis') }}
+                    </x-nav-link>
+                    @endhasrole
                 </div>
             </div>
 
@@ -80,6 +94,20 @@
             <!--Menú secretaría--->
             @hasrole('secretaria')
             <x-responsive-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
+                {{ __('Proyectos de Tesis') }}
+            </x-responsive-nav-link>
+            @endhasrole
+
+            <!--Menú Tesista--->
+            @hasrole('tesista')
+            <x-responsive-nav-link :href="route('proyectoTesista.index')" :active="request()->routeIs('proyectoTesista.index')">
+                {{ __('Proyectos de Tesis') }}
+            </x-responsive-nav-link>
+            @endhasrole
+
+            <!--Menú Asesor-->
+            @hasrole('asesor')
+            <x-responsive-nav-link :href="route('proyectoAsesor.index')" :active="request()->routeIs('proyectoAsesor.index')">
                 {{ __('Proyectos de Tesis') }}
             </x-responsive-nav-link>
             @endhasrole

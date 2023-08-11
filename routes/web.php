@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Asesor\ProyectoAsesorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +34,24 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::get('/cambiar-estado/{proyecto}',[ProyectoController::class,'cambiarEstado'])->name('proyecto.cambiarEstado');
     Route::patch('/cambiar-estado/{proyecto}',[ProyectoController::class,'updateEstado'])->name('proyecto.updateEstado');
     Route::patch('/cambiar-etapa/{proyecto}',[ProyectoController::class,'updateEtapa'])->name('proyecto.updateEtapa');
+});
+
+//Rutas para tesista
+Route::group(['middleware' => ['auth', 'role:tesista']], function () {
+    Route::resources([
+        'proyectoTesista' => ProyectoTesistaController::class
+    ]);
+
+    
+});
+
+//Rutas para asesor
+Route::group(['middleware' => ['auth', 'role:asesor']], function () {
+    Route::resources([
+        'proyectoAsesor' => ProyectoAsesorController::class
+    ]);
+
+    
 });
 
 Route::middleware('auth')->group(function () {
