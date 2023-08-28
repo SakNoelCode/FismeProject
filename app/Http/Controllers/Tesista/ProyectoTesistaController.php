@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Tesista;
 
 use App\Http\Controllers\Controller;
+use App\Models\Etapa;
+use App\Models\Proyecto;
+use App\Models\Tesista;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ProyectoTesistaController extends Controller
@@ -12,7 +16,9 @@ class ProyectoTesistaController extends Controller
      */
     public function index()
     {
-        return view('tesista.proyecto.index');
+        $idTesista = Tesista::where('user_id',Auth::id())->first();
+        $proyectos = Proyecto::where('tesista_id',$idTesista->id)->paginate(1);
+        return view('tesista.proyecto.index',compact('proyectos'));
     }
 
     /**
@@ -61,5 +67,11 @@ class ProyectoTesistaController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function verEstado(Proyecto $proyecto)
+    {
+        $etapas = Etapa::all();
+        return view('tesista.proyecto.ver-estado', compact('proyecto', 'etapas'));
     }
 }

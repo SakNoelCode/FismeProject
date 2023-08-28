@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth', 'role:tesista']], function () {
         'proyectoTesista' => ProyectoTesistaController::class
     ]);
 
-    
+    Route::get('/ver-estado/{proyecto}',[ProyectoTesistaController::class,'verEstado'])->name('proyectoTesista.verEstado');
 });
 
 //Rutas para asesor
