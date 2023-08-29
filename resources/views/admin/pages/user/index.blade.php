@@ -158,7 +158,7 @@
                                     <td class="px-6 py-4">
                                         @if (Auth::check())
                                         <div class="flex items-center">
-                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> En Línea
+                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Activo
                                         </div>
                                         @else
                                         <div class="flex items-center">

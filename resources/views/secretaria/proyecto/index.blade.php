@@ -104,6 +104,9 @@
                             <li class="mr-2">
                                 <button id="statistics-tab-{{$item->id}}" data-tabs-target="#statistics-{{$item->id}}" type="button" role="tab" aria-controls="statistics" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Responsables</button>
                             </li>
+                            <li class="mr-2">
+                                <button id="resoluciones-tab-{{$item->id}}" data-tabs-target="#resoluciones-{{$item->id}}" type="button" role="tab" aria-controls="resoluciones" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Resoluciones</button>
+                            </li>
                         </ul>
                         <div id="defaultTabContent-{{$item->id}}">
                             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="about-{{$item->id}}" role="tabpanel" aria-labelledby="about-tab-{{$item->id}}">
@@ -114,12 +117,12 @@
                                 <span title="Estado" class="cursor-pointer bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">No definido</span>
                                 @endif
                                 @if ($item->estado == 1)
-                                <span title="Estado" class="cursor-pointer bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprobado</span> 
+                                <span title="Estado" class="cursor-pointer bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprobado</span>
                                 @endif
                                 @if ($item->estado == -1)
                                 <span title="Estado" class="cursor-pointer bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Desaprobado</span>
                                 @endif
-                                
+
                                 <!------Etapas--->
                                 @if ($item->etapa_id == 1)
                                 <span title="Etapa" class="cursor-pointer bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$item->etapa->name}}</span>
@@ -173,7 +176,7 @@
                                     </li>
                                 </ul>
                                 <a href="{{(route('proyecto.cambiarEstado',['proyecto' => $item]))}}" class="mt-5 inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
-                                    Cambiar estado
+                                    Cambiar estado o etapa
                                     <svg class="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                     </svg>
@@ -194,6 +197,77 @@
                                         <dd class="text-gray-500 dark:text-gray-400">{{$item->empresa->name}}</dd>
                                     </div>
                                 </dl>
+                            </div>
+                            <div class="hidden p-4 bg-white rounded-lg md:px-8 md:py-2 dark:bg-gray-800" id="resoluciones-{{$item->id}}" role="tabpanel" aria-labelledby="resoluciones-tab-{{$item->id}}">
+
+                                <div class="relative overflow-x-auto">
+                                    <!-- Start coding here -->
+                                    <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+                                        <div class="flex-row items-center justify-between p-4 space-y-3 sm:flex sm:space-y-0 sm:space-x-4">
+                                            <div>
+                                                <h5 class="mr-3 font-semibold dark:text-white">Resoluciones de decanato</h5>
+                                                <p class="text-gray-500 dark:text-gray-400">Lista de las resoluciones del proyecto</p>
+                                            </div>
+                                            <form action="{{route('proyecto.addResolucion',['proyecto'=> $item])}}" method="get">
+                                                <button type="submit" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                    <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                        <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                                                    </svg>
+                                                    Agregar nueva resolución
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    @if (count($item->resoluciones))
+                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Tipo de resolución
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Descripción
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Documento
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Acciones
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($item->resoluciones as $resolucion)
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$resolucion->tipo}}
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    {{$resolucion->descripcion}}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <form action="{{route('resolucion.download',['id'=>$resolucion->id])}}" method="post">
+                                                        @csrf
+                                                        <button type="submit" title="Descargar">
+                                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m14-4v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    @endif
+
+                                </div>
+
                             </div>
                         </div>
                     </div>

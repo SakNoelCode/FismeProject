@@ -33,5 +33,13 @@
     "Dashboard" : "Inicio",
     "Profile" : "Perfil",
     "Log Out" : "Cerrar sesión",
-    "Log in" : "Iniciar sesión"
+    "Log in" : "Iniciar sesión",
+    "Profile Information" : "Información de perfil",
+    "Update your account's profile information and email address.": "Actualiza la información de tu cuenta",
+    "Email": "Correo eléctronico",
+    "Save" : "Guardar",
+    "Update Password": "Actualizar contraseña",
+    "Ensure your account is using a long, random password to stay secure." :"Usa una contraseña segura, que contenga carácteres y/o números",
+    "Current Password":"Contraseña actual",
+    "New Password":"Nueva contraseña"
 }

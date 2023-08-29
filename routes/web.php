@@ -34,6 +34,10 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::get('/cambiar-estado/{proyecto}',[ProyectoController::class,'cambiarEstado'])->name('proyecto.cambiarEstado');
     Route::patch('/cambiar-estado/{proyecto}',[ProyectoController::class,'updateEstado'])->name('proyecto.updateEstado');
     Route::patch('/cambiar-etapa/{proyecto}',[ProyectoController::class,'updateEtapa'])->name('proyecto.updateEtapa');
+    Route::get('/add-resolucion/{proyecto}',[ProyectoController::class,'addResolucion'])->name('proyecto.addResolucion');
+    Route::post('/add-resolucion/{proyecto}',[ProyectoController::class,'storeAddResolucion'])->name('proyecto.storeAddResolucion');
+    Route::post('/proyectos/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucion.download');
+
 });
 
 //Rutas para tesista

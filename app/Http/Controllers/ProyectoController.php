@@ -6,8 +6,13 @@ use App\Models\Asesor;
 use App\Models\Empresa;
 use App\Models\Etapa;
 use App\Models\Proyecto;
+use App\Models\Resolucion;
 use App\Models\Tesista;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Expr\Cast\String_;
 
 class ProyectoController extends Controller
 {
@@ -17,6 +22,7 @@ class ProyectoController extends Controller
     public function index()
     {
         $proyectos = Proyecto::with('tesista.user', 'asesor.user', 'empresa')
+            ->latest()
             ->paginate(5);
         return view('secretaria.proyecto.index', compact('proyectos'));
     }
@@ -49,7 +55,7 @@ class ProyectoController extends Controller
             'empresa_id' => 'required|exists:empresas,id'
         ]);
 
-        $request->merge(['estado' => 'inicio']);
+        //$request->merge(['estado' => 'inicio']);
 
         Proyecto::create($request->all());
 
@@ -122,5 +128,73 @@ class ProyectoController extends Controller
         ]);
 
         return redirect()->route('proyectos.index')->with('success', 'Operación exitosa');
+    }
+
+    public function addResolucion(Proyecto $proyecto)
+    {
+        return view('secretaria.proyecto.add-resolucion', compact('proyecto'));
+    }
+
+    public function storeAddResolucion(Request $request, Proyecto $proyecto)
+    {
+        //Validacion
+        $request->validate([
+            'tipo' => 'required',
+            'resolucion_path' => 'required'
+        ]);
+
+        $tipo = "";
+        $descripcion = "";
+        //Cálculos
+        switch ($request->tipo) {
+            case "1":
+                $tipo = "jurado evaluador";
+                $descripcion = "Resolución para la asignación del jurado evaluador. " . $request->descripcion;
+                break;
+            case "2":
+                $tipo = "evaluación del proyecto de tesis";
+                $descripcion = "Resolución que aprueba o descarta un proyecto de tesis. " . $request->descripcion;
+                break;
+            case "3":
+                $tipo = "culminación del proyecto de tesis";
+                $descripcion = "Resolución que se emite cuando el tiempo del proyecto de tesis ha sido completado. " . $request->descripcion;
+                break;
+        }
+
+        //Manejo del archivo
+        $uploadedFile = $request->file('resolucion_path');
+        $uniqueFileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+        $uploadedFile->storeAs('resoluciones', $uniqueFileName);
+
+        try {
+            DB::beginTransaction();
+
+            //Crear una nueva resolución el el proyecto
+            $proyecto->resoluciones()->create([
+                'tipo' => $tipo,
+                'descripcion' => $descripcion,
+                'resolucion_path' => $uniqueFileName
+            ]);
+
+            //Actualizar la etapa del proyecto
+            Proyecto::where('id', $proyecto->id)
+                ->update([
+                    'etapa_id' => 2
+                ]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+        }
+
+        return redirect()->route('proyectos.index')->with('success', 'Resolución creada exitosamente');
+    }
+
+    public function downloadResolucion(Request $request, String $id)
+    {
+        $resolucion = Resolucion::find($id);
+        $path = public_path('/storage/resoluciones/'.$resolucion->resolucion_path);
+        return response()->download($path);
     }
 }
