@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Etapa;
 use App\Models\Proyecto;
 use App\Models\Tesista;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProyectoTesistaController extends Controller
 {
@@ -16,9 +18,9 @@ class ProyectoTesistaController extends Controller
      */
     public function index()
     {
-        $idTesista = Tesista::where('user_id',Auth::id())->first();
-        $proyectos = Proyecto::where('tesista_id',$idTesista->id)->paginate(1);
-        return view('tesista.proyecto.index',compact('proyectos'));
+        $idTesista = Tesista::where('user_id', Auth::id())->first();
+        $proyectos = Proyecto::where('tesista_id', $idTesista->id)->paginate(1);
+        return view('tesista.proyecto.index', compact('proyectos'));
     }
 
     /**
@@ -73,5 +75,39 @@ class ProyectoTesistaController extends Controller
     {
         $etapas = Etapa::all();
         return view('tesista.proyecto.ver-estado', compact('proyecto', 'etapas'));
+    }
+
+    public function crearActividad(Proyecto $proyecto)
+    {
+        return view('tesista.proyecto.crear-actividad', compact('proyecto'));
+    }
+
+    public function storeActividad(Request $request, Proyecto $proyecto)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'required|date',
+            'tipo' => 'required|integer'
+        ]);
+
+        //Agregar una nueva columna a la request, que sea is_entregable
+        $request->merge(['is_entregable' => (int) $request->tipo]);
+
+        //Agregar una nueva columna que sea el estado
+        $request->merge(['estado'=>'pendiente']);
+
+        try {
+            DB::beginTransaction();
+
+            $proyecto->actividades()->create($request->all());
+
+            DB::commit();
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+        }
+
+        return redirect()->route('proyectoTesista.index')->with('success','Actividad añadidad exitosamente');
     }
 }

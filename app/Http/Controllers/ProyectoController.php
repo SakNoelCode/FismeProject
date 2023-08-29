@@ -176,11 +176,22 @@ class ProyectoController extends Controller
                 'resolucion_path' => $uniqueFileName
             ]);
 
-            //Actualizar la etapa del proyecto
-            Proyecto::where('id', $proyecto->id)
-                ->update([
-                    'etapa_id' => 2
-                ]);
+            if ($request->tipo === "1") {
+                //Actualizar la etapa del proyecto
+                Proyecto::where('id', $proyecto->id)
+                    ->update([
+                        'etapa_id' => 2
+                    ]);
+            }
+
+            if ($request->tipo === "2") {
+                //Actualizar la etapa del proyecto
+                Proyecto::where('id', $proyecto->id)
+                    ->update([
+                        'etapa_id' => 3
+                    ]);
+            }
+
 
             DB::commit();
         } catch (Exception $e) {
@@ -194,7 +205,7 @@ class ProyectoController extends Controller
     public function downloadResolucion(Request $request, String $id)
     {
         $resolucion = Resolucion::find($id);
-        $path = public_path('/storage/resoluciones/'.$resolucion->resolucion_path);
+        $path = public_path('/storage/resoluciones/' . $resolucion->resolucion_path);
         return response()->download($path);
     }
 }
