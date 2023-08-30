@@ -145,23 +145,95 @@
                                 </a>
 
                             </div>
+
+                            <!----Seguimiento------------>
                             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="services-{{$item->id}}" role="tabpanel" aria-labelledby="services-tab-{{$item->id}}">
                                 <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Cronograma de actividades</h2>
-                                <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
-                                    <li class="flex space-x-2 items-center">
-                                        <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                        </svg>
-                                        <span class="leading-tight">Dynamic reports and dashboards</span>
-                                    </li>
-                                </ul>
+
+                                <!---Tabla de actividades----->
+                                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Nombre
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Fecha Inicio
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Fecha fin
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Estado
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Tipo
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    <span class="sr-only">Edit</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($item->actividades as $actividad)
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$actividad->name}}
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    {{date("d/m/Y", strtotime($actividad->fecha_inicio))}}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    {{date("d/m/Y", strtotime($actividad->fecha_fin))}}
+                                                </td>
+                                                <th scope="col" class="px-6 py-3">
+                                                    @if ($actividad->estado === 'pendiente')
+                                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$actividad->estado}}</span>
+                                                    @else
+                                                    <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$actividad->estado}}</span>
+                                                    @endif
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    @if ($actividad->is_entregable === 1)
+                                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                                                        <svg class="w-2.5 h-2.5 mr-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                                                        </svg>
+                                                        Actividad
+                                                    </span>
+                                                    @else
+                                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
+                                                        <svg class="w-2.5 h-2.5 mr-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                                                        </svg>
+                                                        Entregable
+                                                    </span>
+                                                    @endif
+                                                </td>
+                                                <td class="px-6 py-4 text-right">
+                                                    <a href="{{route('proyectoTesista.editActividad',['proyecto'=>$item,'actividad'=>$actividad])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <!---Boton para agregar nueva actividad--->
+                                @if ($item->etapa_id == 3 && $item->estado == 1)
                                 <a href="{{(route('proyectoTesista.crearActividad',['proyecto' => $item]))}}" class="mt-5 inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
                                     Añadir actividades
                                     <svg class="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                     </svg>
                                 </a>
+                                @endif
+
                             </div>
+
+                            <!-----Responsables---->
                             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="statistics-{{$item->id}}" role="tabpanel" aria-labelledby="statistics-tab-{{$item->id}}">
                                 <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">
                                     <div class="flex flex-col">

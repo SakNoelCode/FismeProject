@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth', 'role:tesista']], function () {
     Route::get('/ver-estado/{proyecto}',[ProyectoTesistaController::class,'verEstado'])->name('proyectoTesista.verEstado');
     Route::get('/proyectoTesista/createActividad/{proyecto}',[ProyectoTesistaController::class,'crearActividad'])->name('proyectoTesista.crearActividad');
     Route::post('/proyectoTesista/createActividad/{proyecto}',[ProyectoTesistaController::class,'storeActividad'])->name('proyectoTesista.storeActividad');
+    Route::get('/proyectoTesista/editActividad/{proyecto}/{actividad}',[ProyectoTesistaController::class,'editActividad'])->name('proyectoTesista.editActividad');
+    Route::patch('/proyectoTesista/editActividad/{proyecto}{actividad}',[ProyectoTesistaController::class,'updateActividad'])->name('proyectoTesista.updateActividad');
 });
 
 //Rutas para asesor

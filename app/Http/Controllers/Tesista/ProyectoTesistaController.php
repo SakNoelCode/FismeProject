@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tesista;
 
 use App\Http\Controllers\Controller;
+use App\Models\Actividad;
 use App\Models\Etapa;
 use App\Models\Proyecto;
 use App\Models\Tesista;
@@ -19,7 +20,7 @@ class ProyectoTesistaController extends Controller
     public function index()
     {
         $idTesista = Tesista::where('user_id', Auth::id())->first();
-        $proyectos = Proyecto::where('tesista_id', $idTesista->id)->paginate(1);
+        $proyectos = Proyecto::with('actividades')->where('tesista_id', $idTesista->id)->paginate(1);
         return view('tesista.proyecto.index', compact('proyectos'));
     }
 
@@ -95,7 +96,7 @@ class ProyectoTesistaController extends Controller
         $request->merge(['is_entregable' => (int) $request->tipo]);
 
         //Agregar una nueva columna que sea el estado
-        $request->merge(['estado'=>'pendiente']);
+        $request->merge(['estado' => 'pendiente']);
 
         try {
             DB::beginTransaction();
@@ -108,6 +109,46 @@ class ProyectoTesistaController extends Controller
             DB::rollBack();
         }
 
-        return redirect()->route('proyectoTesista.index')->with('success','Actividad añadidad exitosamente');
+        return redirect()->route('proyectoTesista.index')->with('success', 'Actividad añadidad exitosamente');
+    }
+
+    public function editActividad(Proyecto $proyecto, Actividad $actividad)
+    {
+        return view('tesista.proyecto.edit-actividad', compact('proyecto', 'actividad'));
+    }
+
+    public function updateActividad(Request $request, Proyecto $proyecto, Actividad $actividad)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'required|date'
+        ]);
+
+        //Agregar una nueva columna que sea el estado
+        if ($request->exists('completado-checkbox')) {
+            $request->merge(['estado' => 'completado']);
+        }else{
+            $request->merge(['estado' => 'pendiente']);
+        }
+
+        $requestOk = $request->except('_token', '_method', 'completado-checkbox');
+
+        //dd($requesOk);
+
+        try {
+            DB::beginTransaction();
+
+            $proyecto->actividades()
+                ->where('id', $actividad->id)
+                ->update($requestOk);
+
+            DB::commit();
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+        }
+
+        return redirect()->route('proyectoTesista.index')->with('success', 'Actividad editada exitosamente');
     }
 }
