@@ -21,7 +21,7 @@ class ProyectoController extends Controller
      */
     public function index()
     {
-        $proyectos = Proyecto::with('tesista.user', 'asesor.user', 'empresa')
+        $proyectos = Proyecto::with('tesista.user', 'asesor.user', 'empresa','actividades')
             ->latest()
             ->paginate(5);
         return view('secretaria.proyecto.index', compact('proyectos'));

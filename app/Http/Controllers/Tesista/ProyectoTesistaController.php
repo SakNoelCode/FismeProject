@@ -20,56 +20,9 @@ class ProyectoTesistaController extends Controller
     public function index()
     {
         $idTesista = Tesista::where('user_id', Auth::id())->first();
-        $proyectos = Proyecto::with('actividades')->where('tesista_id', $idTesista->id)->paginate(1);
+        $proyectos = Proyecto::with('actividades')->where('tesista_id', $idTesista->id)->get();
+        //dd($proyectos->first());
         return view('tesista.proyecto.index', compact('proyectos'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     public function verEstado(Proyecto $proyecto)
@@ -128,7 +81,7 @@ class ProyectoTesistaController extends Controller
         //Agregar una nueva columna que sea el estado
         if ($request->exists('completado-checkbox')) {
             $request->merge(['estado' => 'completado']);
-        }else{
+        } else {
             $request->merge(['estado' => 'pendiente']);
         }
 
@@ -150,5 +103,29 @@ class ProyectoTesistaController extends Controller
         }
 
         return redirect()->route('proyectoTesista.index')->with('success', 'Actividad editada exitosamente');
+    }
+
+    public function updateFecha(Request $request, Proyecto $proyecto)
+    {
+        $request->validate([
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'required|date'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+
+            $proyecto->update([
+                'fecha_inicio' => $request->fecha_inicio,
+                'fecha_fin' => $request->fecha_fin
+            ]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        return redirect()->route('proyectoTesista.index')->with('success', 'Fecha actualizada');
     }
 }
