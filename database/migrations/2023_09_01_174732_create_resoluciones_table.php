@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('resoluciones', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo',100);
-            $table->string('resolucion_path',100);
-            $table->string('descripcion',255);
+            $table->string('tipo', 100);
+            $table->string('resolucion_path', 100);
+            $table->string('descripcion', 1000);
             $table->foreignId('proyecto_id')->constrained('proyectos')->onDelete('cascade');
             $table->timestamps();
         });

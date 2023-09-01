@@ -39,4 +39,8 @@ class Proyecto extends Model
     public function etapa(){
         return $this->belongsTo(Etapa::class);
     }
+
+    public function estado(){
+        return $this->belongsTo(Estado::class);
+    }
 }

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('proyectos', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
+            $table->string('name', 255);
             $table->date('fecha_inicio')->nullable();
             $table->date('fecha_fin')->nullable();
-            $table->string('descripcion',255)->nullable();
+            $table->string('descripcion', 255)->nullable();
             $table->foreignId('tesista_id')->constrained('tesistas')->onDelete('cascade');
             $table->foreignId('asesor_id')->constrained('asesores')->onDelete('cascade');
             $table->foreignId('empresa_id')->constrained('empresas')->onDelete('cascade');
