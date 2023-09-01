@@ -15,14 +15,33 @@ class ProyectoAsesorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $asesor = Asesor::where('user_id',Auth::id())->first();
-        $proyectos = Proyecto::where('asesor_id',$asesor->id)
-        ->paginate(5);
+        $search = $request->input('proyecto-search');
 
 
-        return view('asesor.proyecto.index',compact('proyectos'));
+        if ($search === null) {
+            $asesor = Asesor::where('user_id', Auth::id())->first();
+
+            $proyectos = Proyecto::where('asesor_id', $asesor->id)
+                ->paginate(5);
+        } else {
+
+            $asesor = Asesor::where('user_id', Auth::id())->first();
+
+            $proyectos = Proyecto::with('asesor', 'tesista.user')
+                ->where('proyectos.asesor_id', $asesor->id)
+                ->Where(function ($query) use ($search) {
+                    $query->where('proyectos.name', 'like', "%$search%")
+                        ->orWhereHas('tesista.user', function ($subquery) use ($search) {
+                            $subquery->where('name', 'like', "%$search%");
+                        });
+                })
+                ->paginate(5);
+        }
+
+
+        return view('asesor.proyecto.index', compact('proyectos', 'search'));
     }
 
     public function verEstado(Proyecto $proyecto)
