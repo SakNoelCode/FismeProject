@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::get('/add-resolucion/{proyecto}',[ProyectoController::class,'addResolucion'])->name('proyecto.addResolucion');
     Route::post('/add-resolucion/{proyecto}',[ProyectoController::class,'storeAddResolucion'])->name('proyecto.storeAddResolucion');
     Route::post('/proyectos/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucion.download');
-
+    //Route::get('/')
 });
 
 //Rutas para tesista

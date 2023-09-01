@@ -11,20 +11,29 @@ use App\Models\Tesista;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use PhpParser\Node\Expr\Cast\String_;
 
 class ProyectoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $proyectos = Proyecto::with('tesista.user', 'asesor.user', 'empresa','actividades')
-            ->latest()
-            ->paginate(5);
-        return view('secretaria.proyecto.index', compact('proyectos'));
+        $search = $request->input('search-proyecto');
+
+        if ($search === null) {
+            $proyectos = Proyecto::with('tesista.user', 'asesor.user', 'empresa', 'actividades')
+                ->latest()
+                ->paginate(5);
+        } else {
+            $proyectos = Proyecto::with('tesista.user', 'asesor.user', 'empresa', 'actividades')
+                ->where('name', 'like', "%$search%")
+                ->orWhere('descripcion', 'like', "%$search%")
+                ->latest()
+                ->paginate(5);
+        }
+
+        return view('secretaria.proyecto.index', compact('proyectos','search'));
     }
 
     /**
@@ -189,6 +198,14 @@ class ProyectoController extends Controller
                 Proyecto::where('id', $proyecto->id)
                     ->update([
                         'etapa_id' => 3
+                    ]);
+            }
+
+            if ($request->tipo === "3") {
+                //Actualizar la etapa del proyecto
+                Proyecto::where('id', $proyecto->id)
+                    ->update([
+                        'etapa_id' => 5
                     ]);
             }
 

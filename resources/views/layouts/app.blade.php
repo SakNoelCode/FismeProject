@@ -41,6 +41,11 @@
         <main>
             {{ $slot }}
         </main>
+
+        <!-- Scripts -->
+        @if (isset($scripts))
+        {{ $scripts }}
+        @endif
     </div>
 </body>
 
