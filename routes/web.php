@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth', 'role:tesista']], function () {
     Route::get('/proyectoTesista/editActividad/{proyecto}/{actividad}',[ProyectoTesistaController::class,'editActividad'])->name('proyectoTesista.editActividad');
     Route::patch('/proyectoTesista/editActividad/{proyecto}{actividad}',[ProyectoTesistaController::class,'updateActividad'])->name('proyectoTesista.updateActividad');
     Route::post('/proyectoTesistaUpdateFecha/{proyecto}',[ProyectoTesistaController::class,'updateFecha'])->name('proyectoTesista.updateFecha');
+    Route::post('/proyectoTesista/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucionTesista.download');
 });
 
 //Rutas para asesor
@@ -57,7 +58,7 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
     Route::resource('proyectoAsesor',ProyectoAsesorController::class)->only(['index']);
 
     Route::get('/proyectoAsesor/ver-estado/{proyecto}',[ProyectoAsesorController::class,'verEstado'])->name('proyectoAsesor.verEstado');
-    Route::post('/proyectoAsesor/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucion.download');
+    Route::post('/proyectoAsesor/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucionAsesor.download');
     
 });
 

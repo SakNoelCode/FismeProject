@@ -309,7 +309,7 @@
                                                     {{$resolucion->descripcion}}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    <form action="{{route('resolucion.download',['id'=>$resolucion->id])}}" method="post">
+                                                    <form action="{{route('resolucionAsesor.download',['id'=>$resolucion->id])}}" method="post">
                                                         @csrf
                                                         <button type="submit" title="Descargar">
                                                             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">

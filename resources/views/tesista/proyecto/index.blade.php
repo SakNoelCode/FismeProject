@@ -106,6 +106,9 @@
                             <li class="mr-2">
                                 <button id="statistics-tab-{{$item->id}}" data-tabs-target="#statistics-{{$item->id}}" type="button" role="tab" aria-controls="statistics" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Responsables</button>
                             </li>
+                            <li class="mr-2">
+                                <button id="resoluciones-tab-{{$item->id}}" data-tabs-target="#resoluciones-{{$item->id}}" type="button" role="tab" aria-controls="resoluciones" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Resoluciones</button>
+                            </li>
                         </ul>
 
                         <!----Opciones---->
@@ -289,6 +292,67 @@
                                     </div>
                                 </dl>
                             </div>
+
+                            <!-----Resoluciones---------->
+                            <div class="hidden p-4 bg-white rounded-lg md:px-8 md:py-2 dark:bg-gray-800" id="resoluciones-{{$item->id}}" role="tabpanel" aria-labelledby="resoluciones-tab-{{$item->id}}">
+
+                                @if (count($item->resoluciones))
+                                <div class="relative overflow-x-auto">
+                                    <!-- Cabecera -->
+                                    <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+                                        <div class="flex-row items-center justify-between p-4 space-y-3 sm:flex sm:space-y-0 sm:space-x-4">
+                                            <div>
+                                                <h5 class="mr-3 font-semibold dark:text-white">Resoluciones de decanato</h5>
+                                                <p class="text-gray-500 dark:text-gray-400">Lista de las resoluciones del proyecto</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Tipo de resolución
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Descripción
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
+                                                    Documento
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($item->resoluciones as $resolucion)
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {{$resolucion->tipo}}
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    {{$resolucion->descripcion}}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <form action="{{route('resolucionTesista.download',['id'=>$resolucion->id])}}" method="post">
+                                                        @csrf
+                                                        <button type="submit" title="Descargar">
+                                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m14-4v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @else
+                                <p class="my-5 text-gray-500 dark:text-gray-400">
+                                    Aún no hay resoluciones en este proyecto
+                                </p>
+                                @endif
+                            </div>
+
                         </div>
                     </div>
                     @endforeach
