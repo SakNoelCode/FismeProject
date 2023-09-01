@@ -54,10 +54,10 @@ Route::group(['middleware' => ['auth', 'role:tesista']], function () {
 
 //Rutas para asesor
 Route::group(['middleware' => ['auth', 'role:asesor']], function () {
-    Route::resources([
-        'proyectoAsesor' => ProyectoAsesorController::class
-    ]);
+    Route::resource('proyectoAsesor',ProyectoAsesorController::class)->only(['index']);
 
+    Route::get('/proyectoAsesor/ver-estado/{proyecto}',[ProyectoAsesorController::class,'verEstado'])->name('proyectoAsesor.verEstado');
+    Route::post('/proyectoAsesor/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucion.download');
     
 });
 
