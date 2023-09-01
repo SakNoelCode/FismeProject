@@ -26,7 +26,7 @@
                     <!--Menú Tesista--->
                     @hasrole('tesista')
                     <x-nav-link :href="route('proyectoTesista.index')" :active="request()->routeIs('proyectoTesista.index')">
-                        {{ __('Proyectos de Tesis') }}
+                        {{ __('Proyecto de Tesis') }}
                     </x-nav-link>
                     @endhasrole
 
@@ -101,7 +101,7 @@
             <!--Menú Tesista--->
             @hasrole('tesista')
             <x-responsive-nav-link :href="route('proyectoTesista.index')" :active="request()->routeIs('proyectoTesista.index')">
-                {{ __('Proyectos de Tesis') }}
+                {{ __('Proyecto de Tesis') }}
             </x-responsive-nav-link>
             @endhasrole
 

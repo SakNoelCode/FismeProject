@@ -31,11 +31,11 @@
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <header>
                     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        {{ __('Proyectos de tesis') }}
+                        {{ __('Proyecto de tesis') }}
                     </h2>
 
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        {{ __("En este módulo podrás gestionar tus proyectos de tesis") }}
+                        {{ __("En este módulo podrás realizar un seguimiento de tu proyecto de tesis") }}
                     </p>
                 </header>
             </div>
@@ -46,10 +46,10 @@
                 <div class="mx-auto max-w-screen-xl">
 
                     <!---Header Table--->
-                    <div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+                    <!---div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                         <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
                             <div class="w-full md:w-1/2">
-                                <!---Buscador--->
+                                
                                 <form class="flex items-center">
                                     <label for="simple-search" class="sr-only">Search</label>
                                     <div class="relative w-full">
@@ -90,7 +90,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div--->
 
                     @if ($proyectos->count())
                     @foreach ($proyectos as $item)
@@ -126,31 +126,126 @@
 
                                 <!-----Estado---->
                                 @if ($item->estado == 0)
-                                <span title="Estado" class="cursor-pointer bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">No definido</span>
+                                <span data-popover-target="popover-estado-0" class="cursor-pointer bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">No definido</span>
+                                <div data-popover id="popover-estado-0" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Estado del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>
+                                            Aún no sale la resolución de evaluación del proyecto de tesis
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                                 @endif
                                 @if ($item->estado == 1)
-                                <span title="Estado" class="cursor-pointer bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprobado</span>
+                                <span data-popover-target="popover-estado-1" class="cursor-pointer bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprobado</span>
+                                <div data-popover id="popover-estado-1" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Estado del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>
+                                            Felicitaciones, tu proyecto ha sido aprobado, revisa la resolución en la pestaña de resoluciones
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                                 @endif
                                 @if ($item->estado == -1)
-                                <span title="Estado" class="cursor-pointer bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Desaprobado</span>
+                                <span data-popover-target="popover-estado-2" class="cursor-pointer bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Desaprobado</span>
+                                <div data-popover id="popover-estado-2" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Estado del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>
+                                            Vaya, tu proyecto ha sido desaprobado, puedes revisar la resolución en la pestaña de resoluciones
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                                 @endif
+
+
+
+
+
+
 
                                 <!------Etapas--->
                                 @if ($item->etapa_id == 1)
-                                <span title="Etapa" class="cursor-pointer bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$item->etapa->name}}</span>
+                                <span data-popover-target="popover-etapa-1" class="cursor-pointer bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$item->etapa->name}}</span>
+                                <div data-popover id="popover-etapa-1" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Etapa del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>Etapa inicial del proyecto, espera a que salga la resolución asignando a tu jurado</p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                                 @endif
                                 @if ($item->etapa_id == 2)
-                                <span title="Etapa" class="cursor-pointer bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->etapa->name}}</span>
+                                <span data-popover-target="popover-etapa-2" class="cursor-pointer bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->etapa->name}}</span>
+                                <div data-popover id="popover-etapa-2" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Etapa del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>En esta etapa tu jurado estará evaluando tu proyecto de tesis, estaté atento a tu correo y espera la fecha de sustentación
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                                 @endif
                                 @if ($item->etapa_id == 3)
-                                <span title="Etapa" class="cursor-pointer bg-blue-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->etapa->name}}</span>
+                                <span data-popover-target="popover-etapa-3" class="cursor-pointer bg-blue-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->etapa->name}}</span>
+                                <div data-popover id="popover-etapa-3" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Etapa del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>
+                                            En esta estapa debes llenar tu cronograma de actividades, debes asignar a tu proyecto una fecha inicial y final, además no te
+                                            olvides de presentar en secretaría algunos documentos importantes
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                                 @endif
                                 @if ($item->etapa_id == 4)
-                                <span title="Etapa" class="cursor-pointer bg-blue-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{{$item->etapa->name}}</span>
+                                <span data-popover-target="popover-etapa-4" class="cursor-pointer bg-blue-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{{$item->etapa->name}}</span>
+                                <div data-popover id="popover-etapa-4" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Etapa del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>
+                                            En esta etapa, deberas ir desarrollando cada una de las actividades de tu cronograma, recuerda marcarlas como completadas
+                                            una vez las hayas terminado
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                                 @endif
                                 @if ($item->etapa_id == 5)
-                                <span title="Etapa" class="cursor-pointer bg-blue-100 text-pink-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">{{$item->etapa->name}}</span>
+                                <span data-popover-target="popover-etapa-5" class="cursor-pointer bg-blue-100 text-pink-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">{{$item->etapa->name}}</span>
+                                <div data-popover id="popover-etapa-5" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Etapa del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>
+                                            El tiempo de ejecución ha finalizado, debes presentar y sustentar tu tesis
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                                 @endif
+
+
 
                                 <a href="{{(route('proyectoTesista.verEstado',['proyecto' => $item]))}}" class="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
                                     Más información

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('fecha_fin');
             $table->string('estado', 10);
             $table->tinyInteger('is_entregable');
+            $table->foreignId('proyecto_id')->constrained('proyectos')->onDelete('cascade');
             $table->timestamps();
         });
     }

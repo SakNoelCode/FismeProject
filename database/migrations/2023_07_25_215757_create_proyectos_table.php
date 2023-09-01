@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('name',255);
             $table->date('fecha_inicio')->nullable();
             $table->date('fecha_fin')->nullable();
-            $table->string('estado',20);
             $table->string('descripcion',255)->nullable();
             $table->foreignId('tesista_id')->constrained('tesistas')->onDelete('cascade');
             $table->foreignId('asesor_id')->constrained('asesores')->onDelete('cascade');
             $table->foreignId('empresa_id')->constrained('empresas')->onDelete('cascade');
+            $table->foreignId('etapa_id')->default(1)->constrained('etapas')->onDelete('cascade');
+            $table->foreignId('estado_id')->default(1)->constrained('estados')->onDelete('cascade');
             $table->timestamps();
         });
     }
