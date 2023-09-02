@@ -39,13 +39,11 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
         Route::get('/edit-empresa/{id}',[EmpresaController::class,'editEmpresa'])->name('editEmpresa');
         Route::put('/edit-empresa/{id}',[EmpresaController::class,'updateEmpresa'])->name('updateEmpresa');
 
-        Route::resources([
-            'usuarios' => UserController::class,
-            'tesistas' => TesistaController::class,
-            'asesores' => AsesorController::class,
-            'secretarias' => SecretariaController::class,
-            'empresas' => EmpresaController::class
-        ]);
+        Route::resource('usuarios',UserController::class)->only(['index']);
+        Route::resource('asesores',AsesorController::class)->except(['show','index','destroy']);
+        Route::resource('tesistas',TesistaController::class)->except(['show','index','destroy']);
+        Route::resource('secretarias',SecretariaController::class)->except(['show','index','destroy']);
+        Route::resource('empresas',empresaController::class)->only(['index','store','destroy']);
         
         //Route::post('/buscar-usuario', [AdminUserController::class, 'buscarUsuario'])->name('admin.usuarios.buscar');
 /*

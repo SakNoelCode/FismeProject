@@ -12,14 +12,22 @@ class UserController extends Controller
     /**
      * Mostrar vista de usuarios.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $users = User::with('tesista.escuela','asesor.escuela','secretaria.escuela')
-        ->latest()
-        ->paginate(5);
+        $search = $request->get('name-search');
 
-        //dd($users);
-        return view('admin.pages.user.index',compact('users'));
+        if ($search === null) {
+            $users = User::with('tesista.escuela', 'asesor.escuela', 'secretaria.escuela')
+                ->latest()
+                ->paginate(5);
+        } else {
+            $users = User::with('tesista.escuela', 'asesor.escuela', 'secretaria.escuela')
+                ->where('name', 'like', "%$search%")
+                ->latest()
+                ->paginate(5);
+        }
+
+        return view('admin.pages.user.index', compact('users','search'));
     }
 
     /**
@@ -35,7 +43,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-       
     }
 
     /**

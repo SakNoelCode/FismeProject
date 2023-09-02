@@ -14,10 +14,8 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empresas = Empresa::paginate(5);
-        return view('admin.pages.empresa.index', [
-            //'empresas' => $empresas
-        ]);
+        //$empresas = Empresa::paginate(5);
+        return view('admin.pages.empresa.index');
     }
 
     public function fetchEmpresas()
