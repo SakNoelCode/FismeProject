@@ -24,7 +24,7 @@
                         <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                         </svg>
-                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Ver estado</span>
+                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Ver estado y etapas</span>
                     </div>
                 </li>
             </ol>
@@ -42,18 +42,97 @@
                         </svg>
                         INFORMACION
                     </a>
+                    <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Estados</h2>
+                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
+                        Un proyecto de tesis pasa por varios estados, veamos cuáles son, que significan y que acciones se debe
+                        realizar en cada estado.
+                    </p>
+
+                    <ul class="w-full space-y-4 text-gray-500 list-none list-inside dark:text-gray-400">
+                        @foreach ($estados as $item)
+                        @if ($item->id === 1)
+                        <li>
+                            <span class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                                {{$item->name}}
+                            </span>
+                            <span>
+                                : {{$item->description}}
+                            </span>
+                        </li>
+                        @endif
+
+                        @if ($item->id === 2)
+                        <li>
+                            <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                                {{$item->name}}
+                            </span>
+                            <span>
+                                : {{$item->description}}
+                            </span>
+                        </li>
+                        @endif
+
+                        @if ($item->id === 3)
+                        <li>
+                            <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                {{$item->name}}
+                            </span>
+                            <span>
+                                : {{$item->description}}
+                            </span>
+                        </li>
+                        @endif
+
+                        @if ($item->id === 4)
+                        <li>
+                            <span class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">
+                                {{$item->name}}
+                            </span>
+                            <span>
+                                : {{$item->description}}
+                            </span>
+                        </li>
+                        @endif
+
+                        @if ($item->id === 5)
+                        <li>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                                {{$item->name}}
+                            </span>
+                            <span>
+                                : {{$item->description}}
+                            </span>
+                        </li>
+                        @endif
+
+                        @endforeach
+                    </ul>
+
+                    <!---p class="text-lg font-normal text-gray-500 dark:text-gray-400 mt-4 mb-6"></p--->
+
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12">
+                    <a class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 mb-2">
+                        <svg class="w-2.5 h-2.5 mr-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                            <path d="M17 11h-2.722L8 17.278a5.512 5.512 0 0 1-.9.722H17a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1ZM6 0H1a1 1 0 0 0-1 1v13.5a3.5 3.5 0 1 0 7 0V1a1 1 0 0 0-1-1ZM3.5 15.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2ZM16.132 4.9 12.6 1.368a1 1 0 0 0-1.414 0L9 3.55v9.9l7.132-7.132a1 1 0 0 0 0-1.418Z" />
+                        </svg>
+                        INFORMACION
+                    </a>
 
                     <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Etapas</h2>
 
-                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-2">Un proyecto de tesis pasa por varias etapas,
+                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">Un proyecto de tesis pasa por varias etapas,
                         vea la lista para ver todas las etapas disponibles y su respectivo significado.
                     </p>
-                    <ul class="w-full space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+
+                    <ul class="w-full space-y-4 text-gray-500 list-none list-inside dark:text-gray-400">
 
                         @foreach ($etapas as $item)
-                        <li class="mb-2">
+                        <li>
                             @if ($item->id == 1)
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$item->name}}</span> {{$item->description}}
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$item->name}}</span>
+                            <span>: {{$item->description}}</span>
                             @endif
                             @if ($item->id == 2)
                             <span class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->name}}</span> {{$item->description}}
@@ -71,66 +150,9 @@
                         @endforeach
                     </ul>
 
-                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mt-4 mb-6">La etapa actual del proyecto es:
-                        @if ($proyecto->etapa_id == 1)
-                        <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$proyecto->etapa->name}}</span>
-                        @endif
-                        @if ($proyecto->etapa_id == 2)
-                        <span class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$proyecto->etapa->name}}</span>
-                        @endif
-                        @if ($proyecto->etapa_id == 3)
-                        <span class="bg-blue-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$proyecto->etapa->name}}</span>
-                        @endif
-                        @if ($proyecto->etapa_id == 4)
-                        <span class="bg-blue-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{{$proyecto->etapa->name}}</span>
-                        @endif
-                        @if ($proyecto->etapa_id == 5)
-                        <span class="bg-blue-100 text-pink-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">{{$proyecto->etapa->name}}</span>
-                        @endif
-                    </p>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12">
-                    <a class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 mb-2">
-                        <svg class="w-2.5 h-2.5 mr-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                            <path d="M17 11h-2.722L8 17.278a5.512 5.512 0 0 1-.9.722H17a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1ZM6 0H1a1 1 0 0 0-1 1v13.5a3.5 3.5 0 1 0 7 0V1a1 1 0 0 0-1-1ZM3.5 15.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2ZM16.132 4.9 12.6 1.368a1 1 0 0 0-1.414 0L9 3.55v9.9l7.132-7.132a1 1 0 0 0 0-1.418Z" />
-                        </svg>
-                        INFORMACION
-                    </a>
-                    <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Estados</h2>
-                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
-                        Un proyecto de tesis pasa por 2 estados: aprobado y desaprobado.
-                    </p>
-                    <ul class="w-full space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
-                        <li class="mb-2">
-                            <span class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">No definido</span>
-                        </li>
-                        <li class="mb-2">
-                            <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprobado</span>
-                        </li>
-                        <li class="mb-2">
-                            <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Desaprobado</span>
-                        </li>
-                    </ul>
-                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mt-4 mb-6">
-                        Verficá cuál es el estado de tu proyecto, si
-                        aún no esta definido es porque aún no llegas a ese paso.
-                    </p>
 
-                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mt-4 mb-6">
-                        El estado actual del proyecto es:
-
-                        @if ($proyecto->estado == 0)
-                        <span class=" bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">No definido</span>
-                        @endif
-                        @if ($proyecto->estado == 1)
-                        <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprobado</span>
-                        @endif
-                        @if ($proyecto->estado == -1)
-                        <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Desaprobado</span>
-                        @endif
-                    </p>
-                </div>
             </div>
         </div>
     </section>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asesor;
 use App\Models\Empresa;
+use App\Models\Estado;
 use App\Models\Etapa;
 use App\Models\Proyecto;
 use App\Models\Resolucion;
@@ -11,6 +12,8 @@ use App\Models\Tesista;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Expr\Cast\String_;
 
 class ProyectoController extends Controller
 {
@@ -33,7 +36,7 @@ class ProyectoController extends Controller
                 ->paginate(5);
         }
 
-        return view('secretaria.proyecto.index', compact('proyectos','search'));
+        return view('secretaria.proyecto.index', compact('proyectos', 'search'));
     }
 
     /**
@@ -118,13 +121,14 @@ class ProyectoController extends Controller
     public function cambiarEstado(Proyecto $proyecto)
     {
         $etapas = Etapa::all();
-        return view('secretaria.proyecto.cambiar-estado', compact('proyecto', 'etapas'));
+        $estados = Estado::all();
+        return view('secretaria.proyecto.cambiar-estado', compact('proyecto', 'etapas', 'estados'));
     }
 
     public function updateEstado(Request $request, Proyecto $proyecto)
     {
         $proyecto->update([
-            'estado' => $request->get('estado')
+            'estado_id' => $request->get('estado')
         ]);
 
         return redirect()->route('proyectos.index')->with('success', 'Operación exitosa');
@@ -165,8 +169,8 @@ class ProyectoController extends Controller
                 $descripcion = "Resolución que aprueba o descarta un proyecto de tesis. " . $request->descripcion;
                 break;
             case "3":
-                $tipo = "culminación del proyecto de tesis";
-                $descripcion = "Resolución que se emite cuando el tiempo del proyecto de tesis ha sido completado. " . $request->descripcion;
+                $tipo = "Caducidad del proyecto de tesis";
+                $descripcion = "Resolución que se emite cuando el tesista no ejecutó el proyecto de tesis en el periodo establecido. " . $request->descripcion;
                 break;
         }
 
@@ -224,5 +228,16 @@ class ProyectoController extends Controller
         $resolucion = Resolucion::find($id);
         $path = public_path('/storage/resoluciones/' . $resolucion->resolucion_path);
         return response()->download($path);
+    }
+
+    public function destroyResolucion(Request $request, String $id)
+    {
+        $resolucion = Resolucion::find($id);
+
+        $name_document = $resolucion->resolucion_path;
+        Storage::delete('resoluciones/' . $name_document);
+        $resolucion->delete();
+
+        return redirect()->route('proyectos.index')->with('success','Eliminación exitosa');
     }
 }

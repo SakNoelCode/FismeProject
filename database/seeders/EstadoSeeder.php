@@ -15,7 +15,7 @@ class EstadoSeeder extends Seeder
         $registros = [
             [
                 'name' => 'No definido',
-                'description' => 'Este estado significa que el aún no es evaluado, se debe esperar a la resolución de evaluación del proyecto de tesis.'
+                'description' => 'Este estado significa que el proyecto aún no es evaluado, se debe esperar a la resolución de evaluación del proyecto de tesis.'
             ],
             [
                 'name' => 'Aprobado',

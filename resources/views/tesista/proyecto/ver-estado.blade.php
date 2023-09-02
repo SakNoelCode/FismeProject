@@ -44,50 +44,71 @@
                     </a>
                     <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Estados</h2>
                     <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
-                        Un proyecto de tesis pasa por 3 estados: No definido, aprobado y desaprobado.
+                        Un proyecto de tesis pasa por varios estados, veamos cuáles son, que significan y que acciones se debe
+                        realizar en cada estado.
                     </p>
+
                     <ul class="w-full space-y-4 text-gray-500 list-none list-inside dark:text-gray-400">
+                        @foreach ($estados as $item)
+                        @if ($item->id === 1)
                         <li>
-                            <span class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">No definido</span>
-                            <span>: Este estado significa que tu proyecto aún no es evaluado, debes esperar a la resolución de evaluación del proyecto de tesis.</span>
-                        </li>
-                        <li>
-                            <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprobado</span>
-                            <span>: Este estado significa que tu proyecto ya ha sido evaluado y ha sido aprobado, debes presentar en secretaría
-                                un ejemplar de tu proyecto de Tesis Final, debidamente anillado y visado por los 3 miembros del
-                                jurado evaluador, también debes completar en la pestaña de seguimiento, todas las actividades de tu cronograma, así como la
-                                asignación de una fecha inicial y final para tu proyecto de Tesis. Si por algunas razón deseas cambiar de tema, tienes hasta 60 días
-                                para poder hacerlo, presentando el anexo 3G de tu carpeta, puedes mirar la resolución en la pestaña resoluciones
-                                del proyecto.
+                            <span class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                                {{$item->name}}
+                            </span>
+                            <span>
+                                : {{$item->description}}
                             </span>
                         </li>
+                        @endif
+
+                        @if ($item->id === 2)
                         <li>
-                            <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Desaprobado</span>
-                            <span>: Este estado significa que tu proyecto ha sido evaluado y ha sido desaprobado, debes reiniciar el proceso con la presentación de un nuevo
-                                proyecto de tesis, con la misma carpeta de Tesis por última vez, puedes mirar la resolución en la pestaña resoluciones
-                                del proyecto.
+                            <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                                {{$item->name}}
+                            </span>
+                            <span>
+                                : {{$item->description}}
                             </span>
                         </li>
+                        @endif
+
+                        @if ($item->id === 3)
+                        <li>
+                            <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                {{$item->name}}
+                            </span>
+                            <span>
+                                : {{$item->description}}
+                            </span>
+                        </li>
+                        @endif
+
+                        @if ($item->id === 4)
                         <li>
                             <span class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">
-                                Caducado
+                                {{$item->name}}
                             </span>
-                            <span>: Este estado significa que tu proyecto no ha sido ejecutado en el plazo que se ha establecido, puedes presentar por segunda y última vez
-                                un nuevo Proyecto de Tesis, con la misma Carpeta de Tesis, puedes revisar la resolución en la pestaña de resoluciones.
+                            <span>
+                                : {{$item->description}}
                             </span>
                         </li>
+                        @endif
+
+                        @if ($item->id === 5)
                         <li>
                             <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                                Finalizado
+                                {{$item->name}}
                             </span>
-                            <span>: Este estado significa que tu proyecto ha sido ejecutado en el plazo establecido, a partir de este momento debes presentar todos los
-                                 documentos necesarios en tu facultad para que puedas sustentar tu Tesis.
+                            <span>
+                                : {{$item->description}}
                             </span>
                         </li>
+                        @endif
+
+                        @endforeach
                     </ul>
-                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mt-4 mb-6"></p>
 
-
+                    <!---p class="text-lg font-normal text-gray-500 dark:text-gray-400 mt-4 mb-6"></p--->
 
                 </div>
 
@@ -101,9 +122,10 @@
 
                     <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Etapas</h2>
 
-                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-2">Un proyecto de tesis pasa por varias etapas,
+                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">Un proyecto de tesis pasa por varias etapas,
                         vea la lista para ver todas las etapas disponibles y su respectivo significado.
                     </p>
+
                     <ul class="w-full space-y-4 text-gray-500 list-none list-inside dark:text-gray-400">
 
                         @foreach ($etapas as $item)
@@ -129,8 +151,6 @@
                     </ul>
 
                     <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mt-4 mb-6">Verifica en que etapa se encuentra tu proyecto y que acciones debes realizar.</p>
-
-
 
                 </div>
 

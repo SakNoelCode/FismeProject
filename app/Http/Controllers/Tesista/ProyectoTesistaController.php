@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tesista;
 
 use App\Http\Controllers\Controller;
 use App\Models\Actividad;
+use App\Models\Estado;
 use App\Models\Etapa;
 use App\Models\Proyecto;
 use App\Models\Tesista;
@@ -28,7 +29,8 @@ class ProyectoTesistaController extends Controller
     public function verEstado(Proyecto $proyecto)
     {
         $etapas = Etapa::all();
-        return view('tesista.proyecto.ver-estado', compact('proyecto', 'etapas'));
+        $estados = Estado::all();
+        return view('tesista.proyecto.ver-estado', compact('proyecto', 'etapas','estados'));
     }
 
     public function crearActividad(Proyecto $proyecto)

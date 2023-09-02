@@ -47,7 +47,7 @@
                             Los campos con (*) son obligatorios
                         </li>
                         <li>
-                            Deberá subir la resolución escaneada
+                            Deberá subir la resolución escaneada en PDF
                         </li>
                         <li>
                             La descripción es opcional, sin embargo se recomienda añadir:
@@ -59,7 +59,7 @@
                             Aprobado o desaprobado si la resolución es de tipo 'Evaluación del proyecto de tesis'
                         </li>
                         <li>
-                            Caducado o finalizado si la resolución es de tipo 'Culminación del proyecto de tesis'
+                            Caducado si la resolución es de tipo 'Caducidad del proyecto de tesis'
                         </li>
                     </ul>
 
@@ -81,7 +81,7 @@
                             <option value="" selected disabled>Seleccione:</option>
                             <option value="1">Resolución para el jurado evaluador</option>
                             <option value="2">Resolución de la evaluación del proyecto de tesis</option>
-                            <option value="3">Resolución del culminación del proyecto de tesis</option>
+                            <option value="3">Resolución de caducidad del proyecto de tesis</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2">

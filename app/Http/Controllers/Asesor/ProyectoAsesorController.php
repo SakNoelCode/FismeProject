@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Asesor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Asesor;
+use App\Models\Estado;
 use App\Models\Etapa;
 use App\Models\Proyecto;
 use App\Models\User;
@@ -47,6 +48,7 @@ class ProyectoAsesorController extends Controller
     public function verEstado(Proyecto $proyecto)
     {
         $etapas = Etapa::all();
-        return view('asesor.proyecto.ver-estado', compact('proyecto', 'etapas'));
+        $estados = Estado::all();
+        return view('asesor.proyecto.ver-estado', compact('proyecto', 'etapas','estados'));
     }
 }

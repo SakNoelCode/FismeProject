@@ -120,28 +120,26 @@
                                 <h2 class="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{$item->name}}</h2>
                                 <p class="mb-3 text-gray-500 dark:text-gray-400">{{ ($item->descripcion=='' ? 'Sin descripción' : $item->descripcion)}}</p>
 
-                                @if ($item->fecha_inicio != '')
-                                <p class="mb-3 text-gray-500 dark:text-gray-400">Tiempo de ejecución: {{date("d/m/Y", strtotime($item->fecha_inicio))}} - {{date("d/m/Y", strtotime($item->fecha_fin))}}</p>
-                                @endif
+                                <p class="mb-5 text-gray-500 dark:text-gray-400">Tiempo de ejecución: {{($item->fecha_inicio=='' ? 'Sin definir' : date("d/m/Y", strtotime($item->fecha_inicio)).' - '.date("d/m/Y", strtotime($item->fecha_fin)))}}</p>
 
                                 <!-----Estado---->
-                                @if ($item->estado == 0)
-                                <span data-popover-target="popover-estado-0" class="cursor-pointer bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">No definido</span>
-                                <div data-popover id="popover-estado-0" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                @if ($item->estado_id == 1)
+                                <span data-popover-target="popover-estado-1" class="cursor-pointer bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->estado->name}}</span>
+                                <div data-popover id="popover-estado-1" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                     <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                                         <h3 class="font-semibold text-gray-900 dark:text-white">Estado del proyecto</h3>
                                     </div>
                                     <div class="px-3 py-2">
                                         <p>
-                                            Aún no sale la resolución de evaluación del proyecto de tesis
+                                            El proyecto aún no ha sido evaluado
                                         </p>
                                     </div>
                                     <div data-popper-arrow></div>
                                 </div>
                                 @endif
-                                @if ($item->estado == 1)
-                                <span data-popover-target="popover-estado-1" class="cursor-pointer bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Aprobado</span>
-                                <div data-popover id="popover-estado-1" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                @if ($item->estado_id == 2)
+                                <span data-popover-target="popover-estado-2" class="cursor-pointer bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->estado->name}}</span>
+                                <div data-popover id="popover-estado-2" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                     <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                                         <h3 class="font-semibold text-gray-900 dark:text-white">Estado del proyecto</h3>
                                     </div>
@@ -153,9 +151,9 @@
                                     <div data-popper-arrow></div>
                                 </div>
                                 @endif
-                                @if ($item->estado == -1)
-                                <span data-popover-target="popover-estado-2" class="cursor-pointer bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Desaprobado</span>
-                                <div data-popover id="popover-estado-2" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                @if ($item->estado_id == 3)
+                                <span data-popover-target="popover-estado-3" class="cursor-pointer bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{$item->estado->name}}</span>
+                                <div data-popover id="popover-estado-3" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                     <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
                                         <h3 class="font-semibold text-gray-900 dark:text-white">Estado del proyecto</h3>
                                     </div>
@@ -167,12 +165,34 @@
                                     <div data-popper-arrow></div>
                                 </div>
                                 @endif
-
-
-
-
-
-
+                                @if ($item->estado_id == 4)
+                                <span data-popover-target="popover-estado-4" class="cursor-pointer bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{{$item->estado->name}}</span>
+                                <div data-popover id="popover-estado-4" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Estado del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>
+                                            Vaya, no has logrado concluir tu proyecto en el tiempo establecido
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
+                                @endif
+                                @if ($item->estado_id == 5)
+                                <span data-popover-target="popover-estado-5" class="cursor-pointer bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$item->estado->name}}</span>
+                                <div data-popover id="popover-estado-5" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <h3 class="font-semibold text-gray-900 dark:text-white">Estado del proyecto</h3>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <p>
+                                            Felicitaciones, has completado tu proyecto de tesis
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
+                                @endif
 
                                 <!------Etapas--->
                                 @if ($item->etapa_id == 1)
@@ -208,7 +228,7 @@
                                     </div>
                                     <div class="px-3 py-2">
                                         <p>
-                                            En esta estapa debes llenar tu cronograma de actividades, debes asignar a tu proyecto una fecha inicial y final, además no te
+                                            Si tu proyecto es aprobado, debes llenar tu cronograma de actividades, debes asignar a tu proyecto una fecha inicial y final, además no te
                                             olvides de presentar en secretaría algunos documentos importantes
                                         </p>
                                     </div>
@@ -261,7 +281,10 @@
 
                                 <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Cronograma de actividades</h2>
 
+                                @if ($item->etapa_id > 2 && $item->estado_id > 1)
                                 <!---Cabecera tabla--->
+
+                                @if ($item->etapa_id == 3)
                                 <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-700 sm:rounded-xl mb-3">
                                     <div class="flex-row items-center justify-between p-2 sm:flex">
                                         <div>
@@ -286,8 +309,11 @@
 
                                     </div>
                                 </div>
+                                @endif
 
 
+
+                                @if (count($item->actividades))
                                 <!---Tabla de actividades----->
                                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -308,9 +334,11 @@
                                                 <th scope="col" class="px-6 py-3">
                                                     Tipo
                                                 </th>
+                                                @if ($item->etapa_id == 3 || $item->etapa_id == 3)
                                                 <th scope="col" class="px-6 py-3">
                                                     <span class="sr-only">Edit</span>
                                                 </th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -349,18 +377,26 @@
                                                     </span>
                                                     @endif
                                                 </td>
+
+                                                @if ($item->etapa_id == 3 || $item->etapa_id == 3)
                                                 <td class="px-6 py-4 text-right">
                                                     <a href="{{route('proyectoTesista.editActividad',['proyecto'=>$item,'actividad'=>$actividad])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                                                 </td>
+                                                @endif
+
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+                                @else
+                                <p class="my-5 text-gray-500 dark:text-gray-400">
+                                    Sin registros de actividades
+                                </p>
+                                @endif
 
-
-                                <!---Boton para agregar nueva actividad--->
-                                @if ($item->etapa_id == 3 && $item->estado == 1)
+                                @if ($item->etapa_id == 3)
+                                <!---Botón para añadir nuevas actividades--->
                                 <a href="{{(route('proyectoTesista.crearActividad',['proyecto' => $item]))}}" class="mt-5 inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
                                     Añadir actividades
                                     <svg class="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -368,6 +404,16 @@
                                     </svg>
                                 </a>
                                 @endif
+
+
+                                @else
+                                <p class="my-5 text-gray-500 dark:text-gray-400">
+                                    Aún no puedes añadir nuevas actividades
+                                </p>
+                                @endif
+
+
+
 
                             </div>
 
