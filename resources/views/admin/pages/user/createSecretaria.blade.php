@@ -28,6 +28,15 @@
             <x-flowbite.form-label for='email' value='Correo eléctrónico(institucional)' />
             <x-flowbite.form-input name='email' type='email' placeholder='67345621@untrm.edu.pe' />
         </div>
+        <div class="sm:col-span-2">
+            <x-flowbite.form-label for='area_id' value='Area' />
+            <select id="area_id" name="area_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option selected="" value="">Seleciona</option>
+                @foreach ($areas as $item)
+                <option value="{{$item->id}}" {{old('area_id') == $item->id ? 'selected' : ''}}>{{$item->nombre}}</option>
+                @endforeach
+            </select>
+        </div>
         <div>
             <x-flowbite.form-label for='cargo' value='Cargo' />
             <x-flowbite.form-input name='cargo' type='text' placeholder='Admisión' />

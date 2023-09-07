@@ -9,7 +9,7 @@ class Secretaria extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cargo','escuela_id','user_id'];
+    protected $fillable = ['cargo','escuela_id','user_id','area_id'];
 
     public function escuela()
     {

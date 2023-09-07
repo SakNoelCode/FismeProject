@@ -1,8 +1,6 @@
 @extends('admin.layouts.app')
 @section('title','Empresas')
 @section('styles')
-<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless/borderless.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <style>
     #description {
         resize: none;
@@ -12,6 +10,9 @@
         resize: none;
     }
 </style>
+
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 @endsection
 @section('header')
 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -82,7 +83,7 @@
                     <!-----Tabla---->
 
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <table id="tabla_empresas" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
@@ -630,7 +631,7 @@
                 url: "empresas/" + empresa_id,
                 success: function(response) {
                     closeModalVer();
-                    showMessage(response.message,'info');
+                    showMessage(response.message, 'info');
                     fetchEmpresas();
                     $('#btnEliminarEmpresa').text('Eliminar');
                 }
@@ -717,5 +718,8 @@
     function eliminarValidacionesModalEdit() {
         $('#ul-errors-edit').find('li').detach();
     }
+</script>
+<script>
+
 </script>
 @endsection

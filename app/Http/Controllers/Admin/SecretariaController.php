@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Area;
 use App\Models\Escuela;
 use App\Models\Secretaria;
 use App\Models\User;
@@ -30,7 +31,8 @@ class SecretariaController extends Controller
     public function create(): View
     {
         $escuelas = Escuela::all();
-        return view('admin.pages.user.createSecretaria', compact('escuelas'));
+        $areas = Area::all();
+        return view('admin.pages.user.createSecretaria', compact('escuelas','areas'));
     }
 
     /**
@@ -44,9 +46,9 @@ class SecretariaController extends Controller
             'email' => 'required|email|max:255|unique:users,email',
             'cargo' => 'required|max:100',
             'escuela_id' => 'required|integer|exists:escuelas,id',
+            'area_id' => 'required|integer|exists:areas,id',
             'password'  => 'required|same:password_confirm|min:6|different:email'
         ]);
-
 
         try {
             DB::beginTransaction();
