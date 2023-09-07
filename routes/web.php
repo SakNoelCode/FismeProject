@@ -25,6 +25,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified','role:tesista|secretaria|asesor'])->name('dashboard');
 
+//Rutas para el welcome
+Route::get('/mesa-de-partes', function () {
+    return view('mesa-de-partes');
+});
+
+
 //Rutas para la secretaría:
 Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::resources([
