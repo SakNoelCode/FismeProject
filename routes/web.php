@@ -17,18 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/','welcome')->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified', 'role:tesista|secretaria|asesor|director'])->name('dashboard');
 
-//Rutas para el welcome
-Route::get('/mesa-de-partes', function () {
-    return view('mesa-de-partes');
-});
+//Rutas para el Home
+Route::view('/mesa-de-partes', 'mesa-de-partes')->name('mesa-de-partes');
+
+Route::view('/solicitud-practicas', 'solicitud-practicas')->name('solicitud-practicas');
 
 
 //Rutas para la secretaría:
