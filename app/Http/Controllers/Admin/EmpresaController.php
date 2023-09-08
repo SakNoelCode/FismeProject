@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Empresa;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class EmpresaController extends Controller
 {
@@ -26,27 +28,28 @@ class EmpresaController extends Controller
         ]);
     }
 
-    public function editEmpresa(String $id){
+    public function editEmpresa(String $id)
+    {
         $empresa = Empresa::find($id);
 
-        if($empresa){
+        if ($empresa) {
             return response()->json([
                 'status' => 200,
                 'data' => $empresa
             ]);
         }
         return response()->json([
-            'status'=>404,
-            'message'=>'No se encontro a la empresa'
+            'status' => 404,
+            'message' => 'No se encontro a la empresa'
         ]);
     }
 
-    public function updateEmpresa(Request $request,String $id)
+    public function updateEmpresa(Request $request, String $id)
     {
         $empresa = Empresa::find($id);
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255|unique:empresas,name,'.$id,
-            'email' => 'nullable|unique:empresas,email,'.$id,
+            'name' => 'required|max:255|unique:empresas,name,' . $id,
+            'email' => 'nullable|unique:empresas,email,' . $id,
             'phone' => 'nullable|max:40',
             'address' => 'nullable|max:100',
             'web_url' => 'nullable',
@@ -142,5 +145,27 @@ class EmpresaController extends Controller
             'status' => 200,
             'message' => 'Empresa eliminada exitosamente'
         ]);
+    }
+
+    public function createForSecretaria()
+    {
+        return view('secretaria.proyecto.create-empresa');
+    }
+
+    public function storeForSecretaria(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:255|unique:empresas,name',
+            'email' => 'nullable|unique:empresas,email',
+            'phone' => 'nullable|max:40',
+            'address' => 'nullable|max:100',
+            'web_url' => 'nullable',
+            'city' => 'nullable|max:100',
+            'description' => 'nullable'
+        ]);
+
+        Empresa::create($request->all());
+
+        return redirect()->route('proyectos.index')->with('success', 'Empresa agregada exitosamente');
     }
 }

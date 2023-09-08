@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\EmpresaController;
+use App\Http\Controllers\Admin\TesistaController;
 use App\Http\Controllers\Asesor\ProyectoAsesorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
@@ -32,7 +34,7 @@ Route::view('/solicitud-practicas', 'solicitud-practicas')->name('solicitud-prac
 //Rutas para la secretaría:
 Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::resources([
-        'proyectos' => ProyectoController::class
+        'proyectos' => ProyectoController::class,
     ]);
 
     Route::get('/cambiar-estado/{proyecto}', [ProyectoController::class, 'cambiarEstado'])->name('proyecto.cambiarEstado');
@@ -42,7 +44,10 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::post('/add-resolucion/{proyecto}', [ProyectoController::class, 'storeAddResolucion'])->name('proyecto.storeAddResolucion');
     Route::post('/proyectos/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucion.download');
     Route::post('/proyectos/deleteResolucion/{id}', [ProyectoController::class, 'destroyResolucion'])->name('Proyecto.resolucion.destroy');
-    //Route::get('/')
+    Route::get('/crear-tesista',[TesistaController::class,'createForSecretaria'])->name('secretaria.crear-tesista');
+    Route::post('/crear-tesista',[TesistaController::class,'storeForSecretaria'])->name('secretaria.store-tesista');
+    Route::get('/crear-empresa',[EmpresaController::class,'createForSecretaria'])->name('secretaria.crear-empresa');
+    Route::post('/crear-empresa',[EmpresaController::class,'storeForSecretaria'])->name('secretaria.store-empresa');
 });
 
 //Rutas para tesista

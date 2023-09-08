@@ -86,7 +86,7 @@ class TesistaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id) : RedirectResponse
+    public function update(Request $request, string $id): RedirectResponse
     {
         //Buscar un usuario que una relación con tesista y que coincida con el campo que esta
         //viniendo de la vista
@@ -132,5 +132,39 @@ class TesistaController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function createForSecretaria(): View
+    {
+        $escuelas = Escuela::all();
+        return view('secretaria.proyecto.create-tesista', ['escuelas' => $escuelas]);
+    }
+
+    public function storeForSecretaria(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'codigo' => 'required|max:50',
+            'escuela_id' => 'required|integer|exists:escuelas,id',
+            'password'  => 'required|same:password_confirm|min:8|different:email'
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $user = User::create($request->only('name', 'email', 'password'));
+            $user->tesista()->create(
+                $request->merge(['user_id' => $user->id])->except('name', 'email', 'password')
+            );
+
+            //Agregar rol al usuario
+            $user->assignRole('tesista');
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        return redirect()->route('proyectos.index')->with('success', 'Tesista agregado exitosamente');
     }
 }
