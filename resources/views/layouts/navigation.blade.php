@@ -36,6 +36,13 @@
                         {{ __('Proyectos de Tesis') }}
                     </x-nav-link>
                     @endhasrole
+
+                     <!--Menú Director-->
+                     @hasrole('director')
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Menu de ejemplo') }}
+                    </x-nav-link>
+                    @endhasrole
                 </div>
             </div>
 
@@ -109,6 +116,13 @@
             @hasrole('asesor')
             <x-responsive-nav-link :href="route('proyectoAsesor.index')" :active="request()->routeIs('proyectoAsesor.index')">
                 {{ __('Proyectos de Tesis') }}
+            </x-responsive-nav-link>
+            @endhasrole
+
+            <!--Menú  Director-->
+            @hasrole('director')
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('Menu de ejemplo') }}
             </x-responsive-nav-link>
             @endhasrole
 

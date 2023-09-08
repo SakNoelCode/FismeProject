@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified','role:tesista|secretaria|asesor'])->name('dashboard');
+})->middleware(['auth', 'verified', 'role:tesista|secretaria|asesor|director'])->name('dashboard');
 
 //Rutas para el welcome
 Route::get('/mesa-de-partes', function () {
@@ -37,36 +37,40 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
         'proyectos' => ProyectoController::class
     ]);
 
-    Route::get('/cambiar-estado/{proyecto}',[ProyectoController::class,'cambiarEstado'])->name('proyecto.cambiarEstado');
-    Route::patch('/cambiar-estado/{proyecto}',[ProyectoController::class,'updateEstado'])->name('proyecto.updateEstado');
-    Route::patch('/cambiar-etapa/{proyecto}',[ProyectoController::class,'updateEtapa'])->name('proyecto.updateEtapa');
-    Route::get('/add-resolucion/{proyecto}',[ProyectoController::class,'addResolucion'])->name('proyecto.addResolucion');
-    Route::post('/add-resolucion/{proyecto}',[ProyectoController::class,'storeAddResolucion'])->name('proyecto.storeAddResolucion');
-    Route::post('/proyectos/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucion.download');
-    Route::post('/proyectos/deleteResolucion/{id}',[ProyectoController::class,'destroyResolucion'])->name('Proyecto.resolucion.destroy');
+    Route::get('/cambiar-estado/{proyecto}', [ProyectoController::class, 'cambiarEstado'])->name('proyecto.cambiarEstado');
+    Route::patch('/cambiar-estado/{proyecto}', [ProyectoController::class, 'updateEstado'])->name('proyecto.updateEstado');
+    Route::patch('/cambiar-etapa/{proyecto}', [ProyectoController::class, 'updateEtapa'])->name('proyecto.updateEtapa');
+    Route::get('/add-resolucion/{proyecto}', [ProyectoController::class, 'addResolucion'])->name('proyecto.addResolucion');
+    Route::post('/add-resolucion/{proyecto}', [ProyectoController::class, 'storeAddResolucion'])->name('proyecto.storeAddResolucion');
+    Route::post('/proyectos/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucion.download');
+    Route::post('/proyectos/deleteResolucion/{id}', [ProyectoController::class, 'destroyResolucion'])->name('Proyecto.resolucion.destroy');
     //Route::get('/')
 });
 
 //Rutas para tesista
 Route::group(['middleware' => ['auth', 'role:tesista']], function () {
-    Route::resource('proyectoTesista',ProyectoTesistaController::class)->only(['index']);
+    Route::resource('proyectoTesista', ProyectoTesistaController::class)->only(['index']);
 
-    Route::get('/ver-estado/{proyecto}',[ProyectoTesistaController::class,'verEstado'])->name('proyectoTesista.verEstado');
-    Route::get('/proyectoTesista/createActividad/{proyecto}',[ProyectoTesistaController::class,'crearActividad'])->name('proyectoTesista.crearActividad');
-    Route::post('/proyectoTesista/createActividad/{proyecto}',[ProyectoTesistaController::class,'storeActividad'])->name('proyectoTesista.storeActividad');
-    Route::get('/proyectoTesista/editActividad/{proyecto}/{actividad}',[ProyectoTesistaController::class,'editActividad'])->name('proyectoTesista.editActividad');
-    Route::patch('/proyectoTesista/editActividad/{proyecto}{actividad}',[ProyectoTesistaController::class,'updateActividad'])->name('proyectoTesista.updateActividad');
-    Route::post('/proyectoTesistaUpdateFecha/{proyecto}',[ProyectoTesistaController::class,'updateFecha'])->name('proyectoTesista.updateFecha');
-    Route::post('/proyectoTesista/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucionTesista.download');
+    Route::get('/ver-estado/{proyecto}', [ProyectoTesistaController::class, 'verEstado'])->name('proyectoTesista.verEstado');
+    Route::get('/proyectoTesista/createActividad/{proyecto}', [ProyectoTesistaController::class, 'crearActividad'])->name('proyectoTesista.crearActividad');
+    Route::post('/proyectoTesista/createActividad/{proyecto}', [ProyectoTesistaController::class, 'storeActividad'])->name('proyectoTesista.storeActividad');
+    Route::get('/proyectoTesista/editActividad/{proyecto}/{actividad}', [ProyectoTesistaController::class, 'editActividad'])->name('proyectoTesista.editActividad');
+    Route::patch('/proyectoTesista/editActividad/{proyecto}{actividad}', [ProyectoTesistaController::class, 'updateActividad'])->name('proyectoTesista.updateActividad');
+    Route::post('/proyectoTesistaUpdateFecha/{proyecto}', [ProyectoTesistaController::class, 'updateFecha'])->name('proyectoTesista.updateFecha');
+    Route::post('/proyectoTesista/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucionTesista.download');
 });
 
 //Rutas para asesor
 Route::group(['middleware' => ['auth', 'role:asesor']], function () {
-    Route::resource('proyectoAsesor',ProyectoAsesorController::class)->only(['index']);
+    Route::resource('proyectoAsesor', ProyectoAsesorController::class)->only(['index']);
 
-    Route::get('/proyectoAsesor/ver-estado/{proyecto}',[ProyectoAsesorController::class,'verEstado'])->name('proyectoAsesor.verEstado');
-    Route::post('/proyectoAsesor/{id}',[ProyectoController::class,'downloadResolucion'])->name('resolucionAsesor.download');
-    
+    Route::get('/proyectoAsesor/ver-estado/{proyecto}', [ProyectoAsesorController::class, 'verEstado'])->name('proyectoAsesor.verEstado');
+    Route::post('/proyectoAsesor/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucionAsesor.download');
+});
+
+//Rutas para director de departamento
+Route::group(['middleware' => ['auth', 'role:director']], function () {
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -75,5 +79,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+
+
+
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';

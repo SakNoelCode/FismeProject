@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(EtapaSeeder::class);
         $this->call(EstadoSeeder::class);
+        $this->call(AreaSeeder::class);
     }
 }

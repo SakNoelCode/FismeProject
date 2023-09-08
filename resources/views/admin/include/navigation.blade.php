@@ -24,10 +24,6 @@
                         {{ __('Empresas') }}
                     </x-nav-link>
 
-                    <x-nav-link>
-                        <x-theme-button :isMobile='false' />
-                    </x-nav-link>
-
                 </div>
             </div>
 
@@ -96,9 +92,9 @@
                     <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
-                <div class="w-3/12 ml-0">
+                <!--div class="w-3/12 ml-0">
                     <x-theme-button :isMobile='true' />
-                </div>
+                </div--->
             </div>
 
 
