@@ -1,6 +1,8 @@
 @extends('admin.layouts.app')
 @section('title','Empresas')
 @section('styles')
+<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless/borderless.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <style>
     #description {
         resize: none;
@@ -10,9 +12,6 @@
         resize: none;
     }
 </style>
-
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 @endsection
 @section('header')
 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -718,8 +717,5 @@
     function eliminarValidacionesModalEdit() {
         $('#ul-errors-edit').find('li').detach();
     }
-</script>
-<script>
-
 </script>
 @endsection

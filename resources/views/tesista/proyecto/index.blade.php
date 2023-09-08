@@ -334,7 +334,7 @@
                                                 <th scope="col" class="px-6 py-3">
                                                     Tipo
                                                 </th>
-                                                @if ($item->etapa_id == 3 || $item->etapa_id == 3)
+                                                @if ($item->etapa_id == 3 || $item->etapa_id == 4)
                                                 <th scope="col" class="px-6 py-3">
                                                     <span class="sr-only">Edit</span>
                                                 </th>
@@ -378,9 +378,9 @@
                                                     @endif
                                                 </td>
 
-                                                @if ($item->etapa_id == 3 || $item->etapa_id == 3)
+                                                @if ($item->etapa_id == 3 || $item->etapa_id == 4)
                                                 <td class="px-6 py-4 text-right">
-                                                    <a href="{{route('proyectoTesista.editActividad',['proyecto'=>$item,'actividad'=>$actividad])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                                    <a href="{{route('proyectoTesista.editActividad',['proyecto'=>$item,'actividad'=>$actividad])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</a>
                                                 </td>
                                                 @endif
 
