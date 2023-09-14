@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\TesistaController;
 use App\Http\Controllers\Asesor\ProyectoAsesorController;
+use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
@@ -29,6 +30,8 @@ Route::get('/dashboard', function () {
 Route::view('/mesa-de-partes', 'mesa-de-partes')->name('mesa-de-partes');
 
 Route::view('/solicitud-practicas', 'solicitud-practicas')->name('solicitud-practicas');
+
+Route::resource('expedientes',ExpedienteController::class);
 
 
 //Rutas para la secretaría:
