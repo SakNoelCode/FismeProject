@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/','welcome')->name('welcome');
 
+//Route::view('/ver-pdf','pdf-vista');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified', 'role:tesista|secretaria|asesor|director'])->name('dashboard');
@@ -85,7 +87,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+//Ruta para el cargo
+//Route::get('/viewPDF',[ExpedienteController::class,'generarPDF'])->name('ver-pdf');
+Route::get('/ruta-a-mostrar-pdf/{file}',[ExpedienteController::class,'mostrarPDFTemporalmente'])->name('mostrar-pdf');
 
 
 require __DIR__ . '/auth.php';
