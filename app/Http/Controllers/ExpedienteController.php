@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Expr\Cast\String_;
 
 class ExpedienteController extends Controller
 {
@@ -111,9 +112,8 @@ class ExpedienteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(String $id)
     {
-        //
     }
 
     /**
@@ -207,5 +207,28 @@ class ExpedienteController extends Controller
         } else {
             return redirect()->back()->withErrors(['El archivo PDF no existe.']);
         }
+    }
+
+    public function buscarExpediente(Request $request)
+    {
+
+        $numero_expediente = $request->get('numeracion');
+        $codigo_seguridad = $request->get('codigo');
+
+        if ($numero_expediente != null && $codigo_seguridad != null) {
+
+            $request->validate([
+                'numeracion' => 'required|max:5|min:5',
+                'codigo' => 'required|max:6|min:6'
+            ]);
+
+            $expediente = Expediente::where('numeracion', $numero_expediente)
+                ->where('codigo', $codigo_seguridad)
+                ->first();
+
+            return view('expediente.buscar', compact('expediente', 'numero_expediente', 'codigo_seguridad'));
+        }
+
+        return view('expediente.buscar');
     }
 }

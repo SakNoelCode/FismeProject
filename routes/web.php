@@ -33,7 +33,9 @@ Route::view('/mesa-de-partes', 'mesa-de-partes')->name('mesa-de-partes');
 
 Route::view('/solicitud-practicas', 'solicitud-practicas')->name('solicitud-practicas');
 
+//Rutas para el expediente a nivel General
 Route::resource('expedientes',ExpedienteController::class);
+Route::get('/buscar-tramite',[ExpedienteController::class,'buscarExpediente'])->name('expediente.buscar');
 
 
 //Rutas para la secretaría:
