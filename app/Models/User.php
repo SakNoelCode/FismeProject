@@ -56,4 +56,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Secretaria::class);
     }
+
+    public function historiales(){
+        return $this->hasMany(Historiale::class);
+    }
 }

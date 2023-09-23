@@ -21,6 +21,10 @@
                     <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
                         {{ __('Proyectos de Tesis') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
+                        {{ __('Expedientes') }}
+                    </x-nav-link>
                     @endhasrole
 
                     <!--Menú Tesista--->
@@ -102,6 +106,9 @@
             @hasrole('secretaria')
             <x-responsive-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
                 {{ __('Proyectos de Tesis') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
+                {{ __('Expedientes') }}
             </x-responsive-nav-link>
             @endhasrole
 

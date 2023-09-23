@@ -123,7 +123,7 @@
                                     <x-text-input disabled id="remitente" type="text" class="mt-1 block w-full" :value="$expediente->remitente->razon_social" />
                                 </div>
                                 <div>
-                                    <x-input-label for="numero_documento" :value="__('Número de documento')" />
+                                    <x-input-label for="numero_documento" :value="__('Número de documento (DNI / RUC)')" />
                                     <x-text-input disabled id="numero_documento" type="text" class="mt-1 block w-full" :value="$expediente->remitente->numero_documento" />
                                 </div>
                                 <div>

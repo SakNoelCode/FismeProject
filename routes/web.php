@@ -6,6 +6,7 @@ use App\Http\Controllers\Asesor\ProyectoAsesorController;
 use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,13 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::post('/crear-tesista',[TesistaController::class,'storeForSecretaria'])->name('secretaria.store-tesista');
     Route::get('/crear-empresa',[EmpresaController::class,'createForSecretaria'])->name('secretaria.crear-empresa');
     Route::post('/crear-empresa',[EmpresaController::class,'storeForSecretaria'])->name('secretaria.store-empresa');
+
+    //Expedientes
+    Route::get('/expedientes',[SecretariaExpedienteController::class,'index'])->name('secretaria.expedientes.index');
+    Route::get('/ver-pdf/{name}',[SecretariaExpedienteController::class,'verPDF'])->name('secretaria.expediente.ver-pdf');
+    Route::get('/expediente/{expediente}/atender',[SecretariaExpedienteController::class,'atenderExpediente'])->name('secretaria.expediente.atender');
+    Route::post('/expediente/{expediente}/atender',[SecretariaExpedienteController::class,'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
+    Route::patch('/expediente/cambiarEstado/{id}',[SecretariaExpedienteController::class,'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
 });
 
 //Rutas para tesista
