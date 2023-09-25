@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::get('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'atenderExpediente'])->name('secretaria.expediente.atender');
     Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
     Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
+    Route::patch('/expediente/derivar/{id}',[SecretariaExpedienteController::class,'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
 });
 
 //Rutas para tesista

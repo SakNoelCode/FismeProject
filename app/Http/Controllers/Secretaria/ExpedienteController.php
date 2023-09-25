@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Secretaria;
 
 use App\Http\Controllers\Controller;
+use App\Models\Area;
 use App\Models\Expediente;
 use Carbon\Carbon;
 use Exception;
@@ -24,8 +25,9 @@ class ExpedienteController extends Controller
             $expedientes = Expediente::where('area_id', $area_id)->paginate(5);
         }
 
+        $areas = Area::all();
 
-        return view('secretaria.expediente.index', compact('expedientes'));
+        return view('secretaria.expediente.index', compact('expedientes','areas'));
     }
 
     public function verPDF(String $name)
@@ -73,6 +75,8 @@ class ExpedienteController extends Controller
 
         try {
             DB::beginTransaction();
+            $expediente->estado = 'en revision';
+            $expediente->save();
             $expediente->historiales()->create($request->except('documento'));
             DB::commit();
         } catch (Exception $e) {
@@ -96,5 +100,35 @@ class ExpedienteController extends Controller
         }
 
         return redirect()->route('secretaria.expedientes.index')->with('success', 'Estado actualizado');
+    }
+
+    public function derivarAreaExpediente(Request $request, String $id)
+    {
+        $area = Area::where('id',$request->area_id)->first();
+        $expediente = Expediente::find($id);
+
+        try {
+            DB::beginTransaction();
+            //Actualizar area del expediente
+            $expediente->area_id = $request->area_id;
+            $expediente->save();
+
+            //Crear un historial
+            $fecha_hora = Carbon::now()->toDateTimeString();
+            $descripcion = Auth::user()->name. ' ha derivado el expediente al área de '. $area->nombre;
+            $user_id = Auth::id();
+
+            $expediente->historiales()->create([
+                'fecha_hora' => $fecha_hora,
+                'descripcion' => $descripcion,
+                'user_id' => $user_id
+            ]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        return redirect()->route('secretaria.expedientes.index')->with('success', 'Derivación exitosa');
     }
 }
