@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
-use PhpParser\Node\Expr\Cast\String_;
 
 class ExpedienteController extends Controller
 {
@@ -230,5 +229,20 @@ class ExpedienteController extends Controller
         }
 
         return view('expediente.buscar');
+    }
+
+    public function showPDF(String $name)
+    {
+        $filePath = 'documentos/' . $name;
+
+
+        if (Storage::disk('public')->exists($filePath)) {
+
+            $pdfPath = Storage::disk('public')->path($filePath);
+
+            return response()->file($pdfPath);
+        } else {
+            return redirect()->back()->withErrors(['El archivo PDF no existe.']);
+        }
     }
 }

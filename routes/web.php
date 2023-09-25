@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/','welcome')->name('welcome');
+Route::view('/', 'welcome')->name('welcome');
 
 //Route::view('/ver-pdf','pdf-vista');
 
@@ -35,8 +35,10 @@ Route::view('/mesa-de-partes', 'mesa-de-partes')->name('mesa-de-partes');
 Route::view('/solicitud-practicas', 'solicitud-practicas')->name('solicitud-practicas');
 
 //Rutas para el expediente a nivel General
-Route::resource('expedientes',ExpedienteController::class);
-Route::get('/buscar-tramite',[ExpedienteController::class,'buscarExpediente'])->name('expediente.buscar');
+Route::get('/buscar-tramite', [ExpedienteController::class, 'buscarExpediente'])->name('expediente.buscar');
+Route::get('/showPDF/{name}', [ExpedienteController::class, 'showPDF'])->name('expediente.showPDF');
+Route::resource('expedientes', ExpedienteController::class);
+
 
 
 //Rutas para la secretaría:
@@ -52,17 +54,17 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::post('/add-resolucion/{proyecto}', [ProyectoController::class, 'storeAddResolucion'])->name('proyecto.storeAddResolucion');
     Route::post('/proyectos/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucion.download');
     Route::post('/proyectos/deleteResolucion/{id}', [ProyectoController::class, 'destroyResolucion'])->name('Proyecto.resolucion.destroy');
-    Route::get('/crear-tesista',[TesistaController::class,'createForSecretaria'])->name('secretaria.crear-tesista');
-    Route::post('/crear-tesista',[TesistaController::class,'storeForSecretaria'])->name('secretaria.store-tesista');
-    Route::get('/crear-empresa',[EmpresaController::class,'createForSecretaria'])->name('secretaria.crear-empresa');
-    Route::post('/crear-empresa',[EmpresaController::class,'storeForSecretaria'])->name('secretaria.store-empresa');
+    Route::get('/crear-tesista', [TesistaController::class, 'createForSecretaria'])->name('secretaria.crear-tesista');
+    Route::post('/crear-tesista', [TesistaController::class, 'storeForSecretaria'])->name('secretaria.store-tesista');
+    Route::get('/crear-empresa', [EmpresaController::class, 'createForSecretaria'])->name('secretaria.crear-empresa');
+    Route::post('/crear-empresa', [EmpresaController::class, 'storeForSecretaria'])->name('secretaria.store-empresa');
 
     //Expedientes
-    Route::get('/expedientes',[SecretariaExpedienteController::class,'index'])->name('secretaria.expedientes.index');
-    Route::get('/ver-pdf/{name}',[SecretariaExpedienteController::class,'verPDF'])->name('secretaria.expediente.ver-pdf');
-    Route::get('/expediente/{expediente}/atender',[SecretariaExpedienteController::class,'atenderExpediente'])->name('secretaria.expediente.atender');
-    Route::post('/expediente/{expediente}/atender',[SecretariaExpedienteController::class,'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
-    Route::patch('/expediente/cambiarEstado/{id}',[SecretariaExpedienteController::class,'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
+    Route::get('/expedientes', [SecretariaExpedienteController::class, 'index'])->name('secretaria.expedientes.index');
+    Route::get('/ver-pdf/{name}', [SecretariaExpedienteController::class, 'verPDF'])->name('secretaria.expediente.ver-pdf');
+    Route::get('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'atenderExpediente'])->name('secretaria.expediente.atender');
+    Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
+    Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
 });
 
 //Rutas para tesista
@@ -88,7 +90,6 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
 
 //Rutas para director de departamento
 Route::group(['middleware' => ['auth', 'role:director']], function () {
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -99,7 +100,7 @@ Route::middleware('auth')->group(function () {
 
 //Ruta para el cargo
 //Route::get('/viewPDF',[ExpedienteController::class,'generarPDF'])->name('ver-pdf');
-Route::get('/ruta-a-mostrar-pdf/{file}',[ExpedienteController::class,'mostrarPDFTemporalmente'])->name('mostrar-pdf');
+Route::get('/ruta-a-mostrar-pdf/{file}', [ExpedienteController::class, 'mostrarPDFTemporalmente'])->name('mostrar-pdf');
 
 
 require __DIR__ . '/auth.php';
