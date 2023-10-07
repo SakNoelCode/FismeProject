@@ -65,7 +65,7 @@ class ExpedienteController extends Controller
                 'fecha_recepcion' => $fecha,
                 'remitente_id' => $remitente->id,
                 'documento_id' => $documento->id,
-                'area_id' => 5 //Designar a mesa de partes por defecto
+                'area_id' => 4 //Designar a mesa de partes por defecto
             ]);
 
             $expediente->save();
