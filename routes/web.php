@@ -4,8 +4,14 @@ use App\Http\Controllers\ActaController;
 use App\Http\Controllers\Asesor\ProyectoAsesorController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\PracticanteController;
+use App\Http\Controllers\Admin\EmpresaController;
+use App\Http\Controllers\Admin\TesistaController;
+use App\Http\Controllers\Asesor\ProyectoAsesorController;
+use App\Http\Controllers\ExpedienteController;
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use App\Http\Controllers\DocumentoController;
 use App\Models\Acta;
@@ -35,11 +41,17 @@ Route::view('/mesa-de-partes', 'mesa-de-partes')->name('mesa-de-partes');
 
 Route::view('/solicitud-practicas', 'solicitud-practicas')->name('solicitud-practicas');
 
+//Rutas para el expediente a nivel General
+Route::get('/buscar-tramite', [ExpedienteController::class, 'buscarExpediente'])->name('expediente.buscar');
+Route::get('/showPDF/{name}', [ExpedienteController::class, 'showPDF'])->name('expediente.showPDF');
+Route::resource('expedientes', ExpedienteController::class);
+
+
 
 //Rutas para la secretaría:
 Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::resources([
-        'proyectos' => ProyectoController::class
+        'proyectos' => ProyectoController::class,
     ]);
 
     Route::get('/cambiar-estado/{proyecto}', [ProyectoController::class, 'cambiarEstado'])->name('proyecto.cambiarEstado');
@@ -49,7 +61,18 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::post('/add-resolucion/{proyecto}', [ProyectoController::class, 'storeAddResolucion'])->name('proyecto.storeAddResolucion');
     Route::post('/proyectos/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucion.download');
     Route::post('/proyectos/deleteResolucion/{id}', [ProyectoController::class, 'destroyResolucion'])->name('Proyecto.resolucion.destroy');
-    //Route::get('/')
+    Route::get('/crear-tesista', [TesistaController::class, 'createForSecretaria'])->name('secretaria.crear-tesista');
+    Route::post('/crear-tesista', [TesistaController::class, 'storeForSecretaria'])->name('secretaria.store-tesista');
+    Route::get('/crear-empresa', [EmpresaController::class, 'createForSecretaria'])->name('secretaria.crear-empresa');
+    Route::post('/crear-empresa', [EmpresaController::class, 'storeForSecretaria'])->name('secretaria.store-empresa');
+
+    //Expedientes
+    Route::get('/expedientes', [SecretariaExpedienteController::class, 'index'])->name('secretaria.expedientes.index');
+    Route::get('/ver-pdf/{name}', [SecretariaExpedienteController::class, 'verPDF'])->name('secretaria.expediente.ver-pdf');
+    Route::get('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'atenderExpediente'])->name('secretaria.expediente.atender');
+    Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
+    Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
+    Route::patch('/expediente/derivar/{id}',[SecretariaExpedienteController::class,'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
 });
 
 //Rutas para tesista
@@ -74,7 +97,7 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
 });
 
 //Rutas para director de departamento
-    Route::group(['middleware' => ['auth', 'role:director|secretaria']], function () {
+Route::group(['middleware' => ['auth', 'role:director|secretaria']], function () {
     Route::resource('docentes', DocenteController::class);
     Route::resource('practicantes', PracticanteController::class);
     Route::resource('actas', ActaController::class);
@@ -93,7 +116,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+//Ruta para el cargo
+//Route::get('/viewPDF',[ExpedienteController::class,'generarPDF'])->name('ver-pdf');
+Route::get('/ruta-a-mostrar-pdf/{file}', [ExpedienteController::class, 'mostrarPDFTemporalmente'])->name('mostrar-pdf');
 
 
 require __DIR__ . '/auth.php';

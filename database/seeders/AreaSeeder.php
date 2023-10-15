@@ -30,11 +30,10 @@ class AreaSeeder extends Seeder
                 'nombre' => 'Mesa de partes',
                 'descripcion' => 'Area donde entran todos los documentos'
             ],
-            /*
             [
                 'nombre' => 'Recursos Humanos',
                 'descripcion' => 'Sin descripción'
-            ]*/
+            ]
         ];
 
         foreach($registros as $item){

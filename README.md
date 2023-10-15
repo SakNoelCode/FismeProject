@@ -29,6 +29,11 @@ DB_DATABASE=nombreBasedeDatos
 php artisan key:generate 
 ```
 
+7. Ejecutar el comando en la terminal para el  **storage**
+```bash
+php artisan storage:link
+```
+
 8. Correr la migraciones del proyecto
 ```bash
 php artisan migrate
@@ -115,7 +120,3 @@ git push origin main
 - El equipo del proyecto revisará y discutirá tus cambios. Si el cambio es aceptado se crea de manera automática un nuevo commit en el proyecto principal, luego de eso deberás sincronizar los cambios en tu repositorio forkeado.
 
 🎉 ¡Gracias por tu contribución al proyecto!
-
-
-## Notas
-Nada aquí por ahora
