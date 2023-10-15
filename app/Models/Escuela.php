@@ -23,4 +23,6 @@ class Escuela extends Model
     {
         return $this->hasMany(Secretaria::class);
     }
+
+    
 }

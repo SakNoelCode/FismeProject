@@ -1,13 +1,21 @@
 <?php
 
+use App\Http\Controllers\ActaController;
+use App\Http\Controllers\Asesor\ProyectoAsesorController;
+use App\Http\Controllers\DocenteController;
+use App\Http\Controllers\PracticanteController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\TesistaController;
 use App\Http\Controllers\Asesor\ProyectoAsesorController;
 use App\Http\Controllers\ExpedienteController;
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
+use App\Http\Controllers\DocumentoController;
+use App\Models\Acta;
+use App\Models\Docente;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +29,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome')->name('welcome');
 
-//Route::view('/ver-pdf','pdf-vista');
+Route::view('/','welcome')->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -90,8 +97,18 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
 });
 
 //Rutas para director de departamento
-Route::group(['middleware' => ['auth', 'role:director']], function () {
+Route::group(['middleware' => ['auth', 'role:director|secretaria']], function () {
+    Route::resource('docentes', DocenteController::class);
+    Route::resource('practicantes', PracticanteController::class);
+    Route::resource('actas', ActaController::class);
 });
+
+//rutas para cargar doc practicas
+Route::get('/crear-doc',[DocumentoController::class, 'create'])->name('practicas.crearDocumento');
+Route::post('/crear-doc',[DocumentoController::class, 'store'])->name('practicas.guardarDocumento');
+
+//rutas para envio de emails
+Route::get('/enviar-email/{practicantes}/{archivo}',[DocumentoController::class, 'enviarEmail'])->name('enviarEmail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

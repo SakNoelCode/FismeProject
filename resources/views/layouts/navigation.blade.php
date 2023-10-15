@@ -21,8 +21,10 @@
                     <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
                         {{ __('Proyectos de Tesis') }}
                     </x-nav-link>
-
-                    <x-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
+                    <x-nav-link :href="route('practicantes.index')" :active="request()->routeIs('practicantes.index')">
+                        {{ __('Practicantes') }}
+                     </x-nav-link>
+                     <x-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
                         {{ __('Expedientes') }}
                     </x-nav-link>
                     @endhasrole
@@ -43,8 +45,12 @@
 
                      <!--Menú Director-->
                      @hasrole('director')
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Menu de ejemplo') }}
+                    <x-nav-link :href="route('docentes.index')" :active="request()->routeIs('docentes.index')">
+                        {{ __('Docentes') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('practicantes.index')" :active="request()->routeIs('practicantes.index')">
+                        {{ __('Practicantes') }}
                     </x-nav-link>
                     @endhasrole
                 </div>
@@ -128,8 +134,8 @@
 
             <!--Menú  Director-->
             @hasrole('director')
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Menu de ejemplo') }}
+            <x-responsive-nav-link :href="route('docentes.index')" :active="request()->routeIs('docentes.index')">
+                {{ __('Docentes') }}
             </x-responsive-nav-link>
             @endhasrole
 
