@@ -19,7 +19,7 @@ class ExpedienteController extends Controller
     {
         $area_id = Auth::user()->secretaria->area->id;
 
-        if ($area_id == 5) {
+        if ($area_id == 4) {
             $expedientes = Expediente::latest()->paginate(5);
         } else {
             $expedientes = Expediente::where('area_id', $area_id)->paginate(5);

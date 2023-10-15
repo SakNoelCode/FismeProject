@@ -1,34 +1,17 @@
 <?php
-
 use App\Http\Controllers\ActaController;
 use App\Http\Controllers\Asesor\ProyectoAsesorController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\PracticanteController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\TesistaController;
-use App\Http\Controllers\Asesor\ProyectoAsesorController;
 use App\Http\Controllers\ExpedienteController;
-
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use App\Http\Controllers\DocumentoController;
-use App\Models\Acta;
-use App\Models\Docente;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 
 Route::view('/','welcome')->name('welcome');
 
