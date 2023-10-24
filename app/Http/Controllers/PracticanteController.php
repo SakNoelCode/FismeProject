@@ -33,33 +33,33 @@ class PracticanteController extends Controller
     public function store(Request $request)
     {
         //
-        $practicante = new Practicante();
-        $practicante->fecha = $request->get('fecha');
-        $practicante->tramite = $request->get('tramite');
-        $practicante-> dirigido = $request->get('dirigido');
-        $practicante->codigo = $request->get('codigo');
-        $practicante->apellidos = $request->get('apellidos');
-        $practicante->nombres = $request->get('nombres');
-        $practicante->facultad = $request->get('facultad');
-        $practicante->escuela = $request->get('escuela');
-        $practicante->email = $request->get('email');
-        $practicante->telefono = $request->get('telefono');
-        $practicante->direccion = $request->get('direccion');
+        $practicantes = new Practicante();
+        $practicantes->fecha = $request->get('fecha');
+        $practicantes->tramite = $request->get('tramite');
+        $practicantes-> dirigido = $request->get('dirigido');
+        $practicantes->codigo = $request->get('codigo');
+        $practicantes->apellidos = $request->get('apellidos');
+        $practicantes->nombres = $request->get('nombres');
+        $practicantes->facultad = $request->get('facultad');
+        $practicantes->escuela = $request->get('escuela');
+        $practicantes->email = $request->get('email');
+        $practicantes->telefono = $request->get('telefono');
+        $practicantes->direccion = $request->get('direccion');
 
-        $practicante->docente_id = $request->get('docente_id');
+        $practicantes->docente_id = $request->get('docente_id');
         $docente = Docente::find($request->input('docente_id'));
-        $practicante->docente = $docente->nombres. ' ' .$docente->apellidos;
+        $practicantes->docente = $docente->nombres. ' ' .$docente->apellidos;
 
-        $practicante->fundamentacion = $request->get('fundamentacion');
+        $practicantes->fundamentacion = $request->get('fundamentacion');
 
         if ($request->hasFile('pdf')) {
             $archivo = $request->file('pdf');
             $archivo->move(public_path().'/archivos/', $archivo->getClientOriginalName());
-            $practicante->archivo = $archivo->getClientOriginalName();
+            $practicantes->archivo = $archivo->getClientOriginalName();
         }
         
-        $practicante->folios = $request->get('folios');
-        $practicante->save();
+        $practicantes->folios = $request->get('folios');
+        $practicantes->save();
 
         return redirect('/practicantes');
     }
@@ -85,9 +85,52 @@ class PracticanteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Practicante $practicante)
+    public function update(Request $request,$id)
     {
-        //
+        $practicante = Practicante::find($id);
+        $practicante->fecha = $request->get('fecha');
+        $practicante->fecha_sustentacion = $request->get('fecha_sustentacion');
+        $practicante->hora_sustentacion = $request->get('hora_sustentacion');
+        $practicante->tramite = $request->get('tramite');
+        $practicante-> dirigido = $request->get('dirigido');
+        $practicante->codigo = $request->get('codigo');
+        $practicante->apellidos = $request->get('apellidos');
+        $practicante->nombres = $request->get('nombres');
+        $practicante->facultad = $request->get('facultad');
+        $practicante->escuela = $request->get('escuela');
+        $practicante->email = $request->get('email');
+        $practicante->telefono = $request->get('telefono');
+        $practicante->direccion = $request->get('direccion');
+
+        $practicante->docente_id = $request->get('docente_id');
+        $docente = Docente::find($request->input('docente_id'));
+        if($docente) {
+            $practicante->docente = $docente->nombres. ' ' .$docente->apellidos;
+        } else {
+            // Manejo del caso en el que no se encuentra el docente
+        }
+        // $practicante->docente = $docente->nombres. ' ' .$docente->apellidos;
+
+        $practicante->fundamentacion = $request->get('fundamentacion');
+
+        if ($request->hasFile('pdf')) {
+            $archivo = $request->file('pdf');
+            $archivo->move(public_path().'/archivos/', $archivo->getClientOriginalName());
+            $practicante->archivo = $archivo->getClientOriginalName();
+        }
+        
+        $practicante->folios = $request->get('folios');
+        $practicante->etapa = $request->get('etapa');
+        $practicante->estado = $request->get('estado');
+
+        if ($request->hasFile('resolucion')) {
+            $resolucion = $request->file('resolucion');
+            $resolucion->move(public_path().'/archivos/', $resolucion->getClientOriginalName());
+            $practicante->resolucion = $resolucion->getClientOriginalName();
+        }
+        $practicante->save();
+
+        return redirect('/practicantes');
     }
 
     /**

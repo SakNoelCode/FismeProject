@@ -8,9 +8,9 @@
 @endpush
 
 @section('content')
-<div class="py-8 mt-16">
+<div class="py-8 mt-16 bg-teal-400">
 
-    <div class="mx-auto sm:px-4 py-10 bg-slate-300 mr-14 ml-14 rounded-2xl">
+    <div class="mx-auto sm:px-4 py-10 bg-cyan-50 mr-14 ml-14 rounded-2xl">
       
         <form action="{{route('practicas.guardarDocumento')}}" method="post" enctype="multipart/form-data">
         @csrf
@@ -32,11 +32,11 @@
                         <input type="text" name="tramite" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="registrar aquí" required>
                     </div>
                     <div>
-                        <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dirigido: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
+                        <label for=""class=" block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dirigido: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
                         <option value="">Seleccione... </option>
-                        <select class="form-control" name="dirigido" required="" style="border-radius: 5px;">
+                        <select name="dirigido" id="dirigido" class="rounded-xl">
                             <option value="Decanato">Decanato</option>
-                          </select>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -57,14 +57,14 @@
             <div class="grid gap-6 mb-6">
                 <div>
                     <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Facultad: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
-                    <select name="facultad" id="">
+                    <select name="facultad" id="" class="rounded-xl">
                         {{-- <option value=" ">Seleccione: </option> --}}
                         <option value="facultad">Ingenieria de sistemas y mecánica eléctrica</option>
                     </select>
                 </div>  
                 <div>
                     <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Escuela:<small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
-                    <select name="escuela" id="">
+                    <select name="escuela" id="" class="rounded-xl">
                         {{-- <option value=" ">Seleccione: </option> --}}
                         <option value="escuela">Ingenieria de sistemas</option>
                     </select>
@@ -86,9 +86,8 @@
             </div>
             <div class="grid gap-6 mb-6">
                 <div>
-                    <label for="docente_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asesor: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
-                    <select name="docente_id" id="docente_id">
-                        <option value="">Seleccione el nombre del asesor </option>
+                    <label for="docente_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccionar Asesor: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
+                    <select name="docente_id" id="docente_id" class="rounded-lg">
                         @foreach ($docentes as $docente)
                             <option value="{{ $docente->id }}">{{$docente->nombres }} {{ $docente->apellidos }}</option>
                         @endforeach
