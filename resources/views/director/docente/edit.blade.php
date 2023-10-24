@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="py-8">
-    <div class="mx-auto sm:px-4 py-10 bg-slate-300 mr-14 ml-14 rounded-3xl" >
+    <div class="py-8 bg-teal-400">
+    <div class="mx-auto sm:px-4 py-10 bg-cyan-50 mr-14 ml-14 rounded-3xl" >
         
         <div class="mb-4">
             <div class="mb-4">

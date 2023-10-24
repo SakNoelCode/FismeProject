@@ -28,7 +28,7 @@ class DocumentoMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Envio de Documentos Practicas',
+            subject: 'Documento de Practicas',
             from:new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
         );
 

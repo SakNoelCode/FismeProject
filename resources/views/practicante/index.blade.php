@@ -22,15 +22,15 @@
             </ol>
         </nav>
     </x-slot>
-    <div class="py-8">
+    <div class="py-8 bg-teal-400">
     <div class="mx-auto sm:px-4" >
         <div>
-            <a href="{{route('practicantes.create')}}" class="text-white bg-gradient-to-r from-green-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Registrar ...... </a>
+            {{-- <a href="{{route('practicantes.create')}}" class="text-white bg-gradient-to-r from-green-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Registrar ...... </a> --}}
         </div><br>
         <div class="mb-4">
-            <h1><strong style="color: blue">REGISTRO DE PLANES DE PRÁCTICAS PRE PROFESIONALES</strong></h1>
+            <h1><strong style="color: white">REGISTRO DE PLANES DE PRÁCTICAS PRE PROFESIONALES</strong></h1>
         </div>        
-        <table class="border-separate border-spacing-2 border border-slate-400 table w-full rounded-2xl">
+        <table class=" bg-white border-separate border-spacing-2 border border-slate-400 table w-full rounded-2xl">
             <thead>
               <tr class="">
                 <th class="w-1/">#</th>
@@ -41,7 +41,8 @@
                 <th class="w-1/">TELÉFONO</th>
                 <th class="w-1/">ASESOR</th>
                 <th class="w-1/">DOCUMENTO</th>
-                <th class="w-1/">ACCIONES</th>
+                <th class="w-1">ACCIONES</th>
+                <th class="w-1/">ESTADO</th>
               </tr>
             </thead>
             <tbody class=" text-center">

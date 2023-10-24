@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="py-8">
-        <div class="mx-auto sm:px-4 py-10 bg-slate-300 mr-14 ml-14 rounded-2xl">
+    <div class="py-8 bg-teal-400">
+        <div class="mx-auto sm:px-4 py-10 bg-cyan-50 mr-14 ml-14 rounded-2xl">
           
             <form action="/practicantes/{{$practicante->id}}" method="post" enctype="multipart/form-data">
             @csrf
@@ -17,17 +17,24 @@
                         <script>
                             var fechaActual = new Date().toISOString().split('T')[0];
                             document.getElementById("fecha").value = fechaActual;
-                          </script>
+                        </script>
+                        <div>
+                            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha Sustentación:<small style="color: rgb(5, 68, 241)">(Campo Obligatorio)</small></label>
+                            <input type="date" id="fecha_sustentacion" name="fecha_sustentacion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required value="{{$practicante->fecha_sustentacion}}">
+                        </div>
+                        <div>
+                            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hora Sustentación:<small style="color: rgb(5, 68, 241)">(Campo Obligatorio)</small></label>
+                            <input type="time" id="hora_sustentacion" name="hora_sustentacion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required value="{{$practicante->hora_sustentacion}}">
+                        </div>
                         <div>
                             <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tramite: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
                             <input type="text" name="tramite" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="registrar aquí" value="{{$practicante->tramite}}">
                         </div>
                         <div>
                             <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dirigido: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
-                            <option value="">Seleccione... </option>
-                            <select class="form-control" name="dirigido" required="" style="border-radius: 5px;">
+                            <select name="dirigido" class="rounded-xl">
                                 <option value="Decanato">Decanato</option>
-                              </select>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -48,14 +55,14 @@
                 <div class="grid gap-6 mb-6">
                     <div>
                         <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Facultad: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
-                        <select name="facultad" id="">
+                        <select name="facultad" id="" class="rounded-xl">
                             {{-- <option value=" ">Seleccione: </option> --}}
                             <option value="facultad">Ingenieria de sistemas y mecánica eléctrica</option>
                         </select>
                     </div>  
                     <div>
                         <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Escuela:<small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
-                        <select name="escuela" id="">
+                        <select name="escuela" id="" class="rounded-xl">
                             {{-- <option value=" ">Seleccione: </option> --}}
                             <option value="escuela">Ingenieria de sistemas</option>
                         </select>
@@ -78,12 +85,17 @@
                 <div class="grid gap-6 mb-6">
                     <div>
                         <label for="docente_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asesor: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
-                        <select name="docente_id" id="docente_id">
-                            <option value="">Seleccione el nombre del asesor </option>
+                        <select name="docente_id" id="docente_id" class="rounded-xl">
                             @foreach ($docentes as $docente)
                                 <option value="{{ $docente->id }}">{{$docente->nombres }} {{ $docente->apellidos }}</option>
                             @endforeach
                         </select>
+                        {{-- @if($docente->nombres)
+                        <div>
+                            <label>Nombre es : </label>
+                            {{$docente->nombres}}
+                        </div>
+                        @endif --}}
                     </div>  
                     <div>
                         <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fundamentación:<small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
@@ -108,6 +120,28 @@
                     <div>
                         <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Folios: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small></label>
                         <input type="text" name="folios" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-blue-500 block w-full p-2.5 dark:bg-green-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="registrar aquí" value="{{$practicante->folios}}">
+                    </div>
+                    <div>
+                        <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Etapa: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio) </small> seleccione una opción</label>
+                        <select name="etapa" id="" class="rounded-2xl">
+                            <option value="inicio">Inicio</option>
+                            <option value="sustentato">Sustentado</option>
+                            <option value="finalizado">Finalizado</option>
+                            <option value="observado">Observado</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado: <small style="color: rgb(5, 68, 241)">( Campo Obligatorio)</small> seleccione una opción</label>
+                        <select name="estado" id="" class="rounded-2xl">
+                            <option value="neutro">Neutro</option>
+                            <option value="aprobado">Aprobado</option>
+                            <option value="desaprobado">Desaprobado</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="col-lg-3 control-label">Cargar Resolución: <b>.PDF</b> <small style="color: #051da8;font-size: 11pt;"><i>(Max 20 MB)</i></small>:</label>
+                        <input type="file" name="resolucion" accept=".pdf"  id="pdf" size="20000" class="rounded-lg">
                     </div>
                 </div>
                 <div class="mb-4"> </div>

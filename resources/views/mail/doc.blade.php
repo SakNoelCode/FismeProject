@@ -7,6 +7,6 @@
     <title>email</title>
 </head>
 <body>
-    <h2><strong style="color: blue">Envio archivo adjunto del ducumento de practicas: {{$practicantes}} </strong></h2>
+    <h2><strong style="color: blue">Envio adjunto ducumento de practicas: {{$practicantes}} </strong></h2>
 </body>
 </html>

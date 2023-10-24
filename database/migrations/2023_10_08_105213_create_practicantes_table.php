@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('practicantes', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
+            $table->date('fecha_sustentacion')->nullable();
+            $table->time('hora_sustentacion')->nullable();
             $table->string('tramite');
             $table->string('dirigido');
             $table->string('codigo');
@@ -30,6 +32,9 @@ return new class extends Migration
             $table->string('fundamentacion');
             $table->string('archivo');
             $table->integer('folios');
+            $table->string('etapa')->default('Inicio');
+            $table->string('estado')->default('Neutro');
+            $table->string('resolucion')->nullable()->default(null);
             $table->timestamps();
         });
     }
