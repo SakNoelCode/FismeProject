@@ -11,7 +11,7 @@ class Expediente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['numeracion','codigo','fecha_recepcion','remitente_id','documento_id','area_id'];
+    protected $fillable = ['numeracion','tipo','asunto','remitente_id','tipo_documento','area_id'];
 
     //Crear numeración de manera automática
     protected static function boot()
@@ -20,33 +20,8 @@ class Expediente extends Model
 
         static::creating(function ($expediente) {
             $ultimoNumero = Documento::max('id');
-            if ($ultimoNumero === null) {
-                $nuevoNumero = 1;
-            } else {
-                $nuevoNumero = $ultimoNumero + 1;
-            }
-            $expediente->numeracion = sprintf('%05d', $nuevoNumero);
+            $expediente->numeracion = sprintf('%05d', $ultimoNumero);
         });
-    }
-
-    /**
-     * Función para generar un código aleatorio de 6 dígitos y único
-     * 
-     */
-    public function generateCodigoSeguridad()
-    {
-        $codigoSeguridad = strtoupper(str::random(6));
-        return $codigoSeguridad;
-    }
-
-    /**
-     * Función para recuperar solo la fecha actual
-     */
-    public function generateFecha()
-    {
-        $fechaActual = Carbon::now();
-        $fechaParaBaseDeDatos = $fechaActual->toDateString();
-        return $fechaParaBaseDeDatos;
     }
 
     public function remitente()
@@ -59,9 +34,9 @@ class Expediente extends Model
         return $this->belongsTo(Area::class);
     }
 
-    public function documento()
+    public function documentos()
     {
-        return $this->belongsTo(Documento::class);
+        return $this->hasMany(Documento::class);
     }
 
     public function historiales()

@@ -9,9 +9,14 @@ class Remitente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['razon_social','numero_documento','email'];
+    protected $guarded = ['id'];
 
     public function expedientes(){
         return $this->hasMany(Expediente::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }

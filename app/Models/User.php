@@ -60,4 +60,8 @@ class User extends Authenticatable
     public function historiales(){
         return $this->hasMany(Historiale::class);
     }
+
+    public function remitente(){
+        return $this->hasOne(Remitente::class);
+    }
 }

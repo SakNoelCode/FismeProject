@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('expedientes', function (Blueprint $table) {
             $table->id();
             $table->string('numeracion',45);
-            $table->string('codigo',8);
-            $table->date('fecha_recepcion');
-            $table->string('estado',50)->default('pendiente');
+            $table->string('correlativo',50)->nullable();
+            $table->string('tipo',50);
+            $table->string('estado',50)->default('recepcionado');
+            $table->string('asunto',50);
+            $table->string('tipo_documento',20);
             $table->foreignId('remitente_id')->constrained('remitentes')->onDelete('cascade');
-            $table->foreignId('documento_id')->unique()->constrained('documentos')->onDelete('cascade');
             $table->foreignId('area_id')->constrained('areas')->onDelete('cascade');
             $table->timestamps();
         });

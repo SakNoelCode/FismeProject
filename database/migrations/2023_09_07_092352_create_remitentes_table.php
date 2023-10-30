@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('remitentes', function (Blueprint $table) {
             $table->id();
-            $table->string('razon_social',100);
-            $table->string('numero_documento',45);
-            $table->string('email',255);
+            $table->string('razon_social',100)->nullable();
+            $table->string('tipo_documento',50)->nullable();
+            $table->string('numero_documento',45)->nullable();
+            $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

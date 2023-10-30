@@ -45,6 +45,6 @@ class AdminHomeController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/admin');
+        return redirect('/');
     }
 }

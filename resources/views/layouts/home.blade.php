@@ -14,9 +14,7 @@
 </head>
 
 <body>
-
-    @include('layouts.navigation-home')
-
+   
     @yield('content')
 
     @stack('js')

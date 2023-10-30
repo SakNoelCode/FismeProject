@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion',250);
-            $table->string('tipo',50);
             $table->string('nombre_path',100);
+            $table->foreignId('expediente_id')->constrained('expedientes')->onDelete('cascade');
             $table->timestamps();
         });
     }

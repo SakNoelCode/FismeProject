@@ -9,11 +9,11 @@ class Documento extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['descripcion', 'tipo', 'nombre_path'];
+    protected $fillable = ['nombre_path','expediente_id'];
 
     public function expediente()
     {
-        return $this->hasOne(Expediente::class);
+        return $this->belongsTo(Expediente::class);
     }
 
     /**
