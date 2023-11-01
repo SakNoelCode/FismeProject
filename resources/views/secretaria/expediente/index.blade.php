@@ -176,19 +176,26 @@
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Número de expediente
+                                        Númeración
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Correlativo
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Tipo
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Fecha de recepción
                                     </th>
                                     <th scope="col" class="px-6 py-3">
+                                        Asunto
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
                                         Remitente
                                     </th>
+
                                     <th scope="col" class="px-6 py-3">
-                                        Descripción
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Documento
+                                        Archivos
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Estado
@@ -205,38 +212,50 @@
                                         {{$item->numeracion}}
                                     </th>
                                     <td class="px-6 py-4">
-                                        {{date("d/m/Y", strtotime($item->fecha_recepcion))}}
+                                        @if ($item->correlativo)
+                                        {{$item->correlativo}}
+                                        @else
+                                        <button data-modal-target="correlativo-modal-{{$item->id}}" data-modal-toggle="correlativo-modal-{{$item->id}}" type="button" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Asignar</button>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{$item->remitente->razon_social}} - {{$item->remitente->numero_documento}}
+                                        {{$item->tipo}} -
+                                        {{$item->tipo_documento}}
                                     </td>
                                     <td class="px-6 py-4">
-                                        Documento de tipo:{{$item->documento->tipo}} con el asunto de {{$item->documento->descripcion}}
+                                        {{date("d/m/Y", strtotime($item->created_at))}} - {{date("H:i", strtotime($item->created_at))}}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a target="_blank" href="{{route('secretaria.expediente.ver-pdf',['name'=>$item->documento->nombre_path])}}">
-                                            <svg class="w-[20px] h-[20px] text-blue-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-                                                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
-                                                </g>
-                                            </svg>
-                                        </a>
+                                        {{$item->asunto}}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{$item->remitente->razon_social}}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @foreach ($item->documentos as $documento)
+                                        <div class="inline-block mr-2">
+                                            <a target="_blank" href="{{route('secretaria.expediente.ver-pdf',['name'=>$documento->nombre_path])}}">
+                                                <svg class="w-[20px] h-[20px] text-blue-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                                                    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                        <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                                                    </g>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                        @endforeach
 
                                     </td>
                                     <td class="px-6 py-4">
                                         @switch($item->estado)
                                         @case('pendiente')
+                                        <span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->estado}}</span>
+                                        @break
+                                        @case('recepcionado')
                                         <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->estado}}</span>
                                         @break
-                                        @case('en revision')
-                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Revisandose</span>
-                                        @break
-                                        @case('atendido')
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$item->estado}}</span>
-                                        @break
-                                        @case('rechazado')
-                                        <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{$item->estado}}</span>
+                                        @case('archivado')
+                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->estado}}</span>
                                         @break
                                         @endswitch
                                     </td>
@@ -291,7 +310,7 @@
                                                     <div>
                                                         <label for="estado" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado:</label>
                                                         <select id="estado" name="estado" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                            @foreach(['pendiente', 'en revision', 'atendido', 'rechazado'] as $estado)
+                                                            @foreach(['pendiente', 'recepcionado', 'archivado'] as $estado)
                                                             <option value="{{ $estado }}" {{ $item->estado == $estado ? 'selected' : '' }}>
                                                                 {{ ucfirst($estado) }}
                                                             </option>
@@ -349,6 +368,35 @@
                                                     Derivar
                                                 </button>
                                             </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!----Modal para crear correlativo--->
+                                <div id="correlativo-modal-{{$item->id}}" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                    <div class="relative w-full max-w-md max-h-full">
+                                        <!-- Modal content -->
+                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="correlativo-modal-{{$item->id}}">
+                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+                                            <div class="px-6 py-6 lg:px-8">
+                                                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Asignar correlativo</h3>
+                                                <form class="space-y-6" action="{{route('secretaria.expediente.asignarCorrelativo',['id'=>$item->id])}}" method="post">
+                                                    @method('PATCH')
+                                                    @csrf
+                                                    <div>
+                                                        <input type="text" name="correlativo" id="correlativo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="43890" required>
+                                                    </div>
+
+                                                    <button type="submit" class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Asignar</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

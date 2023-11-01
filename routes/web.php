@@ -7,7 +7,6 @@ use App\Http\Controllers\PracticanteController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\TesistaController;
 use App\Http\Controllers\Auth\RegisteredUserTramite;
-use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
@@ -29,7 +28,7 @@ Route::get('/register-user-tramite', [RegisteredUserTramite::class, 'create'])->
 Route::post('/register-user-tramite', [RegisteredUserTramite::class, 'store'])->name('store.user.tramite');
 
 //Rutas para ralizar los trámites 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'role:remitente']], function () {
     Route::prefix('tramites')->group(function () {
         Route::get('/', [TramiteExpedienteController::class, 'showHome'])->name('tramite.showHome');
         Route::get('/CreateDatosRemitente',[TramiteExpedienteController::class,'createDatosRemitente'])->name('tramite.createDatosRemitente');
@@ -67,6 +66,7 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
     Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
     Route::patch('/expediente/derivar/{id}', [SecretariaExpedienteController::class, 'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
+    Route::patch('/expediente/AsignarCorrelativo/{id}', [SecretariaExpedienteController::class, 'asignarCorrelativo'])->name('secretaria.expediente.asignarCorrelativo');
 });
 
 //Rutas para tesista

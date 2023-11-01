@@ -20,7 +20,7 @@ class ExpedienteController extends Controller
         $area_id = Auth::user()->secretaria->area->id;
 
         if ($area_id == 4) {
-            $expedientes = Expediente::latest()->paginate(5);
+            $expedientes = Expediente::latest()->with('documentos')->paginate(5);
         } else {
             $expedientes = Expediente::where('area_id', $area_id)->paginate(5);
         }
@@ -130,5 +130,22 @@ class ExpedienteController extends Controller
         }
 
         return redirect()->route('secretaria.expedientes.index')->with('success', 'Derivación exitosa');
+    }
+
+    public function asignarCorrelativo(Request $request, String $id)
+    {
+        //dd($request->estado);
+        $expediente = Expediente::find($id);
+        try {
+            DB::beginTransaction();
+            $expediente->correlativo = $request->correlativo;
+            $expediente->estado = 'recepcionado';
+            $expediente->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+
+        return redirect()->route('secretaria.expedientes.index')->with('success', 'Correlativo asignado');
     }
 }

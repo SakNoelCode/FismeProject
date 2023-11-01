@@ -50,6 +50,8 @@ class RegisteredUserTramite extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->assignRole('remitente');
+
         Remitente::create([
             'user_id' => $user->id
         ]);

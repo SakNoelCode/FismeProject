@@ -57,13 +57,13 @@
                                 <p class="text-sm">{{$expediente->numeracion}}</p>
                             </div>
 
-                            <!---Código se seguridad--->
+                            <!---Fecha recepción--->
                             <div class="flex mb-2">
-                                <h2 class="text-sm font-bold mr-2">Código se seguridad:</h2>
-                                <p class="text-sm">{{$expediente->codigo}}</p>
+                                <h2 class="text-sm font-bold mr-2">Hora de recepción:</h2>
+                                <p class="text-sm">{{date("d/m/Y", strtotime($expediente->fecha_recepcion))}}</p>
                             </div>
 
-                            <!---Fecha recepción--->
+                            <!---Hora recepción--->
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Fecha de recepción:</h2>
                                 <p class="text-sm">{{date("d/m/Y", strtotime($expediente->fecha_recepcion))}}</p>
@@ -107,13 +107,13 @@
                             <!--Tipo de documento--->
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Tipo de documento:</h2>
-                                <p class="text-sm">{{$expediente->documento->tipo}}</p>
+                                <p class="text-sm">{{$expediente->tipo_documento}}</p>
                             </div>
 
                             <!--Descripcion--->
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Descripción:</h2>
-                                <p class="text-sm">{{$expediente->documento->descripcion}}</p>
+                                <p class="text-sm">Hola</p>
                             </div>
 
                         </div>

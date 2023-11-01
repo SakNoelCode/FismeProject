@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('numeracion',45);
             $table->string('correlativo',50)->nullable();
             $table->string('tipo',50);
-            $table->string('estado',50)->default('recepcionado');
+            $table->string('estado',50)->default('pendiente');
             $table->string('asunto',50);
             $table->string('tipo_documento',20);
             $table->foreignId('remitente_id')->constrained('remitentes')->onDelete('cascade');
