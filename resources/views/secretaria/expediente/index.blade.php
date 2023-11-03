@@ -268,12 +268,20 @@
                                         </button>
                                         <div id="actionsDropdownExpediente-{{$item->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="actionsDropdownButton">
+
+                                                @if ($item->estado != 'archivado')
                                                 <li>
                                                     <a href="{{route('secretaria.expediente.atender',['expediente'=>$item])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Atender</a>
                                                 </li>
                                                 <li>
                                                     <a role="button" id="derivarExpedienteModalButton" data-modal-toggle="derivarExpedienteModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Derivar</a>
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <a href="{{route('secretaria.expediente.atender',['expediente'=>$item])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ver historial</a>
+                                                </li>
+                                                @endif
+
                                                 <li>
                                                     <a role="button" id="estadoModalButton" data-modal-toggle="estadoModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cambiar estado</a>
                                                 </li>

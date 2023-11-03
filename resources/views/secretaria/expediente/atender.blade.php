@@ -38,7 +38,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             <!----Encabezado--->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <!---div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <header>
                     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                         Detalles del expediente
@@ -51,31 +51,31 @@
 
                         <div class="md:w-1/2">
 
-                            <!---Numero de expediente--->
+                            
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Número de expediente:</h2>
                                 <p class="text-sm">{{$expediente->numeracion}}</p>
                             </div>
 
-                            <!---Fecha recepción--->
+                            
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Hora de recepción:</h2>
                                 <p class="text-sm">{{date("d/m/Y", strtotime($expediente->fecha_recepcion))}}</p>
                             </div>
 
-                            <!---Hora recepción--->
+                            
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Fecha de recepción:</h2>
                                 <p class="text-sm">{{date("d/m/Y", strtotime($expediente->fecha_recepcion))}}</p>
                             </div>
 
-                            <!---Area a cargo--->
+                            
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Area a cargo:</h2>
                                 <p class="text-sm">{{$expediente->area->nombre}}</p>
                             </div>
 
-                            <!---Estado--->
+                            
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Estado:</h2>
                                 <p class="text-sm">{{$expediente->estado}}</p>
@@ -86,31 +86,31 @@
                         </div>
 
                         <div class="md:w-1/2">
-                            <!---Remitente--->
+                           
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Remitente:</h2>
                                 <p class="text-sm">{{$expediente->remitente->razon_social}}</p>
                             </div>
 
-                            <!---N° Documento--->
+                            
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">N° Documento:</h2>
                                 <p class="text-sm">{{$expediente->remitente->numero_documento}}</p>
                             </div>
 
-                            <!--Correo--->
+                           
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Correo:</h2>
                                 <p class="text-sm">{{$expediente->remitente->email}}</p>
                             </div>
 
-                            <!--Tipo de documento--->
+                           
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Tipo de documento:</h2>
                                 <p class="text-sm">{{$expediente->tipo_documento}}</p>
                             </div>
 
-                            <!--Descripcion--->
+                           
                             <div class="flex mb-2">
                                 <h2 class="text-sm font-bold mr-2">Descripción:</h2>
                                 <p class="text-sm">Hola</p>
@@ -120,15 +120,16 @@
 
                     </div>
                 </div>
-            </div>
+            </div---->
 
 
+            @if ($expediente->estado != 'archivado')
             <!---Cuerpo--->
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
 
                     <section>
-                        <header>
+                        <!---header>
                             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                                 Atender Expediente
                             </h2>
@@ -136,15 +137,15 @@
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                                 Atender un expediente es dar una respuesta al remitente.
                             </p>
-                        </header>
+                        </header-->
 
 
 
-                        <form action="{{route('secretaria.expediente.historial.store',['expediente'=>$expediente])}}" class="mt-6 space-y-6" enctype="multipart/form-data" method="post">
+                        <form action="{{route('secretaria.expediente.historial.store',['expediente'=>$expediente])}}" class="space-y-6" enctype="multipart/form-data" method="post">
                             @csrf
                             <div>
                                 <x-input-label for="descripcion" :value="__('Escribe una respuesta al remitente *:')" />
-                                <textarea name="descripcion" id="descripcion" rows="4" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'" required autofocus>{{old('descripcion')}}</textarea>
+                                <textarea name="descripcion" id="descripcion" rows="2" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'" required autofocus>{{old('descripcion')}}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('descripcion')" />
                             </div>
 
@@ -167,8 +168,7 @@
 
                 </div>
             </div>
-
-
+            @else
             <!---Tabla de Historiales--->
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
@@ -200,8 +200,8 @@
                                 Encargado
                             </th>
                             <!--th scope="col" class="px-6 py-3">
-                                <span class="sr-only">Edit</span>
-                            </th--->
+                <span class="sr-only">Edit</span>
+            </th--->
                         </tr>
                     </thead>
                     <tbody>
@@ -231,8 +231,8 @@
                                 {{$item->user->name}}
                             </td>
                             <!--td class="px-6 py-4 text-right">
-                                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td--->
+                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            </td--->
                         </tr>
                         @endforeach
                     </tbody>
@@ -240,6 +240,11 @@
                     @endif
                 </table>
             </div>
+            @endif
+
+
+
+
 
         </div>
     </div>

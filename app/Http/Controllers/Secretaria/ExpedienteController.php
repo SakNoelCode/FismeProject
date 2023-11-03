@@ -27,7 +27,7 @@ class ExpedienteController extends Controller
 
         $areas = Area::all();
 
-        return view('secretaria.expediente.index', compact('expedientes','areas'));
+        return view('secretaria.expediente.index', compact('expedientes', 'areas'));
     }
 
     public function verPDF(String $name)
@@ -52,12 +52,13 @@ class ExpedienteController extends Controller
 
     public function addHistorialExpediente(Request $request, Expediente $expediente)
     {
+
         $request->validate([
             'descripcion' => 'required|max:255',
             'documento' => 'nullable|mimes:pdf'
         ]);
 
-        //dd($request);
+
         $fecha_hora = Carbon::now()->toDateTimeString();
         $user_id = Auth::id();
 
@@ -75,7 +76,7 @@ class ExpedienteController extends Controller
 
         try {
             DB::beginTransaction();
-            $expediente->estado = 'en revision';
+            $expediente->estado = 'archivado';
             $expediente->save();
             $expediente->historiales()->create($request->except('documento'));
             DB::commit();
@@ -83,7 +84,7 @@ class ExpedienteController extends Controller
             DB::rollBack();
         }
 
-        return redirect()->route('secretaria.expediente.atender', ['expediente' => $expediente])->with('status', 'historial-stored');
+        return redirect()->route('secretaria.expedientes.index')->with('success', 'Expediente atendido');
     }
 
     public function cambiarEstadoExpediente(Request $request, String $id)
@@ -104,7 +105,7 @@ class ExpedienteController extends Controller
 
     public function derivarAreaExpediente(Request $request, String $id)
     {
-        $area = Area::where('id',$request->area_id)->first();
+        $area = Area::where('id', $request->area_id)->first();
         $expediente = Expediente::find($id);
 
         try {
@@ -115,7 +116,7 @@ class ExpedienteController extends Controller
 
             //Crear un historial
             $fecha_hora = Carbon::now()->toDateTimeString();
-            $descripcion = Auth::user()->name. ' ha derivado el expediente al área de '. $area->nombre;
+            $descripcion = Auth::user()->name . ' ha derivado el expediente al área de ' . $area->nombre;
             $user_id = Auth::id();
 
             $expediente->historiales()->create([

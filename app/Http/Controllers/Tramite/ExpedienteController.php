@@ -65,7 +65,7 @@ class ExpedienteController extends Controller
             'asunto' => 'required|max:50',
             'tipo_documento' => 'required|max:20',
             'area_id' => 'required|integer|exists:areas,id',
-            'documentos' => ['required', 'max:2048']
+            'documentos' => 'required'
         ]);
 
 
@@ -74,7 +74,7 @@ class ExpedienteController extends Controller
             'remitente_id' => Auth::user()->remitente->id
         ]);
 
-        //dd($request);
+        dd($request);
 
         try {
             DB::beginTransaction();
@@ -102,7 +102,7 @@ class ExpedienteController extends Controller
             DB::rollBack();
         }
 
-        return redirect()->route('tramite.indexExpedienteRemitente')->with('success','Expediente enviado');
+        return redirect()->route('tramite.indexExpedienteRemitente')->with('success', 'Expediente enviado');
     }
 
     public function verPDF(String $name)

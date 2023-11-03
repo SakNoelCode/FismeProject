@@ -12,7 +12,7 @@
 
                 <div>
                     <x-input-label for='asunto' value='Asunto(*):' class="text-xs" />
-                    <x-text-input class="text-xs mt-2 block w-full" type='text' id="asunto" name='asunto' autocomplete='asunto' :value="old('asunto')" />
+                    <x-text-input class="text-xs mt-2 block w-full" type='text' id="asunto" required name='asunto' autocomplete='asunto' :value="old('asunto')" />
                     <x-input-error class="mt-2 text-xs" :messages="$errors->get('asunto')" />
                 </div>
 
