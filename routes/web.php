@@ -1,17 +1,19 @@
 <?php
 
-use App\Http\Controllers\ActaController;
+//use App\Http\Controllers\ActaController;
 use App\Http\Controllers\Asesor\ProyectoAsesorController;
-use App\Http\Controllers\DocenteController;
-use App\Http\Controllers\PracticanteController;
+//use App\Http\Controllers\DocenteController;
+//use App\Http\Controllers\PracticanteController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\TesistaController;
 use App\Http\Controllers\Auth\RegisteredUserTramite;
+use App\Http\Controllers\Practicante\AuthController as PracticanteAuthController;
+use App\Http\Controllers\Practicante\PracticaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
-use App\Http\Controllers\DocumentoController;
+//use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\Tramite\ExpedienteController as TramiteExpedienteController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +42,15 @@ Route::group(['middleware' => ['auth', 'role:remitente']], function () {
     });
 });
 
+//Rutas para el inicio de sesión de practicantes
+Route::get('/show-login-practicante',[PracticanteAuthController::class,'showLogin'])->name('practicante.auth.showLogin');
+Route::post('/show-login-practicante',[PracticanteAuthController::class,'login'])->name('practicante.auth.login');
+
+Route::group(['middleware' => ['auth', 'role:practicante']], function () {
+    Route::prefix('practicas')->group(function () {
+        Route::get('/', [PracticaController::class, 'showHome'])->name('practicante.showHome');
+    });
+});
 
 //Rutas para la secretaría:
 Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
@@ -92,17 +103,17 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
 
 //Rutas para director de departamento
 Route::group(['middleware' => ['auth', 'role:director|secretaria']], function () {
-    Route::resource('docentes', DocenteController::class);
-    Route::resource('practicantes', PracticanteController::class);
-    Route::resource('actas', ActaController::class);
+   // Route::resource('docentes', DocenteController::class);
+   // Route::resource('practicantes', PracticanteController::class);
+   // Route::resource('actas', ActaController::class);
 });
 
 //rutas para cargar doc practicas
-Route::get('/crear-doc', [DocumentoController::class, 'create'])->name('practicas.crearDocumento');
-Route::post('/crear-doc', [DocumentoController::class, 'store'])->name('practicas.guardarDocumento');
+//Route::get('/crear-doc', [DocumentoController::class, 'create'])->name('practicas.crearDocumento');
+//Route::post('/crear-doc', [DocumentoController::class, 'store'])->name('practicas.guardarDocumento');
 
 //rutas para envio de emails
-Route::get('/enviar-email/{practicantes}/{archivo}', [DocumentoController::class, 'enviarEmail'])->name('enviarEmail');
+//Route::get('/enviar-email/{practicantes}/{archivo}', [DocumentoController::class, 'enviarEmail'])->name('enviarEmail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

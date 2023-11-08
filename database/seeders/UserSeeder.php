@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Practicante;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -28,5 +29,18 @@ class UserSeeder extends Seeder
             'password' => bcrypt('12345678')
         ]);
         $userDirector->assignRole('director');
+
+         //Practicante
+         $userPracticante = User::create([
+            'name' => 'Eusebio Bustamante',
+            'email' => 'eusebio@untrm.edu.pe',
+            'password' => bcrypt('12345678')
+        ]);
+        $userPracticante->assignRole('practicante');
+        Practicante::create([
+            'user_id' => $userPracticante->id
+        ]);
+
+        
     }
 }

@@ -42,7 +42,7 @@
               <h3 class="mb-4 text-2xl font-semibold">Gestion de Prácticas preprofesionales</h3>
               <p class="font-light text-gray-700 sm:text-lg dark:text-gray-400">Quieres hacer tus prácticas y buscar tramitarlo.</p>
                            
-              <a href="#" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-4">Ingresa aquí</a>
+              <a href="{{route('practicante.auth.showLogin')}}" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-4">Ingresa aquí</a>
           </div>
           
       </div>

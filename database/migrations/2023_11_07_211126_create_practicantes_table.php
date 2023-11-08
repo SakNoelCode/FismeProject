@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('practicantes', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo_estudiante',15);
-            $table->string('telefono',20);
-            $table->foreignId('escuela_id')->constrained('escuelas')->onDelete('cascade');
-            $table->foreignId('asesore_id')->constrained('asesores')->onDelete('cascade');
-            $table->foreignId('practica_id')->unique()->constrained('practicas')->onDelete('cascade');
+            $table->string('codigo_estudiante',15)->nullable();
+            $table->string('telefono',20)->nullable();
+            $table->foreignId('escuela_id')->nullable()->constrained('escuelas')->onDelete('cascade');
+            $table->foreignId('asesore_id')->nullable()->constrained('asesores')->onDelete('cascade');
+            $table->foreignId('practica_id')->nullable()->unique()->constrained('practicas')->onDelete('cascade');
             $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
