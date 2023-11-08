@@ -64,4 +64,8 @@ class User extends Authenticatable
     public function remitente(){
         return $this->hasOne(Remitente::class);
     }
+
+    public function practicante(){
+        return $this->hasOne(Practicante::class);
+    }
 }

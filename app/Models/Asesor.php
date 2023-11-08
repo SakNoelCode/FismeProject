@@ -11,15 +11,26 @@ class Asesor extends Model
 
     protected $table = 'asesores';
 
-    protected $fillable = ['especialidad','escuela_id','user_id'];
+    protected $fillable = ['especialidad', 'escuela_id', 'user_id'];
 
-    public function escuela(){
+    public function escuela()
+    {
         return $this->belongsTo(Escuela::class);
     }
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-    public function proyectos(){
+    public function proyectos()
+    {
         return $this->hasMany(Proyecto::class);
+    }
+    public function comision()
+    {
+        return $this->belongsTo(Comision::class);
+    }
+    public function practicantes()
+    {
+        return $this->hasMany(Practicante::class);
     }
 }

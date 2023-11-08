@@ -18,11 +18,14 @@ class Escuela extends Model
     {
         return $this->hasMany(Asesor::class);
     }
-    
+
     public function secretarias()
     {
         return $this->hasMany(Secretaria::class);
     }
 
-    
+    public function practicantes()
+    {
+        return $this->hasMany(Practicante::class);
+    }
 }

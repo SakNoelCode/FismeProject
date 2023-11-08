@@ -13,14 +13,9 @@ return new class extends Migration
     {
         Schema::create('actas', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->dateTime('fecha');
-            $table->string('estado');
-            $table->text('observaciones',1000);
-            $table->text('archivo');   
-            $table->unsignedBigInteger('practicante_id');
-            $table->foreign('practicante_id')->references('id')->on('practicantes')->onDelete('cascade');
-            $table->string('nombre');
+            $table->string('documento_path',2048);
+            $table->string('tipo',50);
+            $table->foreignId('practica_id')->constrained('practicas')->onDelete('cascade');
             $table->timestamps();
         });
     }

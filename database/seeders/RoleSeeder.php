@@ -38,6 +38,10 @@ class RoleSeeder extends Seeder
                 'name' => 'remitente',
                 'guard_name' => 'web'
             ],
+            [
+                'name' => 'practicante',
+                'guard_name' => 'web'
+            ],
         ]);
     }
 }

@@ -74,7 +74,7 @@ class ExpedienteController extends Controller
             'remitente_id' => Auth::user()->remitente->id
         ]);
 
-        dd($request);
+        //dd($request);
 
         try {
             DB::beginTransaction();
