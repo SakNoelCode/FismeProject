@@ -133,20 +133,5 @@ class ExpedienteController extends Controller
         return redirect()->route('secretaria.expedientes.index')->with('success', 'Derivación exitosa');
     }
 
-    public function asignarCorrelativo(Request $request, String $id)
-    {
-        //dd($request->estado);
-        $expediente = Expediente::find($id);
-        try {
-            DB::beginTransaction();
-            $expediente->correlativo = $request->correlativo;
-            $expediente->estado = 'recepcionado';
-            $expediente->save();
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-        }
-
-        return redirect()->route('secretaria.expedientes.index')->with('success', 'Correlativo asignado');
-    }
+    
 }

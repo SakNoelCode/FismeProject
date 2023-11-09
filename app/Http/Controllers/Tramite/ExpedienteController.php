@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Documento;
 use App\Models\Expediente;
+use App\Models\Practica;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
