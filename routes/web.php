@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth', 'role:remitente']], function () {
         Route::get('/expedientes/create',[TramiteExpedienteController::class,'createExpedienteRemitente'])->name('tramite.createExpedienteRemitente');
         Route::post('/expedientes/create',[TramiteExpedienteController::class,'storeExpedienteRemitente'])->name('tramite.storeExpedienteRemitente');
         Route::get('/expedientes/ver-pdf/{name}',[TramiteExpedienteController::class,'verPdf'])->name('tramite.verPdfExpediente');
+        Route::get('/expedientes/respuestas',[TramiteExpedienteController::class,'showRespuestasExpedienteRemitente'])->name('tramite.showRespuestasExpedienteRemitente');
+        Route::get('/expediente/respuesta/{expediente}',[TramiteExpedienteController::class,'showRespuestaExpedienteRemitente'])->name('tramite.showRespuestaExpedienteRemitente');
     });
 });
 

@@ -112,6 +112,7 @@ class ExpedienteController extends Controller
             DB::beginTransaction();
             //Actualizar area del expediente
             $expediente->area_id = $request->area_id;
+            $expediente->estado = 'proveido';
             $expediente->save();
 
             //Crear un historial
@@ -123,6 +124,13 @@ class ExpedienteController extends Controller
                 'fecha_hora' => $fecha_hora,
                 'descripcion' => $descripcion,
                 'user_id' => $user_id
+            ]);
+
+            //Crear el proveido
+            $expediente->proveidos()->create([
+                'pase' => 'Secretaría',
+                'para' => $area->nombre,
+                'fecha' => Carbon::now()->toDateString()
             ]);
 
             DB::commit();

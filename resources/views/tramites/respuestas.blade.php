@@ -1,10 +1,10 @@
 @extends('layouts.tramite.app-tramite')
 
-@section('title','Expedientes')
+@section('title','Respuestas')
 
 @section('content')
 
-<section class="flex justify-end">
+<!---section class="flex justify-end">
     <x-dropdown align="right" width="52">
         <x-slot name="trigger">
             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -25,7 +25,7 @@
 
         </x-slot>
     </x-dropdown>
-</section>
+</section---->
 
 @include('include.alert')
 
@@ -33,9 +33,9 @@
 
     <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
         <caption class="p-5 text-sm font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-            Tabla de expedientes
+            Tabla de respuestas
             <p class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                Consulte los expedientes que ha realizado.
+                Consulte las respuestas que tiene su expediente.
             </p>
             @if ($expedientes->isEmpty())
             <div class="px-6 py-4">
@@ -46,20 +46,17 @@
 
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3">  
-                    Numeración
-                </th>
                 <th scope="col" class="px-6 py-3">
-                    Fecha y Hora
+                    Numeración
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Asunto
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Documentos
+                    Estado
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Area encargada
+                    Ver registro
                 </th>
             </tr>
         </thead>
@@ -69,28 +66,28 @@
                 <th class="px-6 py-4">
                     {{$item->numeracion}}
                 </th>
-                <th class="px-6 py-4">
-                    {{date("d/m/Y", strtotime($item->created_at))}} - {{date("H.i", strtotime($item->created_at))}}
-                </th>
                 <td class="px-6 py-4">
                     {{$item->asunto}}
                 </td>
                 <td class="px-6 py-4">
-                    @foreach ($item->documentos as $documento)
-                    <div class="inline-block mr-2">
-                        <a target="_blank" href="{{route('tramite.verPdfExpediente',['name'=>$documento->nombre_path])}}">
-                            <svg class="w-[20px] h-[20px] text-blue-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-                                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
-                                </g>
-                            </svg>
-                        </a>
-                    </div>
-                    @endforeach
+                    @switch($item->estado)
+                    @case('pendiente')
+                    <span class="bg-gray-100 text-gray-800 font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->estado}}</span>
+                    @break
+                    @case('proveido')
+                    <span class="bg-green-100 text-green-800 font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->estado}}</span>
+                    @break
+                    @case('archivado')
+                    <span class="bg-yellow-100 text-yellow-800 font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->estado}}</span>
+                    @break
+                    @endswitch
                 </td>
                 <td class="px-6 py-4">
-                    {{$item->area->nombre}}
+                    <a href="{{route('tramite.showRespuestaExpedienteRemitente',['expediente'=>$item])}}">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 17V2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M5 15V1m8 18v-4" />
+                        </svg>
+                    </a>
                 </td>
             </tr>
             @endforeach

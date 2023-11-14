@@ -6,13 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Documento;
 use App\Models\Expediente;
-use App\Models\Practica;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rules\File;
 
 class ExpedienteController extends Controller
 {
@@ -119,5 +117,16 @@ class ExpedienteController extends Controller
         } else {
             return redirect()->back()->withErrors(['El archivo PDF no existe.']);
         }
+    }
+
+    public function showRespuestasExpedienteRemitente()
+    {
+        $expedientes = Auth()->user()->remitente->expedientes;
+        return view('tramites.respuestas',compact('expedientes'));
+    }
+
+    public function showRespuestaExpedienteRemitente(Expediente $expediente)
+    {
+        return view('tramites.respuesta',compact('expediente'));
     }
 }

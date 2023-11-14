@@ -241,7 +241,7 @@
                                         @case('pendiente')
                                         <span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->estado}}</span>
                                         @break
-                                        @case('recepcionado')
+                                        @case('proveido')
                                         <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->estado}}</span>
                                         @break
                                         @case('archivado')
@@ -264,7 +264,7 @@
                                                     <a href="{{route('secretaria.expediente.atender',['expediente'=>$item])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Atender</a>
                                                 </li>
                                                 <li>
-                                                    <a role="button" id="derivarExpedienteModalButton" data-modal-toggle="derivarExpedienteModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Derivar</a>
+                                                    <a role="button" id="derivarExpedienteModalButton" data-modal-toggle="derivarExpedienteModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Realizar proveído</a>
                                                 </li>
                                                 @else
                                                 <li>
@@ -308,7 +308,7 @@
                                                     <div>
                                                         <label for="estado" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado:</label>
                                                         <select id="estado" name="estado" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                            @foreach(['pendiente', 'recepcionado', 'archivado'] as $estado)
+                                                            @foreach(['pendiente', 'proveido', 'archivado'] as $estado)
                                                             <option value="{{ $estado }}" {{ $item->estado == $estado ? 'selected' : '' }}>
                                                                 {{ ucfirst($estado) }}
                                                             </option>
@@ -334,7 +334,7 @@
                                             <!-- Modal header -->
                                             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                    Derivar expediente a otra área
+                                                    Proveido
                                                 </h3>
                                                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="derivarExpedienteModal-{{$item->id}}">
                                                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -343,6 +343,7 @@
                                                     <span class="sr-only">Close modal</span>
                                                 </button>
                                             </div>
+                                            <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Crea un proveído, de esta manera el documento será recepcionada por el areá que el corresponde</p>
                                             <!-- Modal body -->
                                             <form action="{{route('secretaria.expediente.derivarArea',['id'=>$item->id])}}" method="post">
                                                 @csrf
@@ -363,7 +364,7 @@
 
                                                 </div>
                                                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                    Derivar
+                                                    Crear proveído
                                                 </button>
                                             </form>
                                         </div>

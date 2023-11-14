@@ -12,5 +12,9 @@
         Expedientes
     </x-nav-link-tramite>
 
+    <x-nav-link-tramite :href="route('tramite.showRespuestasExpedienteRemitente')" :active="request()->routeIs('tramite.showRespuestasExpedienteRemitente')">
+        Respuestas
+    </x-nav-link-tramite>
+
     
 </div><!-- /Menu -->
