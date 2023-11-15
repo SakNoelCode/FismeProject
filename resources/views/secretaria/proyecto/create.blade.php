@@ -31,82 +31,72 @@
         </nav>
     </x-slot>
 
-    <section class="bg-white dark:bg-gray-900">
-        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-10">
+    <section class="bg-gray-100 dark:bg-gray-900">
+        <div class="py-3 px-4 mx-auto max-w-2xl lg:py-5">
 
-            <div class="p-2 sm:p-4 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <header>
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        {{ __('Nota:') }}
-                    </h2>
+            <div class="bg-white p-3 sm:rounded-lg">
+                <h2 class="my-4 text-xl font-bold text-gray-900 dark:text-white">Crear nuevo proyecto de tesis</h2>
 
-                    <p class="my-1 text-sm text-gray-600 dark:text-gray-400">
-                        {{ __("Para que el proyecto pueda ser creado, el tesista ya debe haber comprado su carpeta de Tesis y
-                            debe presentar los siguientes formatos:") }}
-                    <ul class="text-sm space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
-                        <li>
-                            Solicitud dirigida al decano de la facultad (Anexo 3A)
-                        </li>
-                        <li>
-                            Proyecto de tesis triplicado y anillado, con la carátula (Anexo 3B) y estructura (Anexo 3C)
-                        </li>
-                        <li>
-                            Compromiso de asesoramiento de tesis (Anexo 3D)
-                        </li>
-                    </ul>
-                    </p>
+                <form action="{{route('proyectos.store')}}" method="post">
+                    @csrf
 
-                </header>
+                    @include('include.errors')
+
+                    <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                        <div class="sm:col-span-2">
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre del proyecto*:</label>
+                            <input type="text" name="name" id="name" value="{{old('name')}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" autofocus required="">
+                        </div>
+                        <div>
+                            <label for="tesista_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tesista*:</label>
+                            <select id="tesista_id" name="tesista_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option selected disabled>Seleccione:</option>
+                                @foreach ($tesistas as $item)
+                                <option value="{{$item->id}}" {{old('tesista_id') == $item->id ? 'selected' : ''}}>{{$item->user->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="asesor_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asesor*:</label>
+                            <select id="asesor_id" name="asesor_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option selected disabled>Seleccione:</option>
+                                @foreach ($asesores as $item)
+                                <option value="{{$item->id}}" {{old('asesor_id') == $item->id ? 'selected' : ''}}>{{$item->user->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="empresa_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Empresa*:</label>
+                            <select id="empresa_id" name="empresa_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option selected disabled>Seleccione:</option>
+                                @foreach ($empresas as $item)
+                                <option value="{{$item->id}}" {{old('empresa_id') == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="descripcion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción:</label>
+                            <textarea id="descripcion" name="descripcion" style="resize: none;" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Alguna descripción del proyecto aquí">{{old('descripcion')}}</textarea>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <input required id="checkbox-solicitud" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer">
+                            <label for="checkbox-solicitud" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer">El tesista presento la Solicitud dirigida al decano de la facultad (Anexo 3A).</label>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <input required id="checkbox-proyecto" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer">
+                            <label for="checkbox-proyecto" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer">El tesista presento el Proyecto de tesis triplicado y anillado, con la carátula (Anexo 3B) y estructura (Anexo 3C).</label>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <input required id="checkbox-compromiso" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer">
+                            <label for="checkbox-compromiso" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer">El tesista presento su Compromiso de asesoramiento de tesis (Anexo 3D).</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Guardar registro
+                    </button>
+                </form>
             </div>
 
-            <h2 class="my-4 text-xl font-bold text-gray-900 dark:text-white">Crear nuevo proyecto de tesis</h2>
-
-            <form action="{{route('proyectos.store')}}" method="post">
-                @csrf
-
-                @include('include.errors')
-
-                <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                    <div class="sm:col-span-2">
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre del proyecto*:</label>
-                        <input type="text" name="name" id="name" value="{{old('name')}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="">
-                    </div>
-                    <div>
-                        <label for="tesista_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tesista*:</label>
-                        <select id="tesista_id" name="tesista_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected disabled>Seleccione:</option>
-                            @foreach ($tesistas as $item)
-                            <option value="{{$item->id}}" {{old('tesista_id') == $item->id ? 'selected' : ''}}>{{$item->user->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label for="asesor_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asesor*:</label>
-                        <select id="asesor_id" name="asesor_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected disabled>Seleccione:</option>
-                            @foreach ($asesores as $item)
-                            <option value="{{$item->id}}" {{old('asesor_id') == $item->id ? 'selected' : ''}}>{{$item->user->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label for="empresa_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Empresa*:</label>
-                        <select id="empresa_id" name="empresa_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected disabled>Seleccione:</option>
-                            @foreach ($empresas as $item)
-                            <option value="{{$item->id}}" {{old('empresa_id') == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label for="descripcion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción:</label>
-                        <textarea id="descripcion" name="descripcion" style="resize: none;" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Alguna descripción del proyecto aquí">{{old('descripcion')}}</textarea>
-                    </div>
-                </div>
-                <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                    Guardar registro
-                </button>
-            </form>
         </div>
     </section>
 
