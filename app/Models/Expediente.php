@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 
 class Expediente extends Model
@@ -19,6 +20,7 @@ class Expediente extends Model
     {
         parent::boot();
 
+        /*
         static::creating(function ($expediente) {
             $ultimoNumeroDocumento = Documento::count();
             $ultimoNumeroPractica = Practica::count();
@@ -29,12 +31,28 @@ class Expediente extends Model
                 $numeroMayor = max([$ultimoNumeroDocumento, $ultimoNumeroPractica]);
                 $expediente->numeracion = sprintf('%05d', $numeroMayor + 1);
             }
+        });*/
+
+        // Agregar un evento creating para generar la numeración automática
+        static::creating(function ($model) {
+            $ultimoNumero = static::max('id'); // Obtener el último número en la tabla
+
+            // Si no hay registros, establecer el número inicial
+            $nuevoNumero = $ultimoNumero ? $ultimoNumero + 1 : 1;
+
+            // Formatear el número con ceros a la izquierda
+            $model->numeracion = sprintf('%05d', $nuevoNumero);
         });
     }
 
+    /*
     public function remitente()
     {
         return $this->belongsTo(Remitente::class);
+    }*/
+    public function expedientable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     public function area()

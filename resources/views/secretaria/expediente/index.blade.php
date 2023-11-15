@@ -219,8 +219,11 @@
                                         {{$item->asunto}}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{$item->remitente->razon_social}}
-                                    </td>
+                                        @if ($item->expedientable instanceof App\Models\Secretaria)
+                                        {{$item->expedientable->user->name}}
+                                        @else
+                                        {{$item->expedientable->razon_social}}
+                                        @endif
                                     <td class="px-6 py-4">
                                         @foreach ($item->documentos as $documento)
                                         <div class="inline-block mr-2">
@@ -234,7 +237,6 @@
                                             </a>
                                         </div>
                                         @endforeach
-
                                     </td>
                                     <td class="px-6 py-4">
                                         @switch($item->estado)
@@ -263,18 +265,26 @@
                                                 <li>
                                                     <a href="{{route('secretaria.expediente.atender',['expediente'=>$item])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Atender</a>
                                                 </li>
-                                                <li>
-                                                    <a role="button" id="derivarExpedienteModalButton" data-modal-toggle="derivarExpedienteModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Realizar proveído</a>
-                                                </li>
+                                                    <!----El proveído solo lo realiza la persona a cargo de secretaría----->
+                                                    @if (Auth::user()->secretaria->area_id == 4)
+                                                    <li>
+                                                        <a role="button" id="derivarExpedienteModalButton" data-modal-toggle="derivarExpedienteModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Realizar proveído</a>
+                                                    </li>
+                                                    @endif
+
                                                 @else
                                                 <li>
                                                     <a href="{{route('secretaria.expediente.atender',['expediente'=>$item])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ver historial</a>
                                                 </li>
                                                 @endif
 
-                                                <li>
+                                                 <!----El cambio de estado solo lo realiza la persona a cargo de secretaría----->
+                                                 @if (Auth::user()->secretaria->area_id == 4)
+                                                 <li>
                                                     <a role="button" id="estadoModalButton" data-modal-toggle="estadoModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cambiar estado</a>
                                                 </li>
+                                                @endif
+                                                
 
                                             </ul>
                                         </div>

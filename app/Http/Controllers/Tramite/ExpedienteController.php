@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Documento;
 use App\Models\Expediente;
+use App\Models\Remitente;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,15 +71,14 @@ class ExpedienteController extends Controller
 
         $request->merge([
             'tipo' => 'externo',
-            'remitente_id' => Auth::user()->remitente->id
         ]);
 
-        //dd($request);
+        $remitente = Remitente::find(Auth::user()->remitente->id);
 
         try {
             DB::beginTransaction();
             //Create expediente
-            $expediente = Expediente::create($request->only(['tipo', 'asunto', 'tipo_documento', 'remitente_id', 'area_id']));
+            $expediente = $remitente->expedientes()->create($request->only(['tipo', 'asunto', 'tipo_documento', 'remitente_id', 'area_id']));
 
             //Create documentos
             if ($request->hasFile('documentos')) {

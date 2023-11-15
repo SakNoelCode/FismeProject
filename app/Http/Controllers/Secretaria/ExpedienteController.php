@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Secretaria;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Documento;
 use App\Models\Expediente;
+use App\Models\Secretaria;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,7 +24,7 @@ class ExpedienteController extends Controller
         if ($area_id == 4) {
             $expedientes = Expediente::latest()->with('documentos')->paginate(5);
         } else {
-            $expedientes = Expediente::where('area_id', $area_id)->paginate(5);
+            $expedientes = Expediente::where('area_id', $area_id)->whereIn('estado',['proveido','archivado'])->paginate(5);
         }
 
         $areas = Area::all();
@@ -141,5 +143,53 @@ class ExpedienteController extends Controller
         return redirect()->route('secretaria.expedientes.index')->with('success', 'Derivación exitosa');
     }
 
-    
+    public function enviarDocumento()
+    {
+        $areas = Area::all();
+        return view('secretaria.expediente.enviar-documento', compact('areas'));
+    }
+
+    public function storeEnviarDocumento(Request $request)
+    {
+        $request->validate([
+            'asunto' => 'required|max:50',
+            'tipo_documento' => 'required|max:20',
+            'area_id' => 'required|integer|exists:areas,id',
+            'documentos' => 'required'
+        ]);
+
+        $request->merge([
+            'tipo' => 'interno'
+        ]);
+
+        $secretaria = Secretaria::find(Auth::user()->secretaria->id);
+
+        try {
+            DB::beginTransaction();
+            //Create expediente
+            $expediente = $secretaria->expedientes()->create($request->only(['tipo', 'asunto', 'tipo_documento', 'remitente_id', 'area_id']));
+
+            //Create documentos
+            if ($request->hasFile('documentos')) {
+                $files = $request->file('documentos');
+
+                foreach ($files as $file) {
+                    $nameDocumento = (new Documento())->guardarDocumento($file);
+
+                    Documento::create([
+                        'nombre_path' => $nameDocumento,
+                        'expediente_id' => $expediente->id,
+                    ]);
+                }
+            }
+
+
+            DB::commit();
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+        }
+
+        return redirect()->route('secretaria.expediente.enviarDocumento')->with('success', 'Expediente enviado');
+    }
 }

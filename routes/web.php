@@ -79,6 +79,8 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
     Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
     Route::patch('/expediente/derivar/{id}', [SecretariaExpedienteController::class, 'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
+    Route::get('/enviarDocumento',[SecretariaExpedienteController::class,'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
+    Route::post('/enviarDocumento',[SecretariaExpedienteController::class,'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
     //Route::patch('/expediente/AsignarCorrelativo/{id}', [SecretariaExpedienteController::class, 'asignarCorrelativo'])->name('secretaria.expediente.asignarCorrelativo');
 });
 

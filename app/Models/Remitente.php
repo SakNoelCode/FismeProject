@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Remitente extends Model
 {
@@ -11,12 +12,13 @@ class Remitente extends Model
 
     protected $guarded = ['id'];
 
-    public function expedientes(){
-        return $this->hasMany(Expediente::class);
+    public function expedientes(): MorphMany
+    {
+        return $this->morphMany(Expediente::class, 'expedientable');
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-
 }

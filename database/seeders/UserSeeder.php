@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Practicante;
+use App\Models\Secretaria;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -39,6 +40,20 @@ class UserSeeder extends Seeder
         $userPracticante->assignRole('practicante');
         Practicante::create([
             'user_id' => $userPracticante->id
+        ]);
+
+         //Secretaría
+         $userSecretaria = User::create([
+            'name' => 'Ederly Ramírez',
+            'email' => 'fisme@untrm.edu.pe',
+            'password' => bcrypt('12345678')
+        ]);
+        $userSecretaria->assignRole('secretaria');
+        Secretaria::create([
+            'cargo' => 'Principal',
+            'escuela_id' => 1,
+            'user_id' =>$userSecretaria->id,
+            'area_id' => 4
         ]);
 
         

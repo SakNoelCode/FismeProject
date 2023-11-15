@@ -27,7 +27,7 @@ class AreaSeeder extends Seeder
                 'descripcion' => 'Area encargada de asuntos de la fisme'
             ],
             [
-                'nombre' => 'Mesa de partes',
+                'nombre' => 'Secretaría',
                 'descripcion' => 'Area donde entran todos los documentos'
             ],
             [

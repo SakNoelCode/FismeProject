@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('estado',50)->default('pendiente');
             $table->string('asunto',50);
             $table->string('tipo_documento',20);
-            $table->foreignId('remitente_id')->constrained('remitentes')->onDelete('cascade');
+            //$table->foreignId('remitente_id')->constrained('remitentes')->onDelete('cascade');
             $table->foreignId('area_id')->constrained('areas')->onDelete('cascade');
+            $table->unsignedBigInteger('expedientable_id');
+            $table->string('expedientable_type');
             $table->timestamps();
         });
     }
