@@ -26,9 +26,6 @@
                         {{ __('Expedientes') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('secretaria.expediente.enviarDocumento')" :active="request()->routeIs('secretaria.expediente.enviarDocumento')">
-                        {{ __('Enviar documentos') }}
-                    </x-nav-link>
                     @endhasrole
 
                     <!--Menú Tesista--->
@@ -113,9 +110,6 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
                 {{ __('Expedientes') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('secretaria.expediente.enviarDocumento')" :active="request()->routeIs('secretaria.expediente.enviarDocumento')">
-                {{ __('Enviar documentos') }}
             </x-responsive-nav-link>
             @endhasrole
 

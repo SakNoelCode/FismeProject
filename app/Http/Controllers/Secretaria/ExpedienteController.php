@@ -28,8 +28,9 @@ class ExpedienteController extends Controller
         }
 
         $areas = Area::all();
+        $expedientesEnviados = Auth::user()->secretaria->expedientes;
 
-        return view('secretaria.expediente.index', compact('expedientes', 'areas'));
+        return view('secretaria.expediente.index', compact('expedientes', 'areas','expedientesEnviados'));
     }
 
     public function verPDF(String $name)

@@ -79,9 +79,8 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
     Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
     Route::patch('/expediente/derivar/{id}', [SecretariaExpedienteController::class, 'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
-    Route::get('/enviarDocumento',[SecretariaExpedienteController::class,'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
-    Route::post('/enviarDocumento',[SecretariaExpedienteController::class,'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
-    //Route::patch('/expediente/AsignarCorrelativo/{id}', [SecretariaExpedienteController::class, 'asignarCorrelativo'])->name('secretaria.expediente.asignarCorrelativo');
+    Route::get('/expedientes/enviarDocumento',[SecretariaExpedienteController::class,'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
+    Route::post('/expedientes/enviarDocumento',[SecretariaExpedienteController::class,'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
 });
 
 //Rutas para tesista
@@ -107,17 +106,8 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
 
 //Rutas para director de departamento
 Route::group(['middleware' => ['auth', 'role:director|secretaria']], function () {
-   // Route::resource('docentes', DocenteController::class);
-   // Route::resource('practicantes', PracticanteController::class);
-   // Route::resource('actas', ActaController::class);
+
 });
-
-//rutas para cargar doc practicas
-//Route::get('/crear-doc', [DocumentoController::class, 'create'])->name('practicas.crearDocumento');
-//Route::post('/crear-doc', [DocumentoController::class, 'store'])->name('practicas.guardarDocumento');
-
-//rutas para envio de emails
-//Route::get('/enviar-email/{practicantes}/{archivo}', [DocumentoController::class, 'enviarEmail'])->name('enviarEmail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
