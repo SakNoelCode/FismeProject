@@ -28,8 +28,12 @@ Route::get('/login-tramite', [RegisteredUserTramite::class, 'login'])->name('log
 Route::post('/login-tramite', [RegisteredUserTramite::class, 'loginAutenticate'])->name('login.autenticate.tramite');
 Route::get('/register-user-tramite', [RegisteredUserTramite::class, 'create'])->name('register.user.tramite');
 Route::post('/register-user-tramite', [RegisteredUserTramite::class, 'store'])->name('store.user.tramite');
+Route::get('/login-practicante',[PracticanteAuthController::class,'showLogin'])->name('practicante.auth.showLogin');
+Route::post('/login-practicante',[PracticanteAuthController::class,'login'])->name('practicante.auth.login');
+Route::get('/register-practicante', [PracticanteAuthController::class, 'showRegister'])->name('practicante.auth.showRegister');
+Route::post('/register-practicante', [PracticanteAuthController::class, 'register'])->name('practicante.auth.register');
 
-//Rutas para ralizar los trámites 
+//Rutas para ralizar los trámites externos
 Route::group(['middleware' => ['auth', 'role:remitente']], function () {
     Route::prefix('tramites')->group(function () {
         Route::get('/', [TramiteExpedienteController::class, 'showHome'])->name('tramite.showHome');
@@ -44,13 +48,11 @@ Route::group(['middleware' => ['auth', 'role:remitente']], function () {
     });
 });
 
-//Rutas para el inicio de sesión de practicantes
-Route::get('/show-login-practicante',[PracticanteAuthController::class,'showLogin'])->name('practicante.auth.showLogin');
-Route::post('/show-login-practicante',[PracticanteAuthController::class,'login'])->name('practicante.auth.login');
-
 Route::group(['middleware' => ['auth', 'role:practicante']], function () {
     Route::prefix('practicas')->group(function () {
         Route::get('/', [PracticaController::class, 'showHome'])->name('practicante.showHome');
+        Route::get('/create-practicante', [PracticaController::class, 'createPracticante'])->name('practicante.createPracticante');
+        Route::post('/create-practicante', [PracticaController::class, 'storePracticante'])->name('practicante.storePracticante');
     });
 });
 

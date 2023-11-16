@@ -15,12 +15,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-         //Usuario administrador
-         $userAdmin = User::create([
+        //Usuario administrador
+        $userAdmin = User::create([
             'name' => 'Principal',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('12345678')
-        ]);      
+        ]);
         $userAdmin->assignRole('administrador');
 
         //Director de escuela
@@ -31,19 +31,8 @@ class UserSeeder extends Seeder
         ]);
         $userDirector->assignRole('director');
 
-         //Practicante
-         $userPracticante = User::create([
-            'name' => 'Eusebio Bustamante',
-            'email' => 'eusebio@untrm.edu.pe',
-            'password' => bcrypt('12345678')
-        ]);
-        $userPracticante->assignRole('practicante');
-        Practicante::create([
-            'user_id' => $userPracticante->id
-        ]);
-
-         //Secretaría
-         $userSecretaria = User::create([
+        //Secretaría
+        $userSecretaria = User::create([
             'name' => 'Ederly Ramírez',
             'email' => 'fisme@untrm.edu.pe',
             'password' => bcrypt('12345678')
@@ -52,10 +41,8 @@ class UserSeeder extends Seeder
         Secretaria::create([
             'cargo' => 'Principal',
             'escuela_id' => 1,
-            'user_id' =>$userSecretaria->id,
+            'user_id' => $userSecretaria->id,
             'area_id' => 4
         ]);
-
-        
     }
 }
