@@ -1,19 +1,16 @@
 <?php
 
-//use App\Http\Controllers\ActaController;
 use App\Http\Controllers\Asesor\ProyectoAsesorController;
-//use App\Http\Controllers\DocenteController;
-//use App\Http\Controllers\PracticanteController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\TesistaController;
 use App\Http\Controllers\Auth\RegisteredUserTramite;
+use App\Http\Controllers\Director\ComisionController;
 use App\Http\Controllers\Practicante\AuthController as PracticanteAuthController;
 use App\Http\Controllers\Practicante\PracticaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
-//use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\Tramite\ExpedienteController as TramiteExpedienteController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,8 +25,8 @@ Route::get('/login-tramite', [RegisteredUserTramite::class, 'login'])->name('log
 Route::post('/login-tramite', [RegisteredUserTramite::class, 'loginAutenticate'])->name('login.autenticate.tramite');
 Route::get('/register-user-tramite', [RegisteredUserTramite::class, 'create'])->name('register.user.tramite');
 Route::post('/register-user-tramite', [RegisteredUserTramite::class, 'store'])->name('store.user.tramite');
-Route::get('/login-practicante',[PracticanteAuthController::class,'showLogin'])->name('practicante.auth.showLogin');
-Route::post('/login-practicante',[PracticanteAuthController::class,'login'])->name('practicante.auth.login');
+Route::get('/login-practicante', [PracticanteAuthController::class, 'showLogin'])->name('practicante.auth.showLogin');
+Route::post('/login-practicante', [PracticanteAuthController::class, 'login'])->name('practicante.auth.login');
 Route::get('/register-practicante', [PracticanteAuthController::class, 'showRegister'])->name('practicante.auth.showRegister');
 Route::post('/register-practicante', [PracticanteAuthController::class, 'register'])->name('practicante.auth.register');
 
@@ -37,22 +34,25 @@ Route::post('/register-practicante', [PracticanteAuthController::class, 'registe
 Route::group(['middleware' => ['auth', 'role:remitente']], function () {
     Route::prefix('tramites')->group(function () {
         Route::get('/', [TramiteExpedienteController::class, 'showHome'])->name('tramite.showHome');
-        Route::get('/CreateDatosRemitente',[TramiteExpedienteController::class,'createDatosRemitente'])->name('tramite.createDatosRemitente');
-        Route::post('/CreateDatosRemitente',[TramiteExpedienteController::class,'storeDatosRemitente'])->name('tramite.storeDatosRemitente');
-        Route::get('/expedientes',[TramiteExpedienteController::class,'indexExpedienteRemitente'])->name('tramite.indexExpedienteRemitente');
-        Route::get('/expedientes/create',[TramiteExpedienteController::class,'createExpedienteRemitente'])->name('tramite.createExpedienteRemitente');
-        Route::post('/expedientes/create',[TramiteExpedienteController::class,'storeExpedienteRemitente'])->name('tramite.storeExpedienteRemitente');
-        Route::get('/expedientes/ver-pdf/{name}',[TramiteExpedienteController::class,'verPdf'])->name('tramite.verPdfExpediente');
-        Route::get('/expedientes/respuestas',[TramiteExpedienteController::class,'showRespuestasExpedienteRemitente'])->name('tramite.showRespuestasExpedienteRemitente');
-        Route::get('/expediente/respuesta/{expediente}',[TramiteExpedienteController::class,'showRespuestaExpedienteRemitente'])->name('tramite.showRespuestaExpedienteRemitente');
+        Route::get('/CreateDatosRemitente', [TramiteExpedienteController::class, 'createDatosRemitente'])->name('tramite.createDatosRemitente');
+        Route::post('/CreateDatosRemitente', [TramiteExpedienteController::class, 'storeDatosRemitente'])->name('tramite.storeDatosRemitente');
+        Route::get('/expedientes', [TramiteExpedienteController::class, 'indexExpedienteRemitente'])->name('tramite.indexExpedienteRemitente');
+        Route::get('/expedientes/create', [TramiteExpedienteController::class, 'createExpedienteRemitente'])->name('tramite.createExpedienteRemitente');
+        Route::post('/expedientes/create', [TramiteExpedienteController::class, 'storeExpedienteRemitente'])->name('tramite.storeExpedienteRemitente');
+        Route::get('/expedientes/ver-pdf/{name}', [TramiteExpedienteController::class, 'verPdf'])->name('tramite.verPdfExpediente');
+        Route::get('/expedientes/respuestas', [TramiteExpedienteController::class, 'showRespuestasExpedienteRemitente'])->name('tramite.showRespuestasExpedienteRemitente');
+        Route::get('/expediente/respuesta/{expediente}', [TramiteExpedienteController::class, 'showRespuestaExpedienteRemitente'])->name('tramite.showRespuestaExpedienteRemitente');
     });
 });
 
+//Rutas para el practicante
 Route::group(['middleware' => ['auth', 'role:practicante']], function () {
     Route::prefix('practicas')->group(function () {
         Route::get('/', [PracticaController::class, 'showHome'])->name('practicante.showHome');
         Route::get('/create-practicante', [PracticaController::class, 'createPracticante'])->name('practicante.createPracticante');
         Route::post('/create-practicante', [PracticaController::class, 'storePracticante'])->name('practicante.storePracticante');
+        Route::get('/create-practica', [PracticaController::class, 'createPractica'])->name('practicante.createPractica');
+        Route::post('/create-practica', [PracticaController::class, 'storePractica'])->name('practicante.storePractica');
     });
 });
 
@@ -81,8 +81,8 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
     Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
     Route::patch('/expediente/derivar/{id}', [SecretariaExpedienteController::class, 'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
-    Route::get('/expedientes/enviarDocumento',[SecretariaExpedienteController::class,'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
-    Route::post('/expedientes/enviarDocumento',[SecretariaExpedienteController::class,'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
+    Route::get('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
+    Route::post('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
 });
 
 //Rutas para tesista
@@ -107,8 +107,10 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
 });
 
 //Rutas para director de departamento
-Route::group(['middleware' => ['auth', 'role:director|secretaria']], function () {
-
+Route::group(['middleware' => ['auth', 'role:director']], function () {
+    Route::get('/comision', [ComisionController::class, 'index'])->name('director.comision.index');
+    Route::get('/comision/create', [ComisionController::class, 'create'])->name('director.comision.create');
+    Route::post('/comision/create', [ComisionController::class, 'update'])->name('director.comision.update');
 });
 
 Route::middleware('auth')->group(function () {

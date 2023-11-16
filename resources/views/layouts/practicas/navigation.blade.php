@@ -8,8 +8,9 @@
         Registro
     </x-nav-link-tramite>
 
-    
-
+    <x-nav-link-tramite :href="route('practicante.createPractica')" :active="request()->routeIs('practicante.createPractica')">
+        Practica
+    </x-nav-link-tramite>
 
     
 </div><!-- /Menu -->

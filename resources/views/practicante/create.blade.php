@@ -8,7 +8,13 @@
         @csrf
 
         <div class="mx-auto max-w-screen-xl">
-            <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+            <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-6 lg:space-y-0">
+
+                <div>
+                    <x-input-label for='razon_social' value='Nombres y Apellidos(*):' class="text-xs" />
+                    <x-text-input required type='text' id="razon_social" name='razon_social' :value="old('razon_social',Auth::user()->practicante->razon_social)" class="text-xs mt-2 block w-full" />
+                    <x-input-error :messages="$errors->get('razon_social')" class="mt-2 text-xs" />
+                </div>
 
                 <div>
                     <x-input-label for='codigo_estudiante' value='Código de estudiante(*):' class="text-xs" />
@@ -30,7 +36,6 @@
                             {{ ucfirst($escuela->name) }}
                         </option>
                         @endif
-                        
                         @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('escuela_id')" class="text-xs mt-2" />
@@ -39,7 +44,7 @@
                 <div>
                     <x-input-label for='telefono' value='Teléfono:' class="text-xs" />
                     <x-text-input type='number' id="telefono" name='telefono' :value="old('telefono',Auth::user()->practicante->telefono)" class="text-xs mt-2 block w-full" />
-                    <x-input-error :messages="$errors->get('telefono')" class="mt-2 text-xs"/>
+                    <x-input-error :messages="$errors->get('telefono')" class="mt-2 text-xs" />
                 </div>
 
             </div>

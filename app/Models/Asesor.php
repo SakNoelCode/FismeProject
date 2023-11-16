@@ -11,7 +11,7 @@ class Asesor extends Model
 
     protected $table = 'asesores';
 
-    protected $fillable = ['especialidad', 'escuela_id', 'user_id'];
+    protected $fillable = ['especialidad', 'escuela_id', 'user_id','comision_id'];
 
     public function escuela()
     {

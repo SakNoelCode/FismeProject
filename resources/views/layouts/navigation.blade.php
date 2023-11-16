@@ -44,8 +44,8 @@
 
                      <!--Menú Director-->
                      @hasrole('director')
-                    <x-nav-link :href="route('docentes.index')" :active="request()->routeIs('docentes.index')">
-                        {{ __('Docentes') }}
+                     <x-nav-link :href="route('director.comision.index')" :active="request()->routeIs('director.comision.index')">
+                        {{ __('Comisión') }}
                     </x-nav-link>
                     @endhasrole
                 </div>
@@ -129,8 +129,8 @@
 
             <!--Menú  Director-->
             @hasrole('director')
-            <x-responsive-nav-link :href="route('docentes.index')" :active="request()->routeIs('docentes.index')">
-                {{ __('Docentes') }}
+            <x-responsive-nav-link :href="route('director.comision.index')" :active="request()->routeIs('director.comision.index')">
+                {{ __('Comisión') }}
             </x-responsive-nav-link>
             @endhasrole
 

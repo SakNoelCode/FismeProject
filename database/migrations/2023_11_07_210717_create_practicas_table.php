@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('practicas', function (Blueprint $table) {
             $table->id();
             $table->string('numeracion');
-            $table->dateTime('fecha_sustentacion');
+            $table->dateTime('fecha_sustentacion')->nullable();
             $table->string('etapa',50)->default('inicio');
             $table->string('estado',50)->default('neutro');
             $table->timestamps();

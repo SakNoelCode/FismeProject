@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('practicantes', function (Blueprint $table) {
             $table->id();
+            $table->string('razon_social',250)->nullable();
             $table->string('codigo_estudiante',15)->nullable();
             $table->string('telefono',20)->nullable();
             $table->foreignId('escuela_id')->nullable()->constrained('escuelas')->onDelete('cascade');

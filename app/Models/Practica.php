@@ -17,16 +17,15 @@ class Practica extends Model
     {
         parent::boot();
 
-        static::creating(function ($practica) {
-            $ultimoNumeroDocumento = Documento::count();
-            $ultimoNumeroPractica = Practica::count();
+        // Agregar un evento creating para generar la numeración automática
+        static::creating(function ($model) {
+            $ultimoNumero = static::max('id'); // Obtener el último número en la tabla
 
-            if ($ultimoNumeroDocumento == 0 && $ultimoNumeroPractica == 0) {
-                $practica->numeracion = sprintf('%05d', 1);
-            } else {
-                $numeroMayor = max([$ultimoNumeroDocumento,$ultimoNumeroPractica]);
-                $practica->numeracion = sprintf('%05d', $numeroMayor + 1);
-            }
+            // Si no hay registros, establecer el número inicial
+            $nuevoNumero = $ultimoNumero ? $ultimoNumero + 1 : 1;
+
+            // Formatear el número con ceros a la izquierda
+            $model->numeracion = sprintf('%05d', $nuevoNumero);
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Comision extends Model
 {
@@ -12,7 +13,8 @@ class Comision extends Model
 
     use HasFactory;
 
-    public function asesores(){
+    public function asesores(): HasMany
+    {
         return $this->hasMany(Asesor::class);
     }
 }
