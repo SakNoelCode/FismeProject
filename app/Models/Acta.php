@@ -16,4 +16,18 @@ class Acta extends Model
     {
         return $this->belongsTo(Practica::class);
     }
+
+    public function tipoacta(): BelongsTo
+    {
+        return $this->belongsTo(Tipoacta::class);
+    }
+
+    public function guardarDocumento($file)
+    {
+        $uploadedFile = $file;
+        $uniqueFileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+        $uploadedFile->storeAs('actas', $uniqueFileName);
+
+        return $uniqueFileName;
+    }
 }

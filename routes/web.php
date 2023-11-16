@@ -53,6 +53,10 @@ Route::group(['middleware' => ['auth', 'role:practicante']], function () {
         Route::post('/create-practicante', [PracticaController::class, 'storePracticante'])->name('practicante.storePracticante');
         Route::get('/create-practica', [PracticaController::class, 'createPractica'])->name('practicante.createPractica');
         Route::post('/create-practica', [PracticaController::class, 'storePractica'])->name('practicante.storePractica');
+        Route::get('/create-actas', [PracticaController::class, 'createActas'])->name('practicante.createActas');
+        Route::post('/create-actas', [PracticaController::class, 'storeActas'])->name('practicante.storeActas');
+
+        Route::get('/ver-pdf/{name}', [PracticaController::class, 'verPDF'])->name('practicante.verPDF');
     });
 });
 

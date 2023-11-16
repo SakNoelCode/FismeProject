@@ -9,7 +9,11 @@
     </x-nav-link-tramite>
 
     <x-nav-link-tramite :href="route('practicante.createPractica')" :active="request()->routeIs('practicante.createPractica')">
-        Practica
+        Asesor
+    </x-nav-link-tramite>
+
+    <x-nav-link-tramite :href="route('practicante.createActas')" :active="request()->routeIs('practicante.createActas')">
+        Actas
     </x-nav-link-tramite>
 
     
