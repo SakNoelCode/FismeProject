@@ -32,7 +32,7 @@ class Practica extends Model
 
     public function practicante(): HasOne
     {
-        return $this->hasOne(Practica::class);
+        return $this->hasOne(Practicante::class);
     }
 
     public function actas(): HasMany

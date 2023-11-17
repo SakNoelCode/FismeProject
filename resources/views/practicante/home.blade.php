@@ -15,7 +15,15 @@
         <p class="mb-4 text-base font-semibold leading-none text-gray-900 md:text-base">Asesor: {{Auth::user()->practicante->asesore->user->name}}</p>
         <dl class="text-xs">
             <dt class="mb-2 font-semibold leading-none text-gray-900">Fecha de sustentación:</dt>
-            <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{is_null(Auth::user()->practicante->practica->fecha_sustentacion) ? 'Sin definir' : Auth::user()->practicante->practica->fecha_sustentacion }}</dd>
+            <dd class="mb-4 font-light text-gray-500 sm:mb-5">
+                @if (is_null(Auth::user()->practicante->practica->fecha_sustentacion))
+                    Sin definir
+                @else
+                {{date("d/m/Y", strtotime(Auth::user()->practicante->practica->fecha_sustentacion))}} - {{date("H:i", strtotime(Auth::user()->practicante->practica->fecha_sustentacion))}}
+
+                @endif
+                
+            </dd>
             <dt class="mb-2 font-semibold leading-none text-gray-900">Etapa</dt>
             <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{Auth::user()->practicante->practica->etapa}}</dd>
             <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Estado</dt>

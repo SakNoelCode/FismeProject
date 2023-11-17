@@ -28,6 +28,9 @@ class TipoactaSeeder extends Seeder
             ],
             [
                 'descripcion' => 'comprobante de pago por derecho de carta de presentación'
+            ],
+            [
+                'descripcion' => 'resolución de prácticas'
             ]
         ];
 

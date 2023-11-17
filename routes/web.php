@@ -10,6 +10,7 @@ use App\Http\Controllers\Practicante\PracticaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
+use App\Http\Controllers\Secretaria\PracticaController as SecretariaPracticaController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use App\Http\Controllers\Tramite\ExpedienteController as TramiteExpedienteController;
 use Illuminate\Support\Facades\Route;
@@ -62,31 +63,40 @@ Route::group(['middleware' => ['auth', 'role:practicante']], function () {
 
 //Rutas para la secretaría:
 Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
-    Route::resources([
-        'proyectos' => ProyectoController::class,
-    ]);
+    Route::resources(['proyectos' => ProyectoController::class]);
 
-    Route::get('/cambiar-estado/{proyecto}', [ProyectoController::class, 'cambiarEstado'])->name('proyecto.cambiarEstado');
-    Route::patch('/cambiar-estado/{proyecto}', [ProyectoController::class, 'updateEstado'])->name('proyecto.updateEstado');
-    Route::patch('/cambiar-etapa/{proyecto}', [ProyectoController::class, 'updateEtapa'])->name('proyecto.updateEtapa');
-    Route::get('/add-resolucion/{proyecto}', [ProyectoController::class, 'addResolucion'])->name('proyecto.addResolucion');
-    Route::post('/add-resolucion/{proyecto}', [ProyectoController::class, 'storeAddResolucion'])->name('proyecto.storeAddResolucion');
-    Route::post('/proyectos/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucion.download');
-    Route::post('/proyectos/deleteResolucion/{id}', [ProyectoController::class, 'destroyResolucion'])->name('Proyecto.resolucion.destroy');
-    Route::get('/crear-tesista', [TesistaController::class, 'createForSecretaria'])->name('secretaria.crear-tesista');
-    Route::post('/crear-tesista', [TesistaController::class, 'storeForSecretaria'])->name('secretaria.store-tesista');
-    Route::get('/crear-empresa', [EmpresaController::class, 'createForSecretaria'])->name('secretaria.crear-empresa');
-    Route::post('/crear-empresa', [EmpresaController::class, 'storeForSecretaria'])->name('secretaria.store-empresa');
+    //Practicas
+    Route::prefix('secretaria')->group(function () {
+        Route::get('/cambiar-estado/{proyecto}', [ProyectoController::class, 'cambiarEstado'])->name('proyecto.cambiarEstado');
+        Route::patch('/cambiar-estado/{proyecto}', [ProyectoController::class, 'updateEstado'])->name('proyecto.updateEstado');
+        Route::patch('/cambiar-etapa/{proyecto}', [ProyectoController::class, 'updateEtapa'])->name('proyecto.updateEtapa');
+        Route::get('/add-resolucion/{proyecto}', [ProyectoController::class, 'addResolucion'])->name('proyecto.addResolucion');
+        Route::post('/add-resolucion/{proyecto}', [ProyectoController::class, 'storeAddResolucion'])->name('proyecto.storeAddResolucion');
+        Route::post('/proyectos/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucion.download');
+        Route::post('/proyectos/deleteResolucion/{id}', [ProyectoController::class, 'destroyResolucion'])->name('Proyecto.resolucion.destroy');
+        Route::get('/crear-tesista', [TesistaController::class, 'createForSecretaria'])->name('secretaria.crear-tesista');
+        Route::post('/crear-tesista', [TesistaController::class, 'storeForSecretaria'])->name('secretaria.store-tesista');
+        Route::get('/crear-empresa', [EmpresaController::class, 'createForSecretaria'])->name('secretaria.crear-empresa');
+        Route::post('/crear-empresa', [EmpresaController::class, 'storeForSecretaria'])->name('secretaria.store-empresa');
 
-    //Expedientes
-    Route::get('/expedientes', [SecretariaExpedienteController::class, 'index'])->name('secretaria.expedientes.index');
-    Route::get('/ver-pdf/{name}', [SecretariaExpedienteController::class, 'verPDF'])->name('secretaria.expediente.ver-pdf');
-    Route::get('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'atenderExpediente'])->name('secretaria.expediente.atender');
-    Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
-    Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
-    Route::patch('/expediente/derivar/{id}', [SecretariaExpedienteController::class, 'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
-    Route::get('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
-    Route::post('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
+        //Expedientes
+        Route::get('/expedientes', [SecretariaExpedienteController::class, 'index'])->name('secretaria.expedientes.index');
+        Route::get('/ver-pdf/{name}', [SecretariaExpedienteController::class, 'verPDF'])->name('secretaria.expediente.ver-pdf');
+        Route::get('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'atenderExpediente'])->name('secretaria.expediente.atender');
+        Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
+        Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
+        Route::patch('/expediente/derivar/{id}', [SecretariaExpedienteController::class, 'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
+        Route::get('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
+        Route::post('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
+
+        //practicas
+        Route::get('/practicas', [SecretariaPracticaController::class, 'index'])->name('secretaria.practicas.index');
+        Route::post('/saveSustentacion/{practica}', [SecretariaPracticaController::class, 'updateSustentacion'])->name('secretaria.practicas.updateSustentacion');
+        Route::post('/updateEstado/{practica}', [SecretariaPracticaController::class, 'updateEstado'])->name('secretaria.practicas.updateEstado');
+        Route::post('/updateEtapa/{practica}', [SecretariaPracticaController::class, 'updateEtapa'])->name('secretaria.practicas.updateEtapa');
+        Route::post('/loadFilePractica/{practica}', [SecretariaPracticaController::class, 'loadFilePractica'])->name('secretaria.practicas.loadFilePractica');
+        Route::get('/ver-pdf/{name}', [SecretariaPracticaController::class, 'verPDF'])->name('secretaria.practica.ver-pdf');
+    });
 });
 
 //Rutas para tesista

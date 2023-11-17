@@ -26,6 +26,10 @@
                         {{ __('Expedientes') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('secretaria.practicas.index')" :active="request()->routeIs('secretaria.practicas.index')">
+                        {{ __('Prácticas') }}
+                    </x-nav-link>
+
                     @endhasrole
 
                     <!--Menú Tesista--->
@@ -110,6 +114,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
                 {{ __('Expedientes') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('secretaria.practicas.index')" :active="request()->routeIs('secretaria.practicas.index')">
+                {{ __('Prácticas') }}
             </x-responsive-nav-link>
             @endhasrole
 
