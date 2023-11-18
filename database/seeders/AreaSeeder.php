@@ -33,6 +33,14 @@ class AreaSeeder extends Seeder
             [
                 'nombre' => 'Recursos Humanos',
                 'descripcion' => 'Sin descripción'
+            ],
+            [
+                'nombre' => 'Dirección de escuela',
+                'descripcion' => 'Sin descripción'
+            ],
+            [
+                'nombre' => 'Dirección de departamento',
+                'descripcion' => 'Sin descripción'
             ]
         ];
 

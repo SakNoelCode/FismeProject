@@ -56,7 +56,7 @@
                     Estado
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Ver registro
+                    Ver respuesta
                 </th>
             </tr>
         </thead>
@@ -78,7 +78,7 @@
                     <span class="bg-green-100 text-green-800 font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->estado}}</span>
                     @break
                     @case('archivado')
-                    <span class="bg-yellow-100 text-yellow-800 font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->estado}}</span>
+                    <span class="bg-yellow-100 text-yellow-800 font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">atendido</span>
                     @break
                     @endswitch
                 </td>

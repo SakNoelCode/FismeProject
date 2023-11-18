@@ -62,7 +62,7 @@ class ExpedienteController extends Controller
     public function storeExpedienteRemitente(Request $request)
     {
         $request->validate([
-            'asunto' => 'required|max:50',
+            'asunto' => 'required|max:250',
             'tipo_documento' => 'required|max:20',
             'area_id' => 'required|integer|exists:areas,id',
             'documentos' => 'required'

@@ -18,16 +18,17 @@
 
                     <!--Menú secretaría--->
                     @hasrole('secretaria')
+                    @if (Auth::user()->secretaria->area_id === 4)
                     <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
                         {{ __('Proyectos de Tesis') }}
                     </x-nav-link>
-                    
-                     <x-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
-                        {{ __('Expedientes') }}
-                    </x-nav-link>
-
                     <x-nav-link :href="route('secretaria.practicas.index')" :active="request()->routeIs('secretaria.practicas.index')">
                         {{ __('Prácticas') }}
+                    </x-nav-link>
+                    @endif
+
+                    <x-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
+                        {{ __('Expedientes') }}
                     </x-nav-link>
 
                     @endhasrole
@@ -46,9 +47,9 @@
                     </x-nav-link>
                     @endhasrole
 
-                     <!--Menú Director-->
-                     @hasrole('director')
-                     <x-nav-link :href="route('director.comision.index')" :active="request()->routeIs('director.comision.index')">
+                    <!--Menú Director-->
+                    @hasrole('director')
+                    <x-nav-link :href="route('director.comision.index')" :active="request()->routeIs('director.comision.index')">
                         {{ __('Comisión') }}
                     </x-nav-link>
                     @endhasrole
@@ -109,15 +110,21 @@
 
             <!--Menú secretaría--->
             @hasrole('secretaria')
+
+            @if (Auth::user()->secretaria->area_id === 4)
             <x-responsive-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
                 {{ __('Proyectos de Tesis') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
-                {{ __('Expedientes') }}
-            </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('secretaria.practicas.index')" :active="request()->routeIs('secretaria.practicas.index')">
                 {{ __('Prácticas') }}
             </x-responsive-nav-link>
+            @endif
+
+            <x-responsive-nav-link :href="route('secretaria.expedientes.index')" :active="request()->routeIs('secretaria.expedientes.index')">
+                {{ __('Expedientes') }}
+            </x-responsive-nav-link>
+
             @endhasrole
 
             <!--Menú Tesista--->

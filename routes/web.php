@@ -81,13 +81,14 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
 
         //Expedientes
         Route::get('/expedientes', [SecretariaExpedienteController::class, 'index'])->name('secretaria.expedientes.index');
-        Route::get('/ver-pdf/{name}', [SecretariaExpedienteController::class, 'verPDF'])->name('secretaria.expediente.ver-pdf');
+        Route::get('/expediente/ver-pdf/{name}', [SecretariaExpedienteController::class, 'verPDF'])->name('secretaria.expediente.ver-pdf');
         Route::get('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'atenderExpediente'])->name('secretaria.expediente.atender');
         Route::post('/expediente/{expediente}/atender', [SecretariaExpedienteController::class, 'addHistorialExpediente'])->name('secretaria.expediente.historial.store');
         Route::patch('/expediente/cambiarEstado/{id}', [SecretariaExpedienteController::class, 'cambiarEstadoExpediente'])->name('secretaria.expediente.cambiarEstado');
         Route::patch('/expediente/derivar/{id}', [SecretariaExpedienteController::class, 'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
         Route::get('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
         Route::post('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
+        Route::post('/expedientes/archivarExpediente/{expediente}', [SecretariaExpedienteController::class, 'archivarExpediente'])->name('secretaria.expediente.achivarExpediente');
 
         //practicas
         Route::get('/practicas', [SecretariaPracticaController::class, 'index'])->name('secretaria.practicas.index');
@@ -95,7 +96,7 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
         Route::post('/updateEstado/{practica}', [SecretariaPracticaController::class, 'updateEstado'])->name('secretaria.practicas.updateEstado');
         Route::post('/updateEtapa/{practica}', [SecretariaPracticaController::class, 'updateEtapa'])->name('secretaria.practicas.updateEtapa');
         Route::post('/loadFilePractica/{practica}', [SecretariaPracticaController::class, 'loadFilePractica'])->name('secretaria.practicas.loadFilePractica');
-        Route::get('/ver-pdf/{name}', [SecretariaPracticaController::class, 'verPDF'])->name('secretaria.practica.ver-pdf');
+        Route::get('/practica/ver-pdf/{name}', [SecretariaPracticaController::class, 'verPDF'])->name('secretaria.practica.ver-pdf');
     });
 });
 

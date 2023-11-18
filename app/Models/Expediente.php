@@ -13,7 +13,7 @@ class Expediente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['numeracion', 'tipo', 'asunto', 'remitente_id', 'tipo_documento', 'area_id'];
+    protected $fillable = ['numeracion', 'tipo', 'asunto', 'remitente_id', 'tipo_documento', 'area_id','estado'];
 
     //Crear numeración de manera automática
     protected static function boot()
@@ -35,7 +35,11 @@ class Expediente extends Model
 
         // Agregar un evento creating para generar la numeración automática
         static::creating(function ($model) {
-            $ultimoNumero = static::max('id'); // Obtener el último número en la tabla
+            //$ultimoNumero = static::max('id'); // Obtener el último número en la tabla
+            $ultimoNumeroPractica = Practica::max('id');
+            $ultimoNumeroExpediente = Expediente::max('id');
+
+            $ultimoNumero = max($ultimoNumeroExpediente, $ultimoNumeroPractica);
 
             // Si no hay registros, establecer el número inicial
             $nuevoNumero = $ultimoNumero ? $ultimoNumero + 1 : 1;

@@ -19,7 +19,11 @@ class Practica extends Model
 
         // Agregar un evento creating para generar la numeración automática
         static::creating(function ($model) {
-            $ultimoNumero = static::max('id'); // Obtener el último número en la tabla
+            //$ultimoNumero = static::max('id'); // Obtener el último número en la tabla
+            $ultimoNumeroPractica = Practica::max('id');
+            $ultimoNumeroExpediente = Expediente::max('id');
+
+            $ultimoNumero = max($ultimoNumeroExpediente, $ultimoNumeroPractica);
 
             // Si no hay registros, establecer el número inicial
             $nuevoNumero = $ultimoNumero ? $ultimoNumero + 1 : 1;

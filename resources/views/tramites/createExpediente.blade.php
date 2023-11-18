@@ -20,7 +20,7 @@
                     <x-input-label for='tipo_documento' value='Tipo de documento(*):' class="text-xs" />
                     <select class="text-xs mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" id="tipo_documento" name='tipo_documento' required autocomplete='tipo_documento'>
                         @php
-                        $tiposDocumentos = ['oficio', 'carta', 'resolucion'];
+                        $tiposDocumentos = ['oficio', 'carta', 'resolucion','solicitud','memorando','informe','Otro'];
                         @endphp
 
                         @foreach ($tiposDocumentos as $tipo)

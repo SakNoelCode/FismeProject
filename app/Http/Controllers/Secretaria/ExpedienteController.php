@@ -22,15 +22,22 @@ class ExpedienteController extends Controller
         $area_id = Auth::user()->secretaria->area->id;
 
         if ($area_id == 4) {
-            $expedientes = Expediente::latest()->with('documentos')->paginate(5);
+            $expedientes = Expediente::latest()
+                ->with('documentos')
+                ->where('tipo', 'externo')
+                ->Orwhere('expedientable_id', '!=', Auth::user()->secretaria->id)
+                ->paginate(5);
         } else {
-            $expedientes = Expediente::where('area_id', $area_id)->whereIn('estado',['proveido','archivado'])->paginate(5);
+            $expedientes = Expediente::where('area_id', $area_id)
+                ->whereIn('estado', ['proveido', 'archivado'])
+                ->latest()
+                ->paginate(5);
         }
 
         $areas = Area::all();
         $expedientesEnviados = Auth::user()->secretaria->expedientes;
 
-        return view('secretaria.expediente.index', compact('expedientes', 'areas','expedientesEnviados'));
+        return view('secretaria.expediente.index', compact('expedientes', 'areas', 'expedientesEnviados'));
     }
 
     public function verPDF(String $name)
@@ -131,8 +138,8 @@ class ExpedienteController extends Controller
 
             //Crear el proveido
             $expediente->proveidos()->create([
-                'pase' => 'Secretaría',
-                'para' => $area->nombre,
+                'pase' => $request->pase,
+                'para' => $request->para,
                 'fecha' => Carbon::now()->toDateString()
             ]);
 
@@ -141,7 +148,7 @@ class ExpedienteController extends Controller
             DB::rollBack();
         }
 
-        return redirect()->route('secretaria.expedientes.index')->with('success', 'Derivación exitosa');
+        return redirect()->route('secretaria.expedientes.index')->with('success', 'Documento proveído');
     }
 
     public function enviarDocumento()
@@ -160,7 +167,8 @@ class ExpedienteController extends Controller
         ]);
 
         $request->merge([
-            'tipo' => 'interno'
+            'tipo' => 'interno',
+            'estado' => 'proveido'
         ]);
 
         $secretaria = Secretaria::find(Auth::user()->secretaria->id);
@@ -168,7 +176,7 @@ class ExpedienteController extends Controller
         try {
             DB::beginTransaction();
             //Create expediente
-            $expediente = $secretaria->expedientes()->create($request->only(['tipo', 'asunto', 'tipo_documento', 'remitente_id', 'area_id']));
+            $expediente = $secretaria->expedientes()->create($request->only(['tipo', 'estado', 'asunto', 'tipo_documento', 'remitente_id', 'area_id']));
 
             //Create documentos
             if ($request->hasFile('documentos')) {
@@ -192,5 +200,14 @@ class ExpedienteController extends Controller
         }
 
         return redirect()->route('secretaria.expediente.enviarDocumento')->with('success', 'Expediente enviado');
+    }
+
+    public function archivarExpediente(Expediente $expediente)
+    {
+        $expediente->update([
+            'estado' => 'archivado'
+        ]);
+
+        return back()->with('success', 'Expediente archivado');
     }
 }
