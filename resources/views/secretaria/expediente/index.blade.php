@@ -227,7 +227,7 @@
                                                     @foreach ($item->proveidos as $proveido)
                                                         Pase a: {{$proveido->pase}}
                                                         Para: {{$proveido->para}}
-                                                        Fecha: {{$proveido->fecha}}
+                                                        Fecha y hora: {{date("d/m/Y", strtotime($proveido->fecha))}} - {{date("H:i", strtotime($proveido->fecha))}}
                                                         <br>
                                                         <br>
                                                     @endforeach

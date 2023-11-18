@@ -140,7 +140,7 @@ class ExpedienteController extends Controller
             $expediente->proveidos()->create([
                 'pase' => $request->pase,
                 'para' => $request->para,
-                'fecha' => Carbon::now()->toDateString()
+                'fecha' => Carbon::now()->toDateTimeString()
             ]);
 
             DB::commit();
