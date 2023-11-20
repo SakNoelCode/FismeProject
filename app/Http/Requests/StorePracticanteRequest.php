@@ -25,7 +25,7 @@ class StorePracticanteRequest extends FormRequest
             'razon_social' => 'required|max:250',
             'codigo_estudiante' => 'required|max:15',
             'escuela_id' => 'required|integer|exists:escuelas,id',
-            'telefono' => 'nullable|numeric'
+            'telefono' => 'nullable|min:9|max:9'
         ];
     }
 
