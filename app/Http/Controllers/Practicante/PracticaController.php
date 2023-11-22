@@ -21,6 +21,13 @@ class PracticaController extends Controller
 {
     public function showHome(): View
     {
+      /*  dd($existeActaConId6 = Auth::user()
+            ->practicante
+            ->practica
+            ->actas()
+            ->where('tipoacta_id', 6)
+            ->exists());*/
+           // dd($acta = Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 6));
         return view('practicante.home');
     }
 
@@ -100,7 +107,7 @@ class PracticaController extends Controller
             ->where('tipoacta_id', 5)
             ->first();
 
-        return view('practicante.actas.create', compact('acta1', 'acta2', 'acta3','acta4','acta5'));
+        return view('practicante.actas.create', compact('acta1', 'acta2', 'acta3', 'acta4', 'acta5'));
     }
 
     public function storeActas(Request $request)

@@ -5,7 +5,6 @@
 @section('content')
 <h3>Bienvenido, siga las instrucciones para que subir la documentación de sus prácticas</h3>
 
-
 <section class="bg-white mt-6">
     <div class="py-2 px-4 mx-auto max-w-screen-xl text-center lg:py-2 lg:px-6">
         <div class="mx-auto mb-8 max-w-screen-sm lg:mb-4">
@@ -68,10 +67,10 @@
             <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{Auth::user()->practicante->practica->estado}}</dd>
             <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Resolución de prácticas</dt>
             <dd class="mb-4 font-light text-gray-500 sm:mb-5">
-                @if (Auth::user()->practicante->practica->actas->contains('id', 6))
+                @if (Auth::user()->practicante->practica->actas()->where('tipoacta_id', 6)->exists())
 
                 @php
-                $acta = Auth::user()->practicante->practica->actas->firstWhere('id', 6);
+                $acta = ($acta = Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 6));
                 @endphp
 
                 <a target="_blank" href="{{route('practicante.verPDF',['name'=>$acta->documento_path])}}">
