@@ -9,6 +9,8 @@ class Area extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function secretarias(){
         return $this->hasMany(Secretaria::class);
     }

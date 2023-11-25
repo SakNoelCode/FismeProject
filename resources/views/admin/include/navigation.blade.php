@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('admin.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <img src="{{asset('img/fisme.svg')}}" alt="Logo Fisme" class="h-9">
                     </a>
                 </div>
 
@@ -22,6 +22,10 @@
 
                     <x-nav-link :href="route('admin.TipoDocument.index')" :active="request()->routeIs('admin.TipoDocument.index')">
                         {{ __('Tipos de documento') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('admin.area.index')" :active="request()->routeIs('admin.area.index')">
+                        {{ __('Areas') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('empresas.index')" :active="request()->routeIs('empresas.index')">
@@ -86,6 +90,10 @@
 
             <x-responsive-nav-link :href="route('admin.TipoDocument.index')" :active="request()->routeIs('admin.TipoDocument.index')">
                 {{ __('Tipos de documento') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('admin.area.index')" :active="request()->routeIs('admin.area.index')">
+                {{ __('Areas') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('empresas.index')" :active="request()->routeIs('empresas.index')">

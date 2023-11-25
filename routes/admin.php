@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminHomeController;
+use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\AsesorController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\SecretariaController;
 use App\Http\Controllers\Admin\TesistaController;
 use App\Http\Controllers\Admin\TipoDocumentoController;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\Area;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,5 +54,12 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
         Route::get('/edit-tipodocumento/{id}', [TipoDocumentoController::class, 'editTipodocumento'])->name('editTipodocumento');
         Route::put('/edit-tipodocumento/{id}', [TipoDocumentoController::class, 'updateTipodocumento'])->name('updateTipodocumento');
         Route::delete('/delete-tipodocumento/{id}', [TipoDocumentoController::class, 'destroy'])->name('destroyTipodocumento');
+
+        Route::get('/areas', [AreaController::class, 'index'])->name('admin.area.index');
+        Route::get('/area-fetch', [AreaController::class, 'fetchRegistros'])->name('admin.area.fecth');
+        Route::post('/areas', [AreaController::class, 'store'])->name('admin.area.store');
+        Route::get('/edit-area/{id}', [AreaController::class, 'editRegistro'])->name('admin.area.edit');
+        Route::put('/edit-area/{id}', [AreaController::class, 'updateRegistro'])->name('admin.area.update');
+        Route::delete('/delete-area/{id}', [AreaController::class, 'destroy'])->name('admin.area.destroy');
     });
 });
