@@ -20,6 +20,10 @@
                         {{ __('Usuarios') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('admin.TipoDocument.index')" :active="request()->routeIs('admin.TipoDocument.index')">
+                        {{ __('Tipos de documento') }}
+                    </x-nav-link>
+
                     <x-nav-link :href="route('empresas.index')" :active="request()->routeIs('empresas.index')">
                         {{ __('Empresas') }}
                     </x-nav-link>
@@ -78,6 +82,10 @@
 
             <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
                 {{ __('Usuarios') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('admin.TipoDocument.index')" :active="request()->routeIs('admin.TipoDocument.index')">
+                {{ __('Tipos de documento') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('empresas.index')" :active="request()->routeIs('empresas.index')">

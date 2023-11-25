@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AsesorController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\SecretariaController;
 use App\Http\Controllers\Admin\TesistaController;
+use App\Http\Controllers\Admin\TipoDocumentoController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,19 +36,21 @@ Route::group(['middleware' => ['auth', 'role:administrador']], function () {
         Route::get('/dashboard', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
         Route::post('/logout', [AdminHomeController::class, 'logout'])->name('admin.logout');
 
-        Route::get('/empresas-fetch',[EmpresaController::class,'fetchEmpresas'])->name('fetchEmpresas');
-        Route::get('/edit-empresa/{id}',[EmpresaController::class,'editEmpresa'])->name('editEmpresa');
-        Route::put('/edit-empresa/{id}',[EmpresaController::class,'updateEmpresa'])->name('updateEmpresa');
+        Route::get('/empresas-fetch', [EmpresaController::class, 'fetchEmpresas'])->name('fetchEmpresas');
+        Route::get('/edit-empresa/{id}', [EmpresaController::class, 'editEmpresa'])->name('editEmpresa');
+        Route::put('/edit-empresa/{id}', [EmpresaController::class, 'updateEmpresa'])->name('updateEmpresa');
 
-        Route::resource('usuarios',UserController::class)->only(['index']);
-        Route::resource('asesores',AsesorController::class)->except(['show','index','destroy']);
-        Route::resource('tesistas',TesistaController::class)->except(['show','index','destroy']);
-        Route::resource('secretarias',SecretariaController::class)->except(['show','index','destroy']);
-        Route::resource('empresas',empresaController::class)->only(['index','store','destroy']);
-        
-        //Route::post('/buscar-usuario', [AdminUserController::class, 'buscarUsuario'])->name('admin.usuarios.buscar');
-/*
-        Route::prefix('iconos')->group(function () {
-        });*/
+        Route::resource('usuarios', UserController::class)->only(['index']);
+        Route::resource('asesores', AsesorController::class)->except(['show', 'index', 'destroy']);
+        Route::resource('tesistas', TesistaController::class)->except(['show', 'index', 'destroy']);
+        Route::resource('secretarias', SecretariaController::class)->except(['show', 'index', 'destroy']);
+        Route::resource('empresas', empresaController::class)->only(['index', 'store', 'destroy']);
+
+        Route::get('/tipo-documento', [TipoDocumentoController::class, 'index'])->name('admin.TipoDocument.index');
+        Route::get('/tipo-documento-fetch', [TipoDocumentoController::class, 'fetchTipodocumentos'])->name('fetchTipodocumentos');
+        Route::post('/tipo-documento', [TipoDocumentoController::class, 'store'])->name('storeTipodocumentos');
+        Route::get('/edit-tipodocumento/{id}', [TipoDocumentoController::class, 'editTipodocumento'])->name('editTipodocumento');
+        Route::put('/edit-tipodocumento/{id}', [TipoDocumentoController::class, 'updateTipodocumento'])->name('updateTipodocumento');
+        Route::delete('/delete-tipodocumento/{id}', [TipoDocumentoController::class, 'destroy'])->name('destroyTipodocumento');
     });
 });

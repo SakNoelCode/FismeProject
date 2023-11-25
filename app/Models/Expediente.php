@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ class Expediente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['numeracion', 'tipo', 'asunto', 'remitente_id', 'tipo_documento', 'area_id','estado'];
+    protected $fillable = ['numeracion', 'tipo', 'asunto', 'remitente_id', 'tipo_documento', 'area_id', 'estado'];
 
     //Crear numeración de manera automática
     protected static function boot()
@@ -59,17 +60,17 @@ class Expediente extends Model
         return $this->morphTo();
     }
 
-    public function area()
+    public function area(): BelongsTo
     {
         return $this->belongsTo(Area::class);
     }
 
-    public function documentos()
+    public function documentos(): HasMany
     {
         return $this->hasMany(Documento::class);
     }
 
-    public function historiales()
+    public function historiales(): HasMany
     {
         return $this->hasMany(Historiale::class);
     }
@@ -77,5 +78,10 @@ class Expediente extends Model
     public function proveidos(): HasMany
     {
         return $this->hasMany(Proveido::class);
+    }
+
+    public function tipodocumento(): BelongsTo
+    {
+        return $this->belongsTo(Tipodocumento::class);
     }
 }
