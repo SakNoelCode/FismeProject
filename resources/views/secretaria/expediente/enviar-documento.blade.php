@@ -62,17 +62,14 @@
                             </div>
 
                             <div>
-                                <x-input-label for="tipo_documento" :value="__('Tipo de documento:')" class="text-xs" />
-                                <select name="tipo_documento" id="tipo_documento" class="text-xs mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-                                    @php
-                                    $tiposDocumentos = ['oficio', 'carta', 'resolucion','solicitud','memorando','informe','Otro'];
-                                    @endphp
+                                <x-input-label for="tipo_documento_id" :value="__('Tipo de documento:')" class="text-xs" />
+                                <select name="tipodocumento_id" id="tipodocumento_id" class="text-xs mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
 
-                                    @foreach ($tiposDocumentos as $tipo)
-                                    <option value="{{ $tipo }}" @selected(old('tipo_documento')==$tipo)>{{ ucfirst($tipo) }}</option>
+                                    @foreach ($tipodocumentos as $tipo)
+                                    <option value="{{ $tipo->id }}" @selected(old('tipo_documento')==$tipo->id)>{{ ucfirst($tipo->nombre) }}</option>
                                     @endforeach
                                 </select>
-                                <x-input-error class="mt-2 text-xs" :messages="$errors->get('tipo_documento')" />
+                                <x-input-error class="mt-2 text-xs" :messages="$errors->get('tipodocumento_id')" />
                             </div>
 
                             <div>

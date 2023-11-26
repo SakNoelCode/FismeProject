@@ -7,9 +7,7 @@
 
 <!--Tarjeta de detalles de la práctica-->
 <section class="bg-white dark:bg-gray-900 mt-8">
-    @if (Auth::user()->remitente == null)
-    <p class="text-lg font-medium text-gray-900 dark:text-white text-center p-10">Aún no se define una práctica.</p>
-    @else
+    @if (!Auth::user()->remitente->razon_social == null)
     <div class="py-8 px-4 mx-auto max-w-3xl lg:py-8">
         <h2 class="mb-2 text-lg font-extrabold leading-none text-gray-900 md:text-lg">Datos del remitente</h2>
         <p class="mb-2 text-base leading-none text-gray-900 md:text-base">

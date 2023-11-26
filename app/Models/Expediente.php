@@ -14,7 +14,7 @@ class Expediente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['numeracion', 'tipo', 'asunto', 'remitente_id', 'tipo_documento', 'area_id', 'estado'];
+    protected $fillable = ['numeracion', 'tipo', 'asunto', 'remitente_id', 'tipodocumento_id', 'area_id', 'estado'];
 
     //Crear numeración de manera automática
     protected static function boot()

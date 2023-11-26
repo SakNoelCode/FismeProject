@@ -7,11 +7,13 @@ use App\Models\Area;
 use App\Models\Documento;
 use App\Models\Expediente;
 use App\Models\Remitente;
+use App\Models\Tipodocumento;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ExpedienteController extends Controller
 {
@@ -29,8 +31,24 @@ class ExpedienteController extends Controller
     {
         $request->validate([
             'razon_social' => 'required|max:100',
-            'tipo_documento' => 'required',
-            'numero_documento' => 'required|max:45'
+            'tipo_documento' => [
+                'required',
+                Rule::in(['DNI', 'RUC']),
+            ],
+            'numero_documento' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    // Obtener el tipo de documento enviado en la solicitud
+                    $tipoDocumento = $request->input('tipo_documento');
+
+                    // Validar la longitud del número de documento según el tipo
+                    if ($tipoDocumento == 'DNI' && strlen($value) != 8) {
+                        $fail("El campo $attribute debe tener exactamente 8 dígitos para el tipo de documento DNI.");
+                    } elseif ($tipoDocumento == 'RUC' && (strlen($value) < 11 || strlen($value) > 11)) {
+                        $fail("El campo $attribute debe tener exactamente 11 dígitos para el tipo de documento RUC.");
+                    }
+                }
+            ],
         ]);
 
         try {
@@ -55,15 +73,16 @@ class ExpedienteController extends Controller
 
     public function createExpedienteRemitente()
     {
+        $tipodocumentos = Tipodocumento::all();
         $areas = Area::all();
-        return view('tramites.createExpediente', compact('areas'));
+        return view('tramites.createExpediente', compact('areas', 'tipodocumentos'));
     }
 
     public function storeExpedienteRemitente(Request $request)
     {
         $request->validate([
             'asunto' => 'required|max:250',
-            'tipo_documento' => 'required|max:20',
+            'tipodocumento_id' => 'required|exists:tipodocumentos,id',
             'area_id' => 'required|integer|exists:areas,id',
             'documentos' => 'required'
         ]);
@@ -78,7 +97,7 @@ class ExpedienteController extends Controller
         try {
             DB::beginTransaction();
             //Create expediente
-            $expediente = $remitente->expedientes()->create($request->only(['tipo', 'asunto', 'tipo_documento', 'remitente_id', 'area_id']));
+            $expediente = $remitente->expedientes()->create($request->only(['tipo', 'asunto', 'tipodocumento_id', 'area_id']));
 
             //Create documentos
             if ($request->hasFile('documentos')) {
@@ -122,11 +141,11 @@ class ExpedienteController extends Controller
     public function showRespuestasExpedienteRemitente()
     {
         $expedientes = Auth()->user()->remitente->expedientes;
-        return view('tramites.respuestas',compact('expedientes'));
+        return view('tramites.respuestas', compact('expedientes'));
     }
 
     public function showRespuestaExpedienteRemitente(Expediente $expediente)
     {
-        return view('tramites.respuesta',compact('expediente'));
+        return view('tramites.respuesta', compact('expediente'));
     }
 }

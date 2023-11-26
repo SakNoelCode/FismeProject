@@ -17,14 +17,10 @@
                 </div>
 
                 <div>
-                    <x-input-label for='tipo_documento' value='Tipo de documento(*):' class="text-xs" />
-                    <select class="text-xs mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" id="tipo_documento" name='tipo_documento' required autocomplete='tipo_documento'>
-                        @php
-                        $tiposDocumentos = ['oficio', 'carta', 'resolucion','solicitud','memorando','informe','Otro'];
-                        @endphp
-
-                        @foreach ($tiposDocumentos as $tipo)
-                        <option value="{{ $tipo }}">{{ ucfirst($tipo) }}</option>
+                    <x-input-label for='tipodocumento_id' value='Tipo de documento(*):' class="text-xs" />
+                    <select class="text-xs mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" id="tipodocumento_id" name='tipodocumento_id' required autocomplete='tipo_documento'>
+                        @foreach ($tipodocumentos as $tipo)
+                        <option value="{{ $tipo->id }}">{{ ucfirst($tipo->nombre) }}</option>
                         @endforeach
 
                     </select>
@@ -43,7 +39,7 @@
 
                 <div>
                     <x-input-label for='documentos' value='Adjuntar Solo PDF(*):' class="text-xs" />
-                    <x-text-input class="text-xs mt-2 block w-full" type='file' multiple id="documentos" name='documentos[]' accept=".pdf"/>
+                    <x-text-input class="text-xs mt-2 block w-full" type='file' multiple id="documentos" name='documentos[]' accept=".pdf" />
                     <x-input-error class="mt-2 text-xs" :messages="$errors->get('documentos')" />
 
                     <div class="text-xs mt-4">
@@ -53,7 +49,7 @@
                     <script>
                         document.getElementById('documentos').addEventListener('change', function() {
                             var listaArchivos = document.getElementById('lista-archivos');
-                            listaArchivos.innerHTML = '<h4 class="font-bold">Archivos adjuntados</h4>'; 
+                            listaArchivos.innerHTML = '<h4 class="font-bold">Archivos adjuntados</h4>';
 
                             for (var i = 0; i < this.files.length; i++) {
                                 var archivo = this.files[i];

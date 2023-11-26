@@ -6,38 +6,93 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Documento;
 use App\Models\Expediente;
+use App\Models\Remitente;
 use App\Models\Secretaria;
+use App\Models\Tipodocumento;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ExpedienteController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->search;
         $area_id = Auth::user()->secretaria->area->id;
-
-        if ($area_id == 4) {
-            $expedientes = Expediente::latest()
-                ->with('documentos')
-                ->where('tipo', 'externo')
-                ->Orwhere('expedientable_id', '!=', Auth::user()->secretaria->id)
-                ->paginate(5);
-        } else {
-            $expedientes = Expediente::where('area_id', $area_id)
-                ->whereIn('estado', ['proveido', 'archivado'])
-                ->latest()
-                ->paginate(5);
-        }
-
         $areas = Area::all();
         $expedientesEnviados = Auth::user()->secretaria->expedientes;
 
-        return view('secretaria.expediente.index', compact('expedientes', 'areas', 'expedientesEnviados'));
+        if ($search) {
+            if ($area_id == 4) {
+                $expedientes = Expediente::latest()
+                    ->with('documentos')
+                    ->where(function ($query) {
+                        $query->where('tipo', 'externo')
+                            ->Orwhere('expedientable_id', '!=', Auth::user()->secretaria->id);
+                    })
+                    ->where(function ($query) use ($search) {
+                        $query->where('numeracion', 'like', '%' . $search . '%')
+                            ->Orwhere(function ($query) use ($search) {
+                                // Condición específica para el modelo Remitente
+                                $query->whereHasMorph('expedientable', [Remitente::class], function ($q) use ($search) {
+                                    $q->where('razon_social', 'like', '%' . $search . '%');
+                                })
+                                    // Condición específica para el modelo Secretaria
+                                    ->orWhereHasMorph('expedientable', [Secretaria::class], function ($q) use ($search) {
+                                        // Utiliza la relación para llegar al campo 'name' en el modelo 'User'
+                                        $q->whereHas('user', function ($u) use ($search) {
+                                            $u->where('name', 'like', '%' . $search . '%');
+                                        });
+                                    });
+                            });
+                    })
+                    ->paginate(5);
+                //dd($expedientes->expedientable);
+            } else {
+                $expedientes = Expediente::where('area_id', $area_id)
+                    ->where(function ($query) use ($search) {
+                        $query->where('numeracion', 'like', '%' . $search . '%')
+                            ->Orwhere(function ($query) use ($search) {
+                                // Condición específica para el modelo Remitente
+                                $query->whereHasMorph('expedientable', [Remitente::class], function ($q) use ($search) {
+                                    $q->where('razon_social', 'like', '%' . $search . '%');
+                                })
+                                    // Condición específica para el modelo Secretaria
+                                    ->orWhereHasMorph('expedientable', [Secretaria::class], function ($q) use ($search) {
+                                        // Utiliza la relación para llegar al campo 'name' en el modelo 'User'
+                                        $q->whereHas('user', function ($u) use ($search) {
+                                            $u->where('name', 'like', '%' . $search . '%');
+                                        });
+                                    });
+                            });
+                    })
+                    ->whereIn('estado', ['derivado', 'atendido', 'rechazado'])
+                    ->latest()
+                    ->paginate(5);
+            }
+        } else {
+
+            if ($area_id == 4) {
+                $expedientes = Expediente::latest()
+                    ->with('documentos')
+                    ->where('tipo', 'externo')
+                    ->Orwhere('expedientable_id', '!=', Auth::user()->secretaria->id)
+                    ->paginate(5);
+            } else {
+                $expedientes = Expediente::where('area_id', $area_id)
+                    ->whereIn('estado', ['derivado', 'atendido', 'rechazado'])
+                    ->latest()
+                    ->paginate(5);
+            }
+        }
+
+
+        return view('secretaria.expediente.index', compact('expedientes', 'areas', 'expedientesEnviados', 'search'));
     }
 
     public function verPDF(String $name)
@@ -86,7 +141,7 @@ class ExpedienteController extends Controller
 
         try {
             DB::beginTransaction();
-            $expediente->estado = 'archivado';
+            $expediente->estado = 'atendido';
             $expediente->save();
             $expediente->historiales()->create($request->except('documento'));
             DB::commit();
@@ -122,7 +177,7 @@ class ExpedienteController extends Controller
             DB::beginTransaction();
             //Actualizar area del expediente
             $expediente->area_id = $request->area_id;
-            $expediente->estado = 'proveido';
+            $expediente->estado = 'derivado';
             $expediente->save();
 
             //Crear un historial
@@ -138,7 +193,7 @@ class ExpedienteController extends Controller
 
             //Crear el proveido
             $expediente->proveidos()->create([
-                'pase' => $request->pase,
+                'pase' => $area->nombre,
                 'para' => $request->para,
                 'fecha' => Carbon::now()->toDateTimeString()
             ]);
@@ -153,22 +208,23 @@ class ExpedienteController extends Controller
 
     public function enviarDocumento()
     {
+        $tipodocumentos = Tipodocumento::all();
         $areas = Area::all();
-        return view('secretaria.expediente.enviar-documento', compact('areas'));
+        return view('secretaria.expediente.enviar-documento', compact('areas', 'tipodocumentos'));
     }
 
     public function storeEnviarDocumento(Request $request)
     {
         $request->validate([
             'asunto' => 'required|max:50',
-            'tipo_documento' => 'required|max:20',
+            'tipodocumento_id' => 'required|integer|exists:tipodocumentos,id',
             'area_id' => 'required|integer|exists:areas,id',
             'documentos' => 'required'
         ]);
 
         $request->merge([
             'tipo' => 'interno',
-            'estado' => 'proveido'
+            'estado' => 'derivado'
         ]);
 
         $secretaria = Secretaria::find(Auth::user()->secretaria->id);
@@ -176,7 +232,7 @@ class ExpedienteController extends Controller
         try {
             DB::beginTransaction();
             //Create expediente
-            $expediente = $secretaria->expedientes()->create($request->only(['tipo', 'estado', 'asunto', 'tipo_documento', 'remitente_id', 'area_id']));
+            $expediente = $secretaria->expedientes()->create($request->only(['tipo', 'estado', 'asunto', 'tipodocumento_id', 'remitente_id', 'area_id']));
 
             //Create documentos
             if ($request->hasFile('documentos')) {
@@ -205,9 +261,75 @@ class ExpedienteController extends Controller
     public function archivarExpediente(Expediente $expediente)
     {
         $expediente->update([
-            'estado' => 'archivado'
+            'estado' => 'atendido'
         ]);
 
         return back()->with('success', 'Expediente archivado');
+    }
+
+    public function registrarExpedienteFisico()
+    {
+        $tipodocumentos = Tipodocumento::all();
+        $areas = Area::all();
+        return view('secretaria.expediente.registrar-expediente-fisico', compact('areas', 'tipodocumentos'));
+    }
+
+    public function storeExpedienteFisico(Request $request)
+    {
+        $request->validate([
+            'asunto' => 'required|max:250',
+            'tipodocumento_id' => 'required|exists:tipodocumentos,id',
+            'area_id' => 'required|integer|exists:areas,id',
+            'documentos' => 'required',
+            'razon_social' => 'required|max:100',
+            'tipo_documento' => [
+                'required',
+                Rule::in(['DNI', 'RUC']),
+            ],
+            'numero_documento' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    // Obtener el tipo de documento enviado en la solicitud
+                    $tipoDocumento = $request->input('tipo_documento');
+
+                    // Validar la longitud del número de documento según el tipo
+                    if ($tipoDocumento == 'DNI' && strlen($value) != 8) {
+                        $fail("El campo $attribute debe tener exactamente 8 dígitos para el tipo de documento DNI.");
+                    } elseif ($tipoDocumento == 'RUC' && (strlen($value) < 11 || strlen($value) > 11)) {
+                        $fail("El campo $attribute debe tener exactamente 11 dígitos para el tipo de documento RUC.");
+                    }
+                }
+            ],
+
+        ]);
+
+        $request->merge(['tipo' => 'externo', 'user_id' => 4]);
+
+        try {
+            DB::beginTransaction();
+            $remitente = Remitente::create($request->only('razon_social', 'tipo_documento', 'numero_documento'));
+
+            $expediente = $remitente->expedientes()->create($request->only('tipo', 'asunto', 'area_id', 'tipodocumento_id', ''));
+
+            if ($request->hasFile('documentos')) {
+                $files = $request->file('documentos');
+
+                foreach ($files as $file) {
+                    $nameDocumento = (new Documento())->guardarDocumento($file);
+
+                    Documento::create([
+                        'nombre_path' => $nameDocumento,
+                        'expediente_id' => $expediente->id,
+                    ]);
+                }
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+        }
+
+        return redirect()->route('secretaria.expedientes.index')->with('success', 'Documento fisico registrado');
     }
 }

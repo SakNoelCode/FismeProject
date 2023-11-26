@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('razon_social',100)->nullable();
             $table->string('tipo_documento',50)->nullable();
             $table->string('numero_documento',45)->nullable();
-            $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->unique()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

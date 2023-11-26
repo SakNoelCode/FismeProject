@@ -32,7 +32,7 @@
             <!----Encabezado--->
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <header class="flex flex-wrap items-center gap-y-5">
-                    <div class="w-full lg:w-2/3">
+                    <div class="w-full">
                         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                             Expedientes
                         </h2>
@@ -113,13 +113,41 @@
                     </div>
 
 
-                    <div class="w-full lg:w-1/3">
-                        <a href="{{route('secretaria.expediente.enviarDocumento')}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    <!---div class="w-full lg:w-1/3">
+                        <a href="{{route('secretaria.expediente.enviarDocumento')}}" class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             Enviar documento
+                        </a>
+                    </div---->
+
+                </header>
+            </div>
+
+            <!---Buscador--->
+            <div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+                <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+                    <div class="w-full md:w-3/4">
+                        <form class="flex items-center" action="{{route('secretaria.expedientes.index')}}" method="get">
+                            <label for="simple-search" class="sr-only">Search</label>
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="text" value="{{$search}}" id="simple-search" name="search" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Buscar por número de expediente o remitente">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
+                        <a href="{{route('secretaria.expediente.enviarDocumento')}}" class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            Enviar documento
+                        </a>
+                        <a href="{{route('secretaria.expediente.registrarExpedienteFisico')}}" class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                           Registrar documento físico
                         </a>
                     </div>
 
-                </header>
+                </div>
             </div>
 
             <!---Cuerpo--->
@@ -157,7 +185,7 @@
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3">
-                                                    Correlativo
+                                                    N° Expediente
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
                                                     Tipo
@@ -173,7 +201,7 @@
                                                 </th>
 
                                                 <th scope="col" class="px-6 py-3">
-                                                    Archivos
+                                                    Ver documento
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
                                                     Proveído
@@ -225,23 +253,26 @@
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     @foreach ($item->proveidos as $proveido)
-                                                        Pase a: {{$proveido->pase}}
-                                                        Para: {{$proveido->para}}
-                                                        Fecha y hora: {{date("d/m/Y", strtotime($proveido->fecha))}} - {{date("H:i", strtotime($proveido->fecha))}}
-                                                        <br>
-                                                        <br>
+                                                    Pase a: {{$proveido->pase}}
+                                                    Para: {{$proveido->para}}
+                                                    Fecha y hora: {{date("d/m/Y", strtotime($proveido->fecha))}} - {{date("H:i", strtotime($proveido->fecha))}}
+                                                    <br>
+                                                    <br>
                                                     @endforeach
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     @switch($item->estado)
-                                                    @case('pendiente')
+                                                    @case('por definir')
                                                     <span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->estado}}</span>
                                                     @break
-                                                    @case('proveido')
+                                                    @case('atendido')
                                                     <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->estado}}</span>
                                                     @break
-                                                    @case('archivado')
+                                                    @case('derivado')
                                                     <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->estado}}</span>
+                                                    @break
+                                                    @case('rechazado')
+                                                    <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->estado}}</span>
                                                     @break
                                                     @endswitch
                                                 </td>
@@ -255,7 +286,7 @@
                                                     <div id="actionsDropdownExpediente-{{$item->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="actionsDropdownButton">
 
-                                                            @if ($item->estado != 'archivado')
+                                                            @if ($item->estado != 'atendido')
                                                             <li>
                                                                 <a href="{{route('secretaria.expediente.atender',['expediente'=>$item])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Atender</a>
                                                             </li>
@@ -273,7 +304,7 @@
                                                             @endif
 
                                                             <!----El cambio de estado solo lo realiza la persona a cargo de secretaría----->
-                                                            @if (Auth::user()->secretaria->area_id == 4)
+                                                            @if (Auth::user()->secretaria->area_id == 4 && $item->estado != 'atendido')
                                                             <li>
                                                                 <a role="button" id="estadoModalButton" data-modal-toggle="estadoModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cambiar estado</a>
                                                             </li>
@@ -320,7 +351,7 @@
                                                                 <div>
                                                                     <label for="estado" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado:</label>
                                                                     <select id="estado" name="estado" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                                        @foreach(['pendiente', 'proveido', 'archivado'] as $estado)
+                                                                        @foreach(['por definir','derivado','atendido','rechazado'] as $estado)
                                                                         <option value="{{ $estado }}" {{ $item->estado == $estado ? 'selected' : '' }}>
                                                                             {{ ucfirst($estado) }}
                                                                         </option>
@@ -362,17 +393,17 @@
                                                             <div class="grid gap-4 mb-4 sm:grid-cols-2">
 
                                                                 <div>
-                                                                    <label for="area_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Areá actual del expediente:</label>
+                                                                    <label for="area_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Areá actual del expediente: {{$item->area->nombre}}</label>
+                                                                </div>
+
+                                                                <div class="col-span-2">
+                                                                    <label for="pase" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pase a:</label>
                                                                     <select id="area_id" name="area_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                                                         @foreach ($areas as $area)
                                                                         <option value="{{$area->id}}" @selected($area->id == $item->area_id)>{{$area->nombre}}</option>
                                                                         @endforeach
                                                                     </select>
-                                                                </div>
-
-                                                                <div class="col-span-2">
-                                                                    <label for="pase" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pase a:</label>
-                                                                    <input type="text" name="pase" id="pase" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                                                                    <!---input type="text" name="pase" id="pase" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required--->
                                                                 </div>
 
                                                                 <div class="col-span-2">
@@ -419,7 +450,7 @@
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3">
-                                                    Correlativo
+                                                    N° expediente
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
                                                     Asunto
@@ -444,14 +475,17 @@
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     @switch($item->estado)
-                                                    @case('pendiente')
+                                                    @case('por definir')
                                                     <span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{$item->estado}}</span>
                                                     @break
-                                                    @case('proveido')
+                                                    @case('atendido')
                                                     <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{$item->estado}}</span>
                                                     @break
-                                                    @case('archivado')
+                                                    @case('derivado')
                                                     <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->estado}}</span>
+                                                    @break
+                                                    @case('rechazado')
+                                                    <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{{$item->estado}}</span>
                                                     @break
                                                     @endswitch
                                                 </td>
