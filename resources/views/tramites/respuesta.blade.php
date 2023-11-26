@@ -4,7 +4,17 @@
 
 @section('content')
 
-<section class="flex justify-end mb-3">
+
+<section class="flex justify-end mb-3 space-x-4">
+
+    <a target="_blank" href="{{route('tramite.dowloadHistorial',['expediente'=> $expediente])}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
+        Imprimir
+    </a>
+    <!---script>
+        document.getElementById('imprimirBtn').addEventListener('click', function() {
+            window.print();
+        });
+    </script---->
     <a href="{{route('tramite.showRespuestasExpedienteRemitente')}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
         Volver
     </a>
@@ -16,7 +26,7 @@
 <!---Tabla de Historiales--->
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
-    <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
+    <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400" id="parteImprimir">
         <caption class="p-5 text-sm font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
             Respuestas del expediente
             <p class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">

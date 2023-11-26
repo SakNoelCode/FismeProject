@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ExpedienteController extends Controller
 {
@@ -147,5 +148,11 @@ class ExpedienteController extends Controller
     public function showRespuestaExpedienteRemitente(Expediente $expediente)
     {
         return view('tramites.respuesta', compact('expediente'));
+    }
+
+    public function downloadHistorial(Expediente $expediente)
+    {
+        $pdf = PDF::loadview('reportes.historial', ['historial' => $expediente->historiales]);
+        return $pdf->stream('archivo.pdf');
     }
 }

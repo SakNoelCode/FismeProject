@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth', 'role:remitente']], function () {
         Route::get('/expedientes/ver-pdf/{name}', [TramiteExpedienteController::class, 'verPdf'])->name('tramite.verPdfExpediente');
         Route::get('/expedientes/respuestas', [TramiteExpedienteController::class, 'showRespuestasExpedienteRemitente'])->name('tramite.showRespuestasExpedienteRemitente');
         Route::get('/expediente/respuesta/{expediente}', [TramiteExpedienteController::class, 'showRespuestaExpedienteRemitente'])->name('tramite.showRespuestaExpedienteRemitente');
+        Route::get('/dowloadHistorial/{expediente}', [TramiteExpedienteController::class, 'downloadHistorial'])->name('tramite.dowloadHistorial');
     });
 });
 

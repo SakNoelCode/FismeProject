@@ -143,7 +143,7 @@
                             Enviar documento
                         </a>
                         <a href="{{route('secretaria.expediente.registrarExpedienteFisico')}}" class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                           Registrar documento físico
+                            Registrar documento físico
                         </a>
                     </div>
 
@@ -456,6 +456,9 @@
                                                     Asunto
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
+                                                    Documento
+                                                </th>
+                                                <th scope="col" class="px-6 py-3">
                                                     Estado
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
@@ -472,6 +475,20 @@
                                                 </th>
                                                 <td class="px-6 py-4">
                                                     {{$item->asunto}}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @foreach ($item->documentos as $documento)
+                                                    <div class="inline-block mr-2">
+                                                        <a target="_blank" href="{{route('secretaria.expediente.ver-pdf',['name'=>$documento->nombre_path])}}">
+                                                            <svg class="w-[20px] h-[20px] text-blue-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                                                                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                                                                </g>
+                                                            </svg>
+                                                        </a>
+                                                    </div>
+                                                    @endforeach
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     @switch($item->estado)
