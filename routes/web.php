@@ -92,7 +92,8 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
         Route::post('/expedientes/archivarExpediente/{expediente}', [SecretariaExpedienteController::class, 'archivarExpediente'])->name('secretaria.expediente.achivarExpediente');
         Route::get('/expedientes/expediente-fisico', [SecretariaExpedienteController::class, 'registrarExpedienteFisico'])->name('secretaria.expediente.registrarExpedienteFisico');
         Route::post('/expedientes/expediente-fisico', [SecretariaExpedienteController::class, 'storeExpedienteFisico'])->name('secretaria.expediente.storeExpedienteFisico');
-
+        Route::get('/expedientes/filtrar-expedientes', [SecretariaExpedienteController::class, 'filtrarExpedientes'])->name('secretaria.expediente.filtrarExpedientes');
+        Route::get('/dowloadExpediente/{fechainicio}/{fechafin}', [SecretariaExpedienteController::class, 'downloadExpediente'])->name('secretaria.expediente.downloadExpediente');
 
         //practicas
         Route::get('/practicas', [SecretariaPracticaController::class, 'index'])->name('secretaria.practicas.index');

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ExpedienteController extends Controller
 {
@@ -331,5 +332,56 @@ class ExpedienteController extends Controller
         }
 
         return redirect()->route('secretaria.expedientes.index')->with('success', 'Documento fisico registrado');
+    }
+
+    public function filtrarExpedientes(Request $request)
+    {
+        $fecha_inicio = $request->fecha_inicio;
+        $fecha_fin = $request->fecha_fin;
+
+        if ($fecha_inicio && $fecha_fin) {
+
+            $request->validate([
+                'fecha_inicio' => 'required|date',
+                'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+            ]);
+
+            $fechaInicio = Carbon::parse($fecha_inicio)->startOfDay();
+            $fechaFin = Carbon::parse($fecha_fin)->endOfDay();
+
+            // Filtrar expedientes por rango de fechas
+            $expedientes = Expediente::when($fechaInicio, function ($query) use ($fechaInicio) {
+                return $query->where('created_at', '>=', $fechaInicio);
+            })
+                ->when($fechaFin, function ($query) use ($fechaFin) {
+                    return $query->where('created_at', '<=', $fechaFin);
+                })
+                ->get();
+
+            //dd($expedientes);
+
+            return view('secretaria.expediente.filtrar', compact('fecha_inicio', 'fecha_fin', 'expedientes'));
+        }
+
+        return view('secretaria.expediente.filtrar');
+    }
+
+    public function downloadExpediente($fechainicio, $fechafin)
+    {
+        $fechaInicio = Carbon::parse($fechainicio)->startOfDay();
+        $fechaFin = Carbon::parse($fechafin)->endOfDay();
+
+        // Filtrar expedientes por rango de fechas
+        $expedientes = Expediente::when($fechaInicio, function ($query) use ($fechaInicio) {
+            return $query->where('created_at', '>=', $fechaInicio);
+        })
+            ->when($fechaFin, function ($query) use ($fechaFin) {
+                return $query->where('created_at', '<=', $fechaFin);
+            })
+            ->get();
+        //dd($expedientes);
+        $pdf = PDF::loadview('reportes.expediente', ['expedientes' => $expedientes, 'fechaInicio' => $fechaInicio, 'fechaFin' => $fechaFin]);
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream('expedientes.pdf');
     }
 }
