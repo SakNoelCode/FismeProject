@@ -116,16 +116,6 @@
                         </div>
 
                         <div>
-                            <x-input-label for='area_id' value='Areá que recepcionará(*):' class="text-xs" />
-                            <select class="text-xs mt-2 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" id="area_id" name='area_id' required autocomplete='area_id'>
-                                @foreach ($areas as $area)
-                                <option value="{{ $area->id }}">{{ $area->nombre }}</option>
-                                @endforeach
-                            </select>
-                            <x-input-error class="text-xs mt-2" :messages="$errors->get('area_id')" />
-                        </div>
-
-                        <div>
                             <x-input-label for='documentos' value='Adjuntar Solo PDF(*):' class="text-xs" />
                             <x-text-input class="text-xs mt-2 block w-full" type='file' multiple id="documentos" name='documentos[]' accept=".pdf" />
                             <x-input-error class="mt-2 text-xs" :messages="$errors->get('documentos')" />

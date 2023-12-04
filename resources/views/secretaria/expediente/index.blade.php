@@ -115,7 +115,7 @@
 
                     <div class="w-full lg:w-1/3 lg:text-center">
                         <a href="{{route('secretaria.expediente.filtrarExpedientes')}}" class="mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                           Crear reportes
+                            Crear reportes
                         </a>
                     </div>
 
@@ -125,7 +125,7 @@
             <!---Buscador--->
             <div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                 <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
-                    <div class="w-full md:w-3/4">
+                    <div class="w-full md:w-1/2">
                         <form class="flex items-center" action="{{route('secretaria.expedientes.index')}}" method="get">
                             <label for="simple-search" class="sr-only">Search</label>
                             <div class="relative w-full">
@@ -139,14 +139,32 @@
                         </form>
                     </div>
                     <div class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                        <a href="{{route('secretaria.expediente.enviarDocumento')}}" class="text-center mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            Enviar documento
-                        </a>
-                        <a href="{{route('secretaria.expediente.registrarExpedienteFisico')}}" class="text-center mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <a href="{{route('secretaria.expediente.registrarExpedienteFisico')}}" role="button" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                            <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                            </svg>
                             Registrar documento físico
                         </a>
-                    </div>
+                        <div class="flex items-center w-full space-x-3 md:w-auto">
+                            <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown" class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button">
+                                <svg class="-ml-1 mr-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path clip-rule="evenodd" fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                </svg>
+                                Enviar documento
+                            </button>
+                            <div id="actionsDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="actionsDropdownButton">
+                                    <li>
+                                        <a href="{{route('secretaria.expediente.enviarDocumento')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Por área</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('secretaria.expediente.enviarDocumentoDocente')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Por docentes</a>
+                                    </li>
+                                </ul>
+                            </div>
 
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -290,7 +308,7 @@
                                                             <li>
                                                                 <a href="{{route('secretaria.expediente.atender',['expediente'=>$item])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Atender</a>
                                                             </li>
-                                                            
+
                                                             @if ($item->tipo == 'externo')
                                                             <li>
                                                                 <a role="button" id="derivarExpedienteModalButton" data-modal-toggle="derivarExpedienteModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Realizar proveído</a>
@@ -393,11 +411,11 @@
                                                             <div class="grid gap-4 mb-4 sm:grid-cols-2">
 
                                                                 <div>
-                                                                    <label for="area_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Areá actual del expediente: {{$item->area->nombre}}</label>
+                                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Areá actual del expediente: {{$item->area->nombre}}</label>
                                                                 </div>
 
                                                                 <div class="col-span-2">
-                                                                    <label for="pase" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pase a:</label>
+                                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pase a:</label>
                                                                     <select id="area_id" name="area_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                                                         @foreach ($areas as $area)
                                                                         <option value="{{$area->id}}" @selected($area->id == $item->area_id)>{{$area->nombre}}</option>

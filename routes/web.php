@@ -89,6 +89,8 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
         Route::patch('/expediente/derivar/{id}', [SecretariaExpedienteController::class, 'derivarAreaExpediente'])->name('secretaria.expediente.derivarArea');
         Route::get('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'enviarDocumento'])->name('secretaria.expediente.enviarDocumento');
         Route::post('/expedientes/enviarDocumento', [SecretariaExpedienteController::class, 'storeEnviarDocumento'])->name('secretaria.expediente.storeEnviarDocumento');
+        Route::get('/expedientes/enviarDocumentoDocente', [SecretariaExpedienteController::class, 'enviarDocumentoDocente'])->name('secretaria.expediente.enviarDocumentoDocente');
+        Route::post('/expedientes/enviarDocumentoDocente', [SecretariaExpedienteController::class, 'storeEnviarDocumentoDocente'])->name('secretaria.expediente.storeEnviarDocumentoDocente');
         Route::post('/expedientes/archivarExpediente/{expediente}', [SecretariaExpedienteController::class, 'archivarExpediente'])->name('secretaria.expediente.achivarExpediente');
         Route::get('/expedientes/expediente-fisico', [SecretariaExpedienteController::class, 'registrarExpedienteFisico'])->name('secretaria.expediente.registrarExpedienteFisico');
         Route::post('/expedientes/expediente-fisico', [SecretariaExpedienteController::class, 'storeExpedienteFisico'])->name('secretaria.expediente.storeExpedienteFisico');

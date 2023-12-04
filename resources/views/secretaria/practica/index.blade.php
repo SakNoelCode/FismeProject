@@ -355,7 +355,7 @@
 
             @if ($practicas->hasPages())
             <div class="px-6 py-4">
-                {{ $proyectos->links() }}
+                {{ $practicas->links() }}
             </div>
             @endif
 

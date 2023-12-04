@@ -24,7 +24,7 @@
                         <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                         </svg>
-                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Enviar documento por área</span>
+                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Enviar documento por docentes</span>
                     </div>
                 </li>
             </ol>
@@ -47,12 +47,12 @@
                             </h2>
 
                             <p class="mt-1 text-xs text-gray-600 dark:text-gray-400">
-                                Envié documentación a cualquier areá de la Fisme
+                                Envié documentación a cualquier docente de la Fisme, de manera automática les llegará un correo.
                             </p>
                         </header>
 
 
-                        <form method="post" action="{{route('secretaria.expediente.storeEnviarDocumento')}}" class="mt-6 space-y-6" enctype="multipart/form-data">
+                        <form method="post" action="{{route('secretaria.expediente.storeEnviarDocumentoDocente')}}" class="mt-6 space-y-6" enctype="multipart/form-data">
                             @csrf
 
                             <div>
@@ -73,13 +73,17 @@
                             </div>
 
                             <div>
-                                <x-input-label for="area_id" :value="__('Area a enviar:')" class="text-xs" />
-                                <select name="area_id" id="area_id" class="text-xs mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-                                    @foreach ($areas as $area)
-                                    <option value="{{ $area->id }}" @selected(old('area_id')==$area->id)>{{ $area->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                <x-input-error class="mt-2 text-xs" :messages="$errors->get('area_id')" />
+                                <x-input-label for="" :value="__('Elija los docentes a los que enviar el documento (*):')" class="text-xs mb-3" />
+                                @foreach ($asesores as $asesor)
+                                <div class="flex items-start mb-2">
+                                    <div class="flex items-center h-5">
+                                        <input id="{{$asesor->id}}" value="{{$asesor->id}}" name="asesores[]" type="checkbox" @if(is_array(old('asesores')) && in_array($asesor->id, old('asesores'))) checked @endif
+                                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
+                                    </div>
+                                    <label for="{{$asesor->id}}" class="ms-2 text-xs font-medium text-gray-900 dark:text-gray-300">{{$asesor->user->name}} - {{$asesor->user->email}}</label>
+                                </div>
+                                @endforeach
+                                <x-input-error class="mt-2 text-xs" :messages="$errors->get('asesores')" />
                             </div>
 
                             <div>

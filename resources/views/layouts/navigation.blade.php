@@ -18,7 +18,7 @@
 
                     <!--Menú secretaría--->
                     @hasrole('secretaria')
-                    @if (Auth::user()->secretaria->area_id === 4)
+                    @if (Auth::user()->secretaria->area_id == 4)
                     <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.index')">
                         {{ __('Proyectos de Tesis') }}
                     </x-nav-link>

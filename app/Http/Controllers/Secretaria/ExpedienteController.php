@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Secretaria;
 
+use App\Events\enviarCorreoDocente;
 use App\Http\Controllers\Controller;
+use App\Mail\EnviarDocumentoDocenteMail;
 use App\Models\Area;
+use App\Models\Asesor;
 use App\Models\Documento;
 use App\Models\Expediente;
 use App\Models\Remitente;
@@ -17,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Mail;
 
 class ExpedienteController extends Controller
 {
@@ -259,6 +263,50 @@ class ExpedienteController extends Controller
         return redirect()->route('secretaria.expediente.enviarDocumento')->with('success', 'Expediente enviado');
     }
 
+    public function enviarDocumentoDocente()
+    {
+        $tipodocumentos = Tipodocumento::all();
+        $asesores = Asesor::all();
+        return view('secretaria.expediente.enviar-documento-docente', compact('asesores', 'tipodocumentos'));
+    }
+
+    public function storeEnviarDocumentoDocente(Request $request)
+    {
+        $request->validate([
+            'asunto' => 'required|max:50',
+            'tipodocumento_id' => 'required|integer|exists:tipodocumentos,id',
+            'documentos' => 'required',
+            'asesores' => 'required|array'
+        ]);
+
+        $arrayDocumentos = array();
+        if ($request->hasFile('documentos')) {
+            $files = $request->file('documentos');
+
+            foreach ($files as $file) {
+                $nameDocumento = (new Documento())->guardarDocumento($file);
+                $arrayDocumentos[] = $nameDocumento;
+            }
+        }
+
+        /*foreach ($request->asesores as $asesor) {
+            $asesor = Asesor::find($asesor);
+            $documento = Tipodocumento::find($request->tipodocumento_id);
+            //dd($asesor->user->name);
+
+            $nameAsesor = $asesor->user->name;
+            $emailAsesor = $asesor->user->email;
+            $asunto = $request->asunto;
+            $tipoDocumento = $documento->nombre;
+
+            Mail::to($emailAsesor)->send(new EnviarDocumentoDocenteMail($nameAsesor, $asunto, $tipoDocumento, $arrayDocumentos));
+        }*/
+
+        enviarCorreoDocente::dispatch($request->asesores, $arrayDocumentos, $request->asunto, $request->tipodocumento_id);
+
+        return redirect()->route('secretaria.expedientes.index')->with('success', 'Documento enviado');
+    }
+
     public function archivarExpediente(Expediente $expediente)
     {
         $expediente->update([
@@ -271,8 +319,8 @@ class ExpedienteController extends Controller
     public function registrarExpedienteFisico()
     {
         $tipodocumentos = Tipodocumento::all();
-        $areas = Area::all();
-        return view('secretaria.expediente.registrar-expediente-fisico', compact('areas', 'tipodocumentos'));
+        //$areas = Area::all();
+        return view('secretaria.expediente.registrar-expediente-fisico', compact('tipodocumentos'));
     }
 
     public function storeExpedienteFisico(Request $request)
@@ -280,7 +328,6 @@ class ExpedienteController extends Controller
         $request->validate([
             'asunto' => 'required|max:250',
             'tipodocumento_id' => 'required|exists:tipodocumentos,id',
-            'area_id' => 'required|integer|exists:areas,id',
             'documentos' => 'required',
             'razon_social' => 'required|max:100',
             'tipo_documento' => [
@@ -304,7 +351,7 @@ class ExpedienteController extends Controller
 
         ]);
 
-        $request->merge(['tipo' => 'externo', 'user_id' => 4]);
+        $request->merge(['tipo' => 'externo', 'user_id' => 4, 'area_id' => 4]);
 
         try {
             DB::beginTransaction();

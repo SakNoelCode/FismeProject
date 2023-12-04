@@ -75,8 +75,8 @@ class ExpedienteController extends Controller
     public function createExpedienteRemitente()
     {
         $tipodocumentos = Tipodocumento::all();
-        $areas = Area::all();
-        return view('tramites.createExpediente', compact('areas', 'tipodocumentos'));
+       // $areas = Area::all();
+        return view('tramites.createExpediente', compact('tipodocumentos'));
     }
 
     public function storeExpedienteRemitente(Request $request)
@@ -84,13 +84,14 @@ class ExpedienteController extends Controller
         $request->validate([
             'asunto' => 'required|max:250',
             'tipodocumento_id' => 'required|exists:tipodocumentos,id',
-            'area_id' => 'required|integer|exists:areas,id',
+            //'area_id' => 'required|integer|exists:areas,id',
             'documentos' => 'required'
         ]);
 
 
         $request->merge([
             'tipo' => 'externo',
+            'area_id' => 4
         ]);
 
         $remitente = Remitente::find(Auth::user()->remitente->id);
