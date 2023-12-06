@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
 use App\Http\Controllers\Secretaria\PracticaController as SecretariaPracticaController;
+use App\Http\Controllers\Secretaria\ProyectoController as SecretariaProyectoController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use App\Http\Controllers\Tramite\ExpedienteController as TramiteExpedienteController;
 use Illuminate\Support\Facades\Route;
@@ -68,17 +69,22 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
 
     //Practicas
     Route::prefix('secretaria')->group(function () {
-        Route::get('/cambiar-estado/{proyecto}', [ProyectoController::class, 'cambiarEstado'])->name('proyecto.cambiarEstado');
-        Route::patch('/cambiar-estado/{proyecto}', [ProyectoController::class, 'updateEstado'])->name('proyecto.updateEstado');
-        Route::patch('/cambiar-etapa/{proyecto}', [ProyectoController::class, 'updateEtapa'])->name('proyecto.updateEtapa');
-        Route::get('/add-resolucion/{proyecto}', [ProyectoController::class, 'addResolucion'])->name('proyecto.addResolucion');
-        Route::post('/add-resolucion/{proyecto}', [ProyectoController::class, 'storeAddResolucion'])->name('proyecto.storeAddResolucion');
-        Route::post('/proyectos/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucion.download');
-        Route::post('/proyectos/deleteResolucion/{id}', [ProyectoController::class, 'destroyResolucion'])->name('Proyecto.resolucion.destroy');
-        Route::get('/crear-tesista', [TesistaController::class, 'createForSecretaria'])->name('secretaria.crear-tesista');
-        Route::post('/crear-tesista', [TesistaController::class, 'storeForSecretaria'])->name('secretaria.store-tesista');
-        Route::get('/crear-empresa', [EmpresaController::class, 'createForSecretaria'])->name('secretaria.crear-empresa');
-        Route::post('/crear-empresa', [EmpresaController::class, 'storeForSecretaria'])->name('secretaria.store-empresa');
+
+        Route::prefix('proyecto')->group(function () {
+            Route::get('/cambiar-estado/{proyecto}', [ProyectoController::class, 'cambiarEstado'])->name('proyecto.cambiarEstado');
+            Route::patch('/cambiar-estado/{proyecto}', [ProyectoController::class, 'updateEstado'])->name('proyecto.updateEstado');
+            Route::patch('/cambiar-etapa/{proyecto}', [ProyectoController::class, 'updateEtapa'])->name('proyecto.updateEtapa');
+            Route::get('/add-resolucion/{proyecto}', [ProyectoController::class, 'addResolucion'])->name('proyecto.addResolucion');
+            Route::post('/add-resolucion/{proyecto}', [ProyectoController::class, 'storeAddResolucion'])->name('proyecto.storeAddResolucion');
+            Route::post('/proyectos/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucion.download');
+            Route::post('/proyectos/deleteResolucion/{id}', [ProyectoController::class, 'destroyResolucion'])->name('Proyecto.resolucion.destroy');
+            Route::get('/crear-tesista', [TesistaController::class, 'createForSecretaria'])->name('secretaria.crear-tesista');
+            Route::post('/crear-tesista', [TesistaController::class, 'storeForSecretaria'])->name('secretaria.store-tesista');
+            Route::get('/crear-empresa', [EmpresaController::class, 'createForSecretaria'])->name('secretaria.crear-empresa');
+            Route::post('/crear-empresa', [EmpresaController::class, 'storeForSecretaria'])->name('secretaria.store-empresa');
+            Route::get('/asignar-jurado/{proyecto}', [SecretariaProyectoController::class, 'showAsignarJurado'])->name('secretaria.proyecto.showAsignarJurado');
+            Route::post('/asignar-jurado/{proyecto}', [SecretariaProyectoController::class, 'saveAsignarJurado'])->name('secretaria.proyecto.saveAsignarJurado');
+        });
 
         //Expedientes
         Route::get('/expedientes', [SecretariaExpedienteController::class, 'index'])->name('secretaria.expedientes.index');

@@ -35,6 +35,7 @@ class mailCorreoDocente
             $tipoDocumento = $documento->nombre;
 
             Mail::to($emailAsesor)->send(new EnviarDocumentoDocenteMail($nameAsesor, $asunto, $tipoDocumento, $event->arrayDocumentos));
+           // Mail::to($emailAsesor)->queue(new EnviarDocumentoDocenteMail($nameAsesor, $asunto, $tipoDocumento, $event->arrayDocumentos));
         }
     }
 }

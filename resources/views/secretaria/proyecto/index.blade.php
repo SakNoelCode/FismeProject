@@ -324,7 +324,7 @@
 
                             <!----Responsables----->
                             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="statistics-{{$item->id}}" role="tabpanel" aria-labelledby="statistics-tab-{{$item->id}}">
-                                <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">
+                                <dl class="grid max-w-screen-xl grid-cols-1 sm:grid-cols-2 gap-8 p-4 mx-auto text-gray-900 md:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">
                                     <div class="flex flex-col">
                                         <dt class="mb-2 text-3xl font-extrabold">Tesista</dt>
                                         <dd class="text-gray-500 dark:text-gray-400">{{$item->tesista->user->name}}</dd>
@@ -337,7 +337,36 @@
                                         <dt class="mb-2 text-3xl font-extrabold">Empresa</dt>
                                         <dd class="text-gray-500 dark:text-gray-400">{{$item->empresa->name}}</dd>
                                     </div>
+
+                                    @if ($item->juradotesi_id)
+                                    <div class="flex flex-col">
+                                        <dt class="mb-2 text-3xl font-extrabold">Presidente</dt>
+                                        <dd class="text-gray-500 dark:text-gray-400">{{$item->juradotesis->presidente}}</dd>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <dt class="mb-2 text-3xl font-extrabold">Secretario</dt>
+                                        <dd class="text-gray-500 dark:text-gray-400">{{$item->juradotesis->secretario}}</dd>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <dt class="mb-2 text-3xl font-extrabold">Vocal</dt>
+                                        <dd class="text-gray-500 dark:text-gray-400">{{$item->juradotesis->vocal}}</dd>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <dt class="mb-2 text-3xl font-extrabold">Accesitario</dt>
+                                        <dd class="text-gray-500 dark:text-gray-400">{{$item->juradotesis->accesitario}}</dd>
+                                    </div>
+                                    @endif
+
+
                                 </dl>
+
+                                <a href="{{route('secretaria.proyecto.showAsignarJurado',['proyecto'=>$item])}}" class="mt-5 inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
+                                    Asignar jurado
+                                    <svg class="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                    </svg>
+                                </a>
+
                             </div>
 
                             <!----Resoluciones---->
