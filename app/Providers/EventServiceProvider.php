@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\enviarCorreoDocente;
+use App\Events\saveAsignarJuradoEvent;
+use App\Listeners\GuardarRegistroJuradoTesiListener;
 use App\Listeners\mailCorreoDocente;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         enviarCorreoDocente::class => [
             mailCorreoDocente::class
+        ],
+        saveAsignarJuradoEvent::class => [
+            GuardarRegistroJuradoTesiListener::class
         ],
     ];
 
