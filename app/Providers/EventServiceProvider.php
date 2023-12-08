@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\enviarCorreoDocente;
+use App\Events\saveAsesorEvent;
 use App\Events\saveAsignarJuradoEvent;
+use App\Listeners\guardarAsesorListener;
 use App\Listeners\GuardarRegistroJuradoTesiListener;
 use App\Listeners\mailCorreoDocente;
 use Illuminate\Auth\Events\Registered;
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         saveAsignarJuradoEvent::class => [
             GuardarRegistroJuradoTesiListener::class
+        ],
+        saveAsesorEvent::class => [
+            guardarAsesorListener::class
         ],
     ];
 

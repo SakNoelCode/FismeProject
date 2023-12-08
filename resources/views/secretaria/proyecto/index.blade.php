@@ -85,6 +85,9 @@
                                             <li>
                                                 <a href="{{ route('secretaria.crear-empresa') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crear nueva empresa</a>
                                             </li>
+                                            <li>
+                                                <a href="{{ route('secretaria.crear-asesor') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crear nuevo asesor</a>
+                                            </li>
                                         </ul>
                                         <!--div class="py-1">
                                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete all</a>

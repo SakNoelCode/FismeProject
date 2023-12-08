@@ -432,6 +432,27 @@
                                         <dt class="mb-2 text-3xl font-extrabold">Empresa</dt>
                                         <dd class="text-gray-500 dark:text-gray-400">{{$item->empresa->name}}</dd>
                                     </div>
+
+
+                                    @if ($item->juradotesi_id)
+                                    <div class="flex flex-col">
+                                        <dt class="mb-2 text-3xl font-extrabold">Presidente</dt>
+                                        <dd class="text-gray-500 dark:text-gray-400">{{$item->juradotesis->presidente}}</dd>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <dt class="mb-2 text-3xl font-extrabold">Secretario</dt>
+                                        <dd class="text-gray-500 dark:text-gray-400">{{$item->juradotesis->secretario}}</dd>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <dt class="mb-2 text-3xl font-extrabold">Vocal</dt>
+                                        <dd class="text-gray-500 dark:text-gray-400">{{$item->juradotesis->vocal}}</dd>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <dt class="mb-2 text-3xl font-extrabold">Accesitario</dt>
+                                        <dd class="text-gray-500 dark:text-gray-400">{{$item->juradotesis->accesitario}}</dd>
+                                    </div>
+                                    @endif
+
                                 </dl>
                             </div>
 

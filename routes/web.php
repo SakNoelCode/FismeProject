@@ -67,7 +67,6 @@ Route::group(['middleware' => ['auth', 'role:practicante']], function () {
 Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
     Route::resources(['proyectos' => ProyectoController::class]);
 
-    //Practicas
     Route::prefix('secretaria')->group(function () {
 
         Route::prefix('proyecto')->group(function () {
@@ -84,6 +83,8 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
             Route::post('/crear-empresa', [EmpresaController::class, 'storeForSecretaria'])->name('secretaria.store-empresa');
             Route::get('/asignar-jurado/{proyecto}', [SecretariaProyectoController::class, 'showAsignarJurado'])->name('secretaria.proyecto.showAsignarJurado');
             Route::post('/asignar-jurado/{proyecto}', [SecretariaProyectoController::class, 'saveAsignarJurado'])->name('secretaria.proyecto.saveAsignarJurado');
+            Route::get('/crear-asesor', [SecretariaProyectoController::class, 'showCrearAsesor'])->name('secretaria.crear-asesor');
+            Route::post('/crear-asesor', [SecretariaProyectoController::class, 'saveAsesor'])->name('secretaria.save-asesor');
         });
 
         //Expedientes

@@ -1,5 +1,5 @@
 @props(['action'])
-<section class="bg-white dark:bg-gray-900">
+<section class="bg-gray-100 dark:bg-gray-900">
 
     <div class="py-6 px-4 mx-auto max-w-2xl lg:py-10">
 

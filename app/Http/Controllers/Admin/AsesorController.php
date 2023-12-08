@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\saveAsesorEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\storeAsesorRequest;
 use App\Models\Asesor;
 use App\Models\Escuela;
 use App\Models\User;
@@ -35,31 +37,9 @@ class AsesorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(storeAsesorRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
-            'especialidad' => 'required|max:100',
-            'escuela_id' => 'required|integer|exists:escuelas,id',
-            'password'  => 'required|same:password_confirm|min:6|different:email'
-        ]);
-
-        try {
-            DB::beginTransaction();
-            $user = User::create($request->only('name', 'email', 'password'));
-            $user->asesor()->create(
-                $request->merge(['user_id' => $user->id])->except('name', 'email', 'password')
-            );
-
-            //Agregar rol al usuario
-            $user->assignRole('asesor');
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-        }
-
+        saveAsesorEvent::dispatch($request->validated());
         return redirect()->route('usuarios.index')->with('success', 'Asesor agregado exitosamente');
     }
 
