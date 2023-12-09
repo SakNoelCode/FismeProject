@@ -16,7 +16,7 @@ class PracticaController extends Controller
 {
     public function index(): View
     {
-        $practicas = Practica::paginate(5);
+        $practicas = Practica::orderBy('created_at', 'desc')->paginate(5);
         //dd($practicas);
         return view('secretaria.practica.index', compact('practicas'));
     }

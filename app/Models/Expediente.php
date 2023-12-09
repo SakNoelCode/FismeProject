@@ -37,8 +37,11 @@ class Expediente extends Model
         // Agregar un evento creating para generar la numeración automática
         static::creating(function ($model) {
             //$ultimoNumero = static::max('id'); // Obtener el último número en la tabla
-            $ultimoNumeroPractica = Practica::max('id');
-            $ultimoNumeroExpediente = Expediente::max('id');
+            $ultimoRegistroPractica = Practica::latest()->first();
+            $ultimoNumeroPractica = $ultimoRegistroPractica ? (int) $ultimoRegistroPractica->numeracion : null;
+
+            $ultimoRegistroExpediente = Expediente::latest()->first();
+            $ultimoNumeroExpediente = $ultimoRegistroExpediente ? (int) $ultimoRegistroExpediente->numeracion : null;
 
             $ultimoNumero = max($ultimoNumeroExpediente, $ultimoNumeroPractica);
 

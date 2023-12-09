@@ -20,8 +20,11 @@ class Practica extends Model
         // Agregar un evento creating para generar la numeración automática
         static::creating(function ($model) {
             //$ultimoNumero = static::max('id'); // Obtener el último número en la tabla
-            $ultimoNumeroPractica = Practica::max('id');
-            $ultimoNumeroExpediente = Expediente::max('id');
+            $ultimoRegistroPractica = Practica::latest()->first();
+            $ultimoNumeroPractica = $ultimoRegistroPractica ? (int) $ultimoRegistroPractica->numeracion : null;
+
+            $ultimoRegistroExpediente = Expediente::latest()->first();
+            $ultimoNumeroExpediente = $ultimoRegistroExpediente ? (int) $ultimoRegistroExpediente->numeracion : null;
 
             $ultimoNumero = max($ultimoNumeroExpediente, $ultimoNumeroPractica);
 
@@ -42,5 +45,13 @@ class Practica extends Model
     public function actas(): HasMany
     {
         return $this->hasMany(Acta::class);
+    }
+
+    public function guardarDocumento($file)
+    {
+        $uploadedFile = $file;
+        $uniqueFileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+        $uploadedFile->storeAs('informes', $uniqueFileName);
+        return $uniqueFileName;
     }
 }

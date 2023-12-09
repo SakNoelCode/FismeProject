@@ -1,6 +1,6 @@
 @extends('layouts.practicas.app')
 
-@section('title','Registro de datos')
+@section('title','Completar datos')
 
 @section('content')
 <section>

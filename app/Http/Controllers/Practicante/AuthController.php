@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Practicante;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Expediente;
+use App\Models\Practica;
 use App\Models\Practicante;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -53,7 +55,8 @@ class AuthController extends Controller
         $user->assignRole('practicante');
 
         Practicante::create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'razon_social' => $user->name
         ]);
 
         event(new Registered($user));

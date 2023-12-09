@@ -16,18 +16,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Response;
 
 class PracticaController extends Controller
 {
     public function showHome(): View
     {
-      /*  dd($existeActaConId6 = Auth::user()
+        /*  dd($existeActaConId6 = Auth::user()
             ->practicante
             ->practica
             ->actas()
             ->where('tipoacta_id', 6)
             ->exists());*/
-           // dd($acta = Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 6));
+        // dd($acta = Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 6));
         return view('practicante.home');
     }
 
@@ -312,6 +314,77 @@ class PracticaController extends Controller
     public function verPDF(String $name)
     {
         $filePath = 'actas/' . $name;
+
+
+        if (Storage::disk('public')->exists($filePath)) {
+
+            $pdfPath = Storage::disk('public')->path($filePath);
+
+            return response()->file($pdfPath);
+        } else {
+            return redirect()->back()->withErrors(['El archivo PDF no existe.']);
+        }
+    }
+
+    public function generateSolicitudAprobacionPractica()
+    {
+        return view('practicante.actas.generate-solicitud-practica');
+    }
+
+    public function generateSolicitudAprobacionPracticaPDF(Request $request)
+    {
+        $request->validate([
+            'nameDecano' => 'required',
+            'direccion' => 'required'
+        ]);
+
+
+        $data = [
+            'nameDecano' => $request->nameDecano,
+            'razon_social' => Auth::user()->practicante->razon_social,
+            'dni' => substr(Auth::user()->practicante->codigo_estudiante, 0, -2),
+            'codigo' => Auth::user()->practicante->codigo_estudiante,
+            'direccion' => $request->direccion,
+            'celular' => Auth::user()->practicante->telefono
+        ];
+
+        // Crear el objeto PDF y cargar la vista
+        $pdf = PDF::loadView('reportes.solicitud-aprobacion-practica', $data);
+
+        return $pdf->stream('solicitud.pdf');
+    }
+
+    public function createInformeFinal(): View
+    {
+        return view('practicante.create-informe-final');
+    }
+
+    public function storeInformeFinal(Request $request)
+    {
+        $request->validate([
+            'documento_path' =>  ['required', File::types(['pdf'])]
+        ]);
+
+        if ($request->hasFile('documento_path')) {
+
+            //Comprobar si existe un archivo ya cargado
+            $existe = Auth::user()->practicante->practica->path_informe_final;
+
+            if ($existe) {Storage::delete('informes/' . $existe);}
+
+            $file = $request->file('documento_path');
+            $nameDocumento = (new Practica())->guardarDocumento($file);
+            Auth::user()->practicante->practica->update([
+                'path_informe_final' => $nameDocumento,
+            ]);
+        }
+
+        return redirect()->route('practicante.create-informe-final')->with('status','saved');
+    }
+
+    public function verPDFInforme(String $name)
+    {
+        $filePath = 'informes/' . $name;
 
 
         if (Storage::disk('public')->exists($filePath)) {
