@@ -15,8 +15,10 @@ class ComisionController extends Controller
 {
     public function index(): View
     {
-        $comision = Comision::first();
-        return view('director.comision.index', compact('comision'));
+        $comision = Comision::latest()->first();
+
+        $comisiones = Comision::all();
+        return view('director.comision.index', compact('comision','comisiones'));
     }
 
     public function create(): View
@@ -28,33 +30,15 @@ class ComisionController extends Controller
     public function update(UpdateComisionRequest $request): RedirectResponse
     {
         try {
-            DB::beginTransaction();
-            $comision = Comision::first();
-            if ($comision === null) {
-                $nuevaComision = Comision::create($request->validated());
-
-                foreach ($request->asesores as $item) {
-                    $asesor = Asesor::find($item);
-                    $asesor->update([
-                        'comision_id' => $nuevaComision->id
-                    ]);
-                }
-            } else {
-                $comision->update($request->validated());
-
-                Asesor::whereNotNull('comision_id')->update(['comision_id' => null]);
-
-                foreach ($request->asesores as $item) {
-                    $asesor = Asesor::find($item);
-                    $asesor->update([
-                        'comision_id' => $comision->id
-                    ]);
-                }
-            }
-            DB::commit();
+            Comision::create([
+                'fecha_inicio' => $request->fecha_inicio,
+                'fecha_fin' => $request->fecha_fin,
+                'docente_1' => $request->asesores[0],
+                'docente_2' => $request->asesores[1],
+                'docente_3' => $request->asesores[2],
+            ]);
         } catch (Exception $e) {
-            DB::rollBack();
-            dd($e);
+            throw $e;
         }
 
         return redirect()->route('director.comision.index')->with('success', 'Comisión asignada');

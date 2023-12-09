@@ -31,6 +31,6 @@ class Asesor extends Model
     }
     public function practicantes()
     {
-        return $this->hasMany(Practicante::class);
+        return $this->hasMany(Practicante::class,'asesore_id');
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpedienteController;
 use App\Http\Controllers\Secretaria\PracticaController as SecretariaPracticaController;
 use App\Http\Controllers\Secretaria\ProyectoController as SecretariaProyectoController;
+use App\Http\Controllers\Asesor\PracticaController as AsesorPracticaController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use App\Http\Controllers\Tramite\ExpedienteController as TramiteExpedienteController;
 use Illuminate\Support\Facades\Route;
@@ -135,8 +136,14 @@ Route::group(['middleware' => ['auth', 'role:tesista']], function () {
 Route::group(['middleware' => ['auth', 'role:asesor']], function () {
     Route::resource('proyectoAsesor', ProyectoAsesorController::class)->only(['index']);
 
-    Route::get('/proyectoAsesor/ver-estado/{proyecto}', [ProyectoAsesorController::class, 'verEstado'])->name('proyectoAsesor.verEstado');
-    Route::post('/proyectoAsesor/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucionAsesor.download');
+    Route::prefix('asesor')->group(function () {
+        Route::get('/proyectoAsesor/ver-estado/{proyecto}', [ProyectoAsesorController::class, 'verEstado'])->name('proyectoAsesor.verEstado');
+        Route::post('/proyectoAsesor/{id}', [ProyectoController::class, 'downloadResolucion'])->name('resolucionAsesor.download');
+
+        Route::prefix('practica')->group(function () {
+            Route::get('/', [AsesorPracticaController::class, 'index'])->name('asesor.practica.index');
+        });
+    });
 });
 
 //Rutas para director de departamento

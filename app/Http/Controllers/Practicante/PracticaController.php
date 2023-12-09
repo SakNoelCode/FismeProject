@@ -55,7 +55,7 @@ class PracticaController extends Controller
 
     public function createPractica(): View
     {
-        $asesores = Asesor::whereNull('comision_id')->get();
+        $asesores = Asesor::all();
         return view('practicante.practica.create', compact('asesores'));
     }
 

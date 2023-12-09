@@ -45,6 +45,9 @@
                     <x-nav-link :href="route('proyectoAsesor.index')" :active="request()->routeIs('proyectoAsesor.index')">
                         {{ __('Proyectos de Tesis') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('asesor.practica.index')" :active="request()->routeIs('asesor.practica.index')">
+                        {{ __('Prácticas') }}
+                    </x-nav-link>
                     @endhasrole
 
                     <!--Menú Director-->
@@ -138,6 +141,9 @@
             @hasrole('asesor')
             <x-responsive-nav-link :href="route('proyectoAsesor.index')" :active="request()->routeIs('proyectoAsesor.index')">
                 {{ __('Proyectos de Tesis') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('asesor.practica.index')" :active="request()->routeIs('asesor.practica.index')">
+                {{ __('Practicas') }}
             </x-responsive-nav-link>
             @endhasrole
 

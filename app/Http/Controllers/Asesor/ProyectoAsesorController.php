@@ -7,7 +7,7 @@ use App\Models\Asesor;
 use App\Models\Estado;
 use App\Models\Etapa;
 use App\Models\Proyecto;
-use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,10 +45,10 @@ class ProyectoAsesorController extends Controller
         return view('asesor.proyecto.index', compact('proyectos', 'search'));
     }
 
-    public function verEstado(Proyecto $proyecto)
+    public function verEstado(Proyecto $proyecto): View
     {
         $etapas = Etapa::all();
         $estados = Estado::all();
-        return view('asesor.proyecto.ver-estado', compact('proyecto', 'etapas','estados'));
+        return view('asesor.proyecto.ver-estado', compact('proyecto', 'etapas', 'estados'));
     }
 }

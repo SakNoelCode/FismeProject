@@ -16,11 +16,14 @@
         Actas
     </x-nav-link-tramite>
 
+    @if (Auth::user()->practicante->practica)
     @if (Auth::user()->practicante->practica->estado == 'Aprobado' && Auth::user()->practicante->practica->etapa == 'Sustentado')
     <x-nav-link-tramite :href="route('practicante.create-informe-final')" :active="request()->routeIs('practicante.create-informe-final')">
         Informe
     </x-nav-link-tramite>
     @endif
+    @endif
+
 
 
 

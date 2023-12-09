@@ -63,7 +63,7 @@
                                 <div class="flex items-center h-5">
                                     <input 
                                     id="{{$asesor->id}}" 
-                                    value="{{$asesor->id}}" 
+                                    value="{{$asesor->user->name}}" 
                                     name="asesores[]" 
                                     type="checkbox"
                                     @if(is_array(old('asesores')) && in_array($asesor->id, old('asesores'))) checked @endif 
