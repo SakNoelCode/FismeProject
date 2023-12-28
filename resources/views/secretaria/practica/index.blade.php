@@ -150,6 +150,7 @@
                         </ul>
                     </div>
 
+                    <!----Seecion Documentos-->
                     <div class="hidden p-4 bg-white rounded-lg" id="documentos-{{$item->id}}" role="tabpanel" aria-labelledby="documentos-tab-{{$item->id}}">
 
 
@@ -170,6 +171,9 @@
                                         <th scope="col" class="px-6 py-3">
                                             Documento
                                         </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Acciones
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -179,9 +183,67 @@
                                             {{ucfirst($acta->tipoacta->descripcion)}}
                                         </th>
                                         <td class="px-6 py-4">
+                                            @if ($acta->tipoacta_id == 1)
+                                            Documento:
                                             <a target="_blank" href="{{ route('secretaria.practica.ver-pdf',['name'=>$acta->documento_path]) }}" class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">
                                                 {{$acta->documento_path}}
                                             </a>
+                                            <br>
+                                            <br>
+                                            @if ($acta->cargo_path)
+                                            Cargo:
+                                            <a target="_blank" href="{{ route('secretaria.practica.ver-pdf',['name'=>$acta->cargo_path]) }}" class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">
+                                                {{$acta->cargo_path}}
+                                            </a>
+
+                                            @if ($acta->pase_proveido)
+                                            <br>
+                                            <br>
+                                            Proveído:
+                                            <br>
+                                            Pase a:  {{$acta->pase_proveido}}
+                                            <br>
+                                            Para: {{$acta->para_proveido}}
+                                            <br>
+                                            Fecha: {{$acta->fecha_proveido}}                                                                                          
+                                            @endif
+
+                                            @endif
+                                            @else
+                                            <a target="_blank" href="{{ route('secretaria.practica.ver-pdf',['name'=>$acta->documento_path]) }}" class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">
+                                                {{$acta->documento_path}}
+                                            </a>
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @if ($acta->tipoacta->id == 1)
+                                            <button id="" data-dropdown-toggle="dropdown-{{$acta->id}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                Acciones
+                                                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Dropdown menu -->
+                                            <div id="dropdown-{{$acta->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                                    <li>
+                                                        <a role="button" data-modal-target="cargo-modal-{{$item->id}}" data-modal-toggle="cargo-modal-{{$item->id}}" class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                            Subir cargo
+                                                        </a>
+                                                    </li>
+                                                    @if ($acta->pase_proveido == null)
+                                                    <li>
+                                                        <a role="button" data-modal-target="derivarExpedienteModal-{{$item->id}}" data-modal-toggle="derivarExpedienteModal-{{$item->id}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                            Realizar proveído
+                                                        </a>
+                                                    </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                            @endif
+
+
                                         </td>
                                     </tr>
                                     @endforeach
@@ -350,6 +412,82 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Modal para subir el cargo -->
+            <div id="cargo-modal-{{$item->id}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                Subir cargo
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="cargo-modal-{{$item->id}}">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <form action="{{route('secretaria.practicas.uploadCargo',['practica'=>$item->id])}}" class="p-4 md:p-5" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="grid gap-4 mb-4 grid-cols-2">
+                                <div class="col-span-2">
+                                    <label for="cargo_path" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subir archivo: </label>
+                                    <input accept=".pdf" required type="file" name="cargo_path" id="cargo_path" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                </div>
+                            </div>
+                            <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Guardar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!----Modal para reealizar proveído--->
+            <div id="derivarExpedienteModal-{{$item->id}}" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-md max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                        <!-- Modal header -->
+                        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                Realizar Proveido
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="derivarExpedienteModal-{{$item->id}}">
+                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <form action="{{ route('secretaria.practicas.crearProveidoSolicitud',['practica'=>$item]) }}" method="post">
+                            @csrf
+                            @method('PATCH')
+                            <div class="grid gap-4 mb-4 sm:grid-cols-2">
+
+                                <div class="col-span-2">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pase a:</label>
+                                    <input type="text" name="pase" id="pase" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required value="Comision permanente" disabled>
+                                </div>
+
+                                <div class="col-span-2">
+                                    <label for="para" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Para:</label>
+                                    <input type="text" name="para" id="para" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                                </div>
+
+                            </div>
+                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Crear proveído
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             @endforeach
 
 
@@ -359,7 +497,7 @@
             </div>
             @endif
 
-            
+
             @endif
 
         </div>

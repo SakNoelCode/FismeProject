@@ -24,7 +24,10 @@ class UpdateComisionRequest extends FormRequest
         return [
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date',
-            'asesores' => 'required|array|min:3|max:3'
+            'presidente' => 'required|numeric|different:secretario,vocal,accesitario',
+            'secretario' => 'required|numeric|different:presidente,vocal,accesitario',
+            'vocal' => 'required|numeric|different:presidente,secretario,accesitario',
+            'accesitario' => 'required|numeric|different:presidente,secretario,vocal'
         ];
     }
 }

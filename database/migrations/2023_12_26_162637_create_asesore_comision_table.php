@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comisiones', function (Blueprint $table) {
+        Schema::create('asesore_comision', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
-            $table->string('estado',30)->default('activo');
+            $table->foreignId('asesore_id')->constrained('asesores')->onDelete('cascade');
+            $table->foreignId('comision_id')->constrained('comisiones')->onDelete('cascade');
+            $table->string('cargo', 200);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comisions');
+        Schema::dropIfExists('asesore_comision');
     }
 };

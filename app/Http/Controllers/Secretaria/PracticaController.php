@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Secretaria;
 use App\Http\Controllers\Controller;
 use App\Models\Acta;
 use App\Models\Practica;
+use Carbon\Carbon;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -105,5 +106,64 @@ class PracticaController extends Controller
         }
 
         return redirect()->route('secretaria.practicas.index')->with('success', 'Resolución subida');
+    }
+
+    public function uploadCargo(Request $request, Practica $practica)
+    {
+        $request->validate([
+            'cargo_path' => ['required', File::types(['pdf'])]
+        ]);
+
+        if ($request->hasFile('cargo_path')) {
+            //Comprobar si existe un archivo ya cargado
+            $documentoExistente = Acta::where('practica_id', $practica->id)
+                ->where('tipoacta_id', 1)
+                ->where('cargo_path', '<>', null)
+                ->first();
+
+            if ($documentoExistente) {
+                Storage::delete('actas/' . $documentoExistente->cargo_path);
+
+                $file = $request->file('cargo_path');
+                $nameDocumento = (new Acta())->guardarDocumento($file);
+                Acta::where('practica_id', $practica->id)
+                    ->where('tipoacta_id', 1)
+                    ->update([
+                        'cargo_path' => $nameDocumento
+                    ]);
+
+                //Si no existe
+            } else {
+                $file = $request->file('cargo_path');
+                $nameDocumento = (new Acta())->guardarDocumento($file);
+                Acta::where('practica_id', $practica->id)
+                    ->where('tipoacta_id', 1)
+                    ->update([
+                        'cargo_path' => $nameDocumento
+                    ]);
+            }
+        }
+
+        return redirect()->route('secretaria.practicas.index')->with('success', 'Cargo subido');
+    }
+
+    public function crearProveidoSolicitud(Request $request,Practica $practica)
+    {
+        $request->validate([
+            'para' => 'required|max:200'
+        ]);
+
+        $request->merge([
+            'pase_proveido' => 'Comisión permanente',
+            'para_proveido' => $request->para,
+            'fecha_proveido' => Carbon::now()->toDateString(),
+        ]);
+
+        $acta = Acta::where('practica_id', $practica->id)
+        ->first();
+
+        $acta->update($request->all());
+
+        return redirect()->route('secretaria.practicas.index')->with('success', 'Derivación exitosa');
     }
 }

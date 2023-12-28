@@ -15,10 +15,8 @@ class ComisionController extends Controller
 {
     public function index(): View
     {
-        $comision = Comision::latest()->first();
-
-        $comisiones = Comision::all();
-        return view('director.comision.index', compact('comision','comisiones'));
+        $comisiones = Comision::latest()->get();
+        return view('director.comision.index', compact('comisiones'));
     }
 
     public function create(): View
@@ -30,12 +28,21 @@ class ComisionController extends Controller
     public function update(UpdateComisionRequest $request): RedirectResponse
     {
         try {
-            Comision::create([
+            $ultimaComision = Comision::latest()->first();
+            if ($ultimaComision) {
+                $ultimaComision->update(['estado' => 'inactivo']);
+            }
+
+            $comision = Comision::create([
                 'fecha_inicio' => $request->fecha_inicio,
                 'fecha_fin' => $request->fecha_fin,
-                'docente_1' => $request->asesores[0],
-                'docente_2' => $request->asesores[1],
-                'docente_3' => $request->asesores[2],
+            ]);
+
+            $comision->asesores()->attach([
+                $request->presidente => ['cargo' => 'Presidente'],
+                $request->secretario => ['cargo' => 'Secretario'],
+                $request->vocal => ['cargo' => 'Vocal'],
+                $request->accesitario => ['cargo' => 'Accesitario']
             ]);
         } catch (Exception $e) {
             throw $e;

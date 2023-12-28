@@ -38,7 +38,7 @@
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            Integrado por 3 docentes de la facultad.
+                            Integrado por 4 docentes de la facultad.
                         </p>
                     </div>
 
@@ -52,49 +52,7 @@
                 </header>
             </div>
 
-            <!---Cuerpo--->
-            <section class="bg-white dark:bg-gray-900">
-                <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-8 lg:px-6 ">
-                    <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-8">
-                        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Comisión actual</h2>
-                        <p class="font-light text-gray-500 lg:mb-4 sm:text-xl dark:text-gray-400"> @if ($comision!=null) Del {{$comision->fecha_inicio}} hasta {{$comision->fecha_fin}} @endif</p>
-                    </div>
-                    @if ($comision==null)
-                    <p class="mt-1 text-base text-gray-600 dark:text-gray-400">
-                        Aún no se asigna una comisión.
-                    </p>
-                    @else
-                    <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-3">
-                        <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
-                            <div class="p-5">
-                                <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                    <a href="#">{{$comision->docente_1}}</a>
-                                </h3>
-                                <span class="text-gray-500 dark:text-gray-400">Docente UNTRM</span>
-                            </div>
-                        </div>
-                        <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
-                            <div class="p-5">
-                                <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                    <a href="#">{{$comision->docente_2}}</a>
-                                </h3>
-                                <span class="text-gray-500 dark:text-gray-400">Docente UNTRM</span>
-                            </div>
-                        </div>
-                        <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
-                            <div class="p-5">
-                                <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                    <a href="#">{{$comision->docente_3}}</a>
-                                </h3>
-                                <span class="text-gray-500 dark:text-gray-400">Docente UNTRM</span>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
-                </div>
-            </section>
-
+         
 
             <!---Registro de comisiones--->
             @if ($comisiones->count())
@@ -117,6 +75,9 @@
                             <th scope="col" class="px-6 py-3">
                                 Fecha Fin
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                Estado
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -126,13 +87,18 @@
                                 {{$item->id}}
                             </th>
                             <td class="px-6 py-4">
-                                {{$item->docente_1}} - {{$item->docente_2}} - {{$item->docente_3}}
+                                @foreach ($item->asesores as $asesor)
+                                - {{$asesor->pivot->cargo}}: {{$asesor->user->name}}<br>
+                                @endforeach
                             </td>
                             <td class="px-6 py-4">
                                 {{$item->fecha_inicio}}
                             </td>
                             <td class="px-6 py-4">
                                 {{$item->fecha_fin}}
+                            </td>
+                            <td>
+                                {{ucfirst($item->estado)}}
                             </td>
                         </tr>
                         @endforeach
@@ -142,7 +108,7 @@
 
 
             @else
-            <p>Sin resultados</p>
+            <p class="mx-auto">Sin resultados</p>
             @endif
 
 

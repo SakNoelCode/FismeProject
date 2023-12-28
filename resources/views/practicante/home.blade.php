@@ -82,6 +82,23 @@
                 No definido
                 @endif
             </dd>
+            <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Cargo de solicitud dirigida al decano</dt>
+            <dd class="mb-4 font-light text-gray-500 sm:mb-5">
+                @if ($acta = Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 1)->cargo_path)
+
+                @php
+                $acta = ($acta = Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 1)->cargo_path);
+                @endphp
+
+                <a target="_blank" href="{{route('practicante.verPDF',['name'=>$acta])}}">
+                    <svg class="w-6 h-6 text-blue-950" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 5h1v12a2 2 0 0 1-2 2m0 0a2 2 0 0 1-2-2V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v15a2 2 0 0 0 2 2h14ZM10 4h2m-2 3h2m-8 3h8m-8 3h8m-8 3h8M4 4h3v3H4V4Z" />
+                    </svg>
+                </a>
+                @else
+                No definido
+                @endif
+            </dd>
         </dl>
     </div>
     @endif

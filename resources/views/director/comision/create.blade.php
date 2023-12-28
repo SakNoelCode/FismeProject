@@ -57,23 +57,50 @@
                         </div>
 
                         <div>
-                            <x-input-label for="asesores" :value="__('Escoja 3 docentes para que formen parte de la comisión (*):')" class="text-xs mb-3" />
-                            @foreach ($asesores as $asesor)
-                            <div class="flex items-start mb-2">
-                                <div class="flex items-center h-5">
-                                    <input 
-                                    id="{{$asesor->id}}" 
-                                    value="{{$asesor->user->name}}" 
-                                    name="asesores[]" 
-                                    type="checkbox"
-                                    @if(is_array(old('asesores')) && in_array($asesor->id, old('asesores'))) checked @endif 
-                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
-                                </div>
-                                <label for="{{$asesor->id}}" class="ms-2 text-xs font-medium text-gray-900 dark:text-gray-300">{{$asesor->user->name}}</label>
-                            </div>
-                            @endforeach
-                            <x-input-error class="mt-2 text-xs" :messages="$errors->get('asesores')" />
+                            <x-input-label for="presidente" :value="__('Presidente (*):')" class="text-xs" />
+                            <select name="presidente" id="presidente" class="text-xs mt-1 block w-full border-gray-300 focus:border-indigo-500 rounded-md shadow-sm" required>
+                                <option value="" selected disabled>Seleccione:</option>
+                                @foreach ($asesores as $item)
+                                <option value="{{ $item->id }}" @selected(old('presidente')==$item->id)>{{ ucfirst($item->user->name) }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2 text-xs" :messages="$errors->get('presidente')" />
                         </div>
+
+                        <div>
+                            <x-input-label for="secretario" :value="__('Secretarío (*):')" class="text-xs" />
+                            <select name="secretario" id="secretario" class="text-xs mt-1 block w-full border-gray-300 focus:border-indigo-500 rounded-md shadow-sm" required>
+                                <option value="" selected disabled>Seleccione:</option>
+                                @foreach ($asesores as $item)
+                                <option value="{{ $item->id }}" @selected(old('secretario')==$item->id)>{{ ucfirst($item->user->name) }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2 text-xs" :messages="$errors->get('secretario')" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="vocal" :value="__('Vocal (*):')" class="text-xs" />
+                            <select name="vocal" id="vocal" class="text-xs mt-1 block w-full border-gray-300 focus:border-indigo-500 rounded-md shadow-sm" required>
+                                <option value="" selected disabled>Seleccione:</option>
+                                @foreach ($asesores as $item)
+                                <option value="{{ $item->id }}" @selected(old('vocal')==$item->id)>{{ ucfirst($item->user->name) }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2 text-xs" :messages="$errors->get('vocal')" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="accesitario" :value="__('Accesitario (*):')" class="text-xs" />
+                            <select name="accesitario" id="accesitario" class="text-xs mt-1 block w-full border-gray-300 focus:border-indigo-500 rounded-md shadow-sm" required>
+                                <option value="" selected disabled>Seleccione:</option>
+                                @foreach ($asesores as $item)
+                                <option value="{{ $item->id }}" @selected(old('accesitario')==$item->id)>{{ ucfirst($item->user->name) }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2 text-xs" :messages="$errors->get('accesitario')" />
+                        </div>
+
+
 
                         <div class="flex items-center gap-4">
                             <button type="submit" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">

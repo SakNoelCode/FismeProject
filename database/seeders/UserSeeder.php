@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Asesor;
 use App\Models\Practicante;
 use App\Models\Secretaria;
 use App\Models\User;
@@ -43,6 +44,67 @@ class UserSeeder extends Seeder
             'escuela_id' => 1,
             'user_id' => $userSecretaria->id,
             'area_id' => 4
+        ]);
+
+        //Asesores
+        $userAsesor1 = User::create([
+            'name' => 'Iván Adrianzén',
+            'email' => 'ivan@untrm.edu.pe',
+            'password' => bcrypt('12345678')
+        ]);
+        $userAsesor1->assignRole('asesor');
+        Asesor::create([
+            'especialidad' => 'Redes',
+            'escuela_id' => 1,
+            'user_id' => $userAsesor1->id
+        ]);
+
+        $userAsesor2 = User::create([
+            'name' => 'Eder Figueroa',
+            'email' => 'eder@untrm.edu.pe',
+            'password' => bcrypt('12345678')
+        ]);
+        $userAsesor2->assignRole('asesor');
+        Asesor::create([
+            'especialidad' => 'Redes',
+            'escuela_id' => 1,
+            'user_id' => $userAsesor2->id
+        ]);
+
+        $userAsesor3 = User::create([
+            'name' => 'Lobatón Arenas',
+            'email' => 'lobaton@untrm.edu.pe',
+            'password' => bcrypt('12345678')
+        ]);
+        $userAsesor3->assignRole('asesor');
+        Asesor::create([
+            'especialidad' => 'Redes',
+            'escuela_id' => 1,
+            'user_id' => $userAsesor3->id
+        ]);
+
+        $userAsesor4 = User::create([
+            'name' => 'Roberto Astonitas',
+            'email' => 'roberto@untrm.edu.pe',
+            'password' => bcrypt('12345678')
+        ]);
+        $userAsesor4->assignRole('asesor');
+        Asesor::create([
+            'especialidad' => 'Redes',
+            'escuela_id' => 1,
+            'user_id' => $userAsesor4->id
+        ]);
+
+        $userAsesor5 = User::create([
+            'name' => 'Angelo Becerril',
+            'email' => 'angelo@untrm.edu.pe',
+            'password' => bcrypt('12345678')
+        ]);
+        $userAsesor5->assignRole('asesor');
+        Asesor::create([
+            'especialidad' => 'Redes',
+            'escuela_id' => 1,
+            'user_id' => $userAsesor5->id
         ]);
     }
 }

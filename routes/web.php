@@ -13,6 +13,7 @@ use App\Http\Controllers\Secretaria\ExpedienteController as SecretariaExpediente
 use App\Http\Controllers\Secretaria\PracticaController as SecretariaPracticaController;
 use App\Http\Controllers\Secretaria\ProyectoController as SecretariaProyectoController;
 use App\Http\Controllers\Asesor\PracticaController as AsesorPracticaController;
+use App\Http\Controllers\Asesor\ComisionController as AsesorComisionController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use App\Http\Controllers\Tramite\ExpedienteController as TramiteExpedienteController;
 use Illuminate\Support\Facades\Route;
@@ -116,6 +117,8 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
         Route::post('/updateEtapa/{practica}', [SecretariaPracticaController::class, 'updateEtapa'])->name('secretaria.practicas.updateEtapa');
         Route::post('/loadFilePractica/{practica}', [SecretariaPracticaController::class, 'loadFilePractica'])->name('secretaria.practicas.loadFilePractica');
         Route::get('/practica/ver-pdf/{name}', [SecretariaPracticaController::class, 'verPDF'])->name('secretaria.practica.ver-pdf');
+        Route::post('/uploadCargo/{practica}', [SecretariaPracticaController::class, 'uploadCargo'])->name('secretaria.practicas.uploadCargo');
+        Route::patch('/crearProveidoSolicitud/{practica}', [SecretariaPracticaController::class, 'crearProveidoSolicitud'])->name('secretaria.practicas.crearProveidoSolicitud');
     });
 });
 
@@ -142,6 +145,11 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
 
         Route::prefix('practica')->group(function () {
             Route::get('/', [AsesorPracticaController::class, 'index'])->name('asesor.practica.index');
+        });
+
+        Route::prefix('comision')->group(function () {
+            Route::get('/', [AsesorComisionController::class, 'index'])->name('asesor.comision.index');
+            Route::get('/ver-pdf/{name}', [AsesorComisionController::class, 'verPDF'])->name('asesor.comision.ver-pdf');
         });
     });
 });

@@ -48,6 +48,13 @@
                     <x-nav-link :href="route('asesor.practica.index')" :active="request()->routeIs('asesor.practica.index')">
                         {{ __('Prácticas') }}
                     </x-nav-link>
+
+                    @if (Auth::user()->asesor->comision()->latest()->first()->estado == 'activo')
+                    <x-nav-link :href="route('asesor.comision.index')" :active="request()->routeIs('asesor.comision.index')">
+                        {{ __('Comisión permanente') }}
+                    </x-nav-link>
+                    @endif
+
                     @endhasrole
 
                     <!--Menú Director-->
@@ -145,6 +152,13 @@
             <x-responsive-nav-link :href="route('asesor.practica.index')" :active="request()->routeIs('asesor.practica.index')">
                 {{ __('Practicas') }}
             </x-responsive-nav-link>
+
+            @if(Auth::user()->asesor->comision()->latest()->first()->estado == 'activo')
+            <x-responsive-nav-link :href="route('asesor.comision.index')" :active="request()->routeIs('asesor.comision.index')">
+                {{ __('Comisión permanente') }}
+            </x-responsive-nav-link>
+            @endif
+
             @endhasrole
 
             <!--Menú  Director-->

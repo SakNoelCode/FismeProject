@@ -11,7 +11,7 @@ class Asesor extends Model
 
     protected $table = 'asesores';
 
-    protected $fillable = ['especialidad', 'escuela_id', 'user_id','comision_id'];
+    protected $fillable = ['especialidad', 'escuela_id', 'user_id', 'comision_id'];
 
     public function escuela()
     {
@@ -27,10 +27,10 @@ class Asesor extends Model
     }
     public function comision()
     {
-        return $this->belongsTo(Comision::class);
+        return $this->belongsToMany(Comision::class, 'asesore_comision', 'asesore_id', 'comision_id', 'id', 'id')->withTimestamps()->withPivot('cargo');
     }
     public function practicantes()
     {
-        return $this->hasMany(Practicante::class,'asesore_id');
+        return $this->hasMany(Practicante::class, 'asesore_id');
     }
 }

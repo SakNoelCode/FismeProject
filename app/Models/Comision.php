@@ -13,8 +13,16 @@ class Comision extends Model
 
     use HasFactory;
 
-    public function asesores(): HasMany
+    public function asesores()
     {
-        return $this->hasMany(Asesor::class);
+        return $this->belongsToMany(
+            Asesor::class,
+            'asesore_comision',
+            'comision_id',
+            'asesore_id',
+            'id',
+            'id'
+        )
+            ->withTimestamps()->withPivot('cargo');
     }
 }
