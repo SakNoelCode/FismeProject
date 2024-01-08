@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Acta;
 use App\Models\Practica;
 use Carbon\Carbon;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

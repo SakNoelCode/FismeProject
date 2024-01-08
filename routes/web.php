@@ -150,6 +150,11 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
         Route::prefix('comision')->group(function () {
             Route::get('/', [AsesorComisionController::class, 'index'])->name('asesor.comision.index');
             Route::get('/ver-pdf/{name}', [AsesorComisionController::class, 'verPDF'])->name('asesor.comision.ver-pdf');
+            Route::post('/updateFechaSustentacion/{id}', [AsesorComisionController::class, 'updateFechaSustentacion'])->name('asesor.comision.updateFechaSustentacion');
+            Route::get('/generateActaSustentacionView/{practicante}',[AsesorComisionController::class,'generateActaSustentacionView'])->name('asesor.comision.generateActaSustentacionView');
+            Route::post('/generateActaSustentacionView/{practicante}',[AsesorComisionController::class,'generateActaSustentacion'])->name('asesor.comision.generateActaSustentacion');
+            Route::get('/generateActaRevisionView/{practicante}',[AsesorComisionController::class,'generateActaRevisionView'])->name('asesor.comision.generateActaRevisionView');
+            Route::post('/generateActaRevisionView/{practicante}',[AsesorComisionController::class,'generateActaRevision'])->name('asesor.comision.generateActaRevision');
         });
     });
 });

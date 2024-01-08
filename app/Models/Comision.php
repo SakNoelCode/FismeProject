@@ -23,6 +23,6 @@ class Comision extends Model
             'id',
             'id'
         )
-            ->withTimestamps()->withPivot('cargo');
+            ->withTimestamps()->withPivot('cargo','asesore_id');
     }
 }

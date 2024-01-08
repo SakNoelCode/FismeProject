@@ -41,6 +41,26 @@
                     @endhasrole
 
                     <!--Menú Asesor-->
+                    <?php
+
+                    use App\Models\Comision;
+                    use Illuminate\Support\Facades\Auth;
+
+                    $comisionActiva = Comision::where('estado', 'activo')->first();
+                    $is_comision = false;
+                    $user = Auth::user();
+
+                    if ($user->hasRole('asesor')) {
+                        foreach ($comisionActiva->asesores as $asesor) {
+                            if ($user->asesor->id == $asesor->pivot->asesore_id) {
+                                $is_comision = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    ?>
+
                     @hasrole('asesor')
                     <x-nav-link :href="route('proyectoAsesor.index')" :active="request()->routeIs('proyectoAsesor.index')">
                         {{ __('Proyectos de Tesis') }}
@@ -48,13 +68,11 @@
                     <x-nav-link :href="route('asesor.practica.index')" :active="request()->routeIs('asesor.practica.index')">
                         {{ __('Prácticas') }}
                     </x-nav-link>
-
-                    @if (Auth::user()->asesor->comision()->latest()->first()->estado == 'activo')
+                    @if ($is_comision)
                     <x-nav-link :href="route('asesor.comision.index')" :active="request()->routeIs('asesor.comision.index')">
                         {{ __('Comisión permanente') }}
                     </x-nav-link>
                     @endif
-
                     @endhasrole
 
                     <!--Menú Director-->
@@ -152,13 +170,11 @@
             <x-responsive-nav-link :href="route('asesor.practica.index')" :active="request()->routeIs('asesor.practica.index')">
                 {{ __('Practicas') }}
             </x-responsive-nav-link>
-
-            @if(Auth::user()->asesor->comision()->latest()->first()->estado == 'activo')
+            @if ($is_comision)
             <x-responsive-nav-link :href="route('asesor.comision.index')" :active="request()->routeIs('asesor.comision.index')">
                 {{ __('Comisión permanente') }}
             </x-responsive-nav-link>
             @endif
-
             @endhasrole
 
             <!--Menú  Director-->

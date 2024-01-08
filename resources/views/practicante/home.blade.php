@@ -84,8 +84,8 @@
             </dd>
             <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Cargo de solicitud dirigida al decano</dt>
             <dd class="mb-4 font-light text-gray-500 sm:mb-5">
-                @if ($acta = Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 1)->cargo_path)
-
+                @if (Auth::user()->practicante->practica->actas()->where('tipoacta_id', 1)->exists() && Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 1)->cargo_path)
+ 
                 @php
                 $acta = ($acta = Auth::user()->practicante->practica->actas->firstWhere('tipoacta_id', 1)->cargo_path);
                 @endphp
