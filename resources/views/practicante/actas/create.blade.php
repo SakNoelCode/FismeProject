@@ -22,10 +22,10 @@
                 <div>
                     <x-input-label for='documento_path' value='Subir solicitud dirida al decano(*) (PDF):' class="text-xs" />
                     <input type="hidden" name="tipo" value="1">
-                    @if (Auth::user()->practicante->practica->etapa != 'inicio')
-                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
-                    @else
+                    @if (Auth::user()->practicante->practica->etapa == 'Inicio' || Auth::user()->practicante->practica->etapa =='Observado')
                     <x-text-input required type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
+                    @else
+                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
                     @endif
                     <x-input-error :messages="$errors->get('documento_path')" class="mt-2 text-xs" />
                 </div>
@@ -66,10 +66,10 @@
                 <div>
                     <x-input-label for='documento_path' value='Subir constancia de cursos aprobados hasta el VIII ciclo(*) (PDF):' class="text-xs" />
                     <input type="hidden" name="tipo" value="2">
-                    @if (Auth::user()->practicante->practica->etapa != 'inicio')
-                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
-                    @else
+                    @if (Auth::user()->practicante->practica->etapa == 'Inicio' || Auth::user()->practicante->practica->etapa =='Observado')
                     <x-text-input required type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
+                    @else
+                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
                     @endif
                     <x-input-error :messages="$errors->get('documento_path')" class="mt-2 text-xs" />
                 </div>
@@ -111,10 +111,10 @@
                 <div>
                     <x-input-label for='documento_path' value='Subir Plan de prácticas (Avaladas y firmadas por el asesor)(*) (PDF):' class="text-xs" />
                     <input type="hidden" name="tipo" value="3">
-                    @if (Auth::user()->practicante->practica->etapa != 'inicio')
-                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
-                    @else
+                    @if (Auth::user()->practicante->practica->etapa == 'Inicio' || Auth::user()->practicante->practica->etapa =='Observado')
                     <x-text-input required type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
+                    @else
+                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
                     @endif
                     <x-input-error :messages="$errors->get('documento_path')" class="mt-2 text-xs" />
                 </div>
@@ -156,10 +156,10 @@
                 <div>
                     <x-input-label for='documento_path' value='Subir Carta de autorización emitida por la empresa(*) (PDF):' class="text-xs" />
                     <input type="hidden" name="tipo" value="4">
-                    @if (Auth::user()->practicante->practica->etapa != 'inicio')
-                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
-                    @else
+                    @if (Auth::user()->practicante->practica->etapa == 'Inicio' || Auth::user()->practicante->practica->etapa =='Observado')
                     <x-text-input required type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
+                    @else
+                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
                     @endif
                     <x-input-error :messages="$errors->get('documento_path')" class="mt-2 text-xs" />
                 </div>
@@ -201,10 +201,10 @@
                 <div>
                     <x-input-label for='documento_path' value='Subir Comprobante de pago por derecho de Carta de Presentación(*) (PDF):' class="text-xs" />
                     <input type="hidden" name="tipo" value="5">
-                    @if (Auth::user()->practicante->practica->etapa != 'inicio')
-                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
-                    @else
+                    @if (Auth::user()->practicante->practica->etapa == 'Inicio' || Auth::user()->practicante->practica->etapa =='Observado')
                     <x-text-input required type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
+                    @else
+                    <x-text-input disabled type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
                     @endif
 
                     <x-input-error :messages="$errors->get('documento_path')" class="mt-2 text-xs" />

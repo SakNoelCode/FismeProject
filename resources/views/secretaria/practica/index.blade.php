@@ -201,11 +201,11 @@
                                             <br>
                                             Proveído:
                                             <br>
-                                            Pase a:  {{$acta->pase_proveido}}
+                                            Pase a: {{$acta->pase_proveido}}
                                             <br>
                                             Para: {{$acta->para_proveido}}
                                             <br>
-                                            Fecha: {{$acta->fecha_proveido}}                                                                                          
+                                            Fecha: {{$acta->fecha_proveido}}
                                             @endif
 
                                             @endif
@@ -247,6 +247,26 @@
                                         </td>
                                     </tr>
                                     @endforeach
+                                    @if ($item->path_acta_revison)
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            Acta de revisión de prácticas
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            @php
+                                            $rutaCompleta = $item->path_acta_revison;
+                                            $nombreArchivo = basename($rutaCompleta);
+                                            @endphp
+                                            <a target="_blank" href="{{ route('secretaria.practica.ver-pdf',['name'=>$nombreArchivo]) }}" class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">
+                                                {{$nombreArchivo}}
+                                            </a>
+                                        </td>
+                                        <td class="px-6 py-4">
+
+                                        </td>
+                                    </tr>
+                                    @endif
+
                                 </tbody>
                             </table>
                         </div>

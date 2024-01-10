@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Exception;
 
 class ComisionController extends Controller
 {
@@ -130,7 +131,7 @@ class ComisionController extends Controller
         return $pdf->stream('actaSustentacion.pdf');
     }
 
-     /**
+    /**
      * Vista para generar el acta de revisión de prácticas
      */
     public function generateActaRevisionView(Practicante $practicante)
@@ -157,7 +158,7 @@ class ComisionController extends Controller
         $vocal = '';
         $is_aprobado = false;
 
-        if($request->has('is_aprobado')){
+        if ($request->has('is_aprobado')) {
             $is_aprobado = true;
         }
 
@@ -196,5 +197,45 @@ class ComisionController extends Controller
         $pdf = PDF::loadView('reportes.acta-revision', $data);
 
         return $pdf->stream('actaRevision.pdf');
+    }
+
+    /**
+     * Subir el acta de revisión de la práctca
+     * 
+     */
+    public function subirActaRevision(Request $request, Practicante $practicante): RedirectResponse
+    {
+        $request->validate([
+            'path_acta_revison' => 'required|file'
+        ]);
+
+        $file = $request->file('path_acta_revison');
+
+        $path_file = (new Practica())->guardarActaRevision($file);
+
+        try {
+            $practicante->practica->update([
+                'path_acta_revison' => $path_file
+            ]);
+        } catch (Exception $e) {
+            dd($e);
+        }
+
+        return redirect()->route('asesor.comision.index')->with('success', 'Acta subida exitosamente');
+    }
+
+
+    /**
+     * Ver el acta de revision
+     */
+    public function verActaRevision(Practica $practica)
+    {
+        $path = $practica->path_acta_revison;
+        if (Storage::disk('public')->exists($path)) {
+            $pdfPath = Storage::disk('public')->path($path);
+            return response()->file($pdfPath);
+        } else {
+            return redirect()->back()->withErrors(['El archivo PDF no existe.']);
+        }
     }
 }

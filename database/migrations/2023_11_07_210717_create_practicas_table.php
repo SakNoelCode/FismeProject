@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('numeracion');
             $table->dateTime('fecha_sustentacion')->nullable();
-            $table->string('etapa', 50)->default('inicio');
+            $table->string('etapa', 50)->default('Inicio');
             $table->string('estado', 50)->default('neutro');
             $table->string('path_informe_final', 2048)->nullable();
+            $table->string('path_acta-revision', 2048)->nullable();
             $table->timestamps();
         });
     }
