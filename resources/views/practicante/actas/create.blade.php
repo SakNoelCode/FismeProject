@@ -64,7 +64,7 @@
             <div class="space-y-8 lg:grid lg:grid-cols-2 sm:gap-6 xl:gap-6 lg:space-y-0">
 
                 <div>
-                    <x-input-label for='documento_path' value='Subir constancia de cursos aprobados hasta el VIII ciclo(*) (PDF):' class="text-xs" />
+                    <x-input-label for='documento_path' value='Subir constancia de cursos aprobados (*) (PDF):' class="text-xs" />
                     <input type="hidden" name="tipo" value="2">
                     @if (Auth::user()->practicante->practica->etapa == 'Inicio' || Auth::user()->practicante->practica->etapa =='Observado')
                     <x-text-input required type='file' id="documento_path" name='documento_path' class="text-xs mt-2 block w-full" />
