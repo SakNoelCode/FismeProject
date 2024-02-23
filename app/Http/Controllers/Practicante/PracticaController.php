@@ -326,6 +326,7 @@ class PracticaController extends Controller
         }
     }
 
+    /*
     public function generateSolicitudAprobacionPractica()
     {
         return view('practicante.actas.generate-solicitud-practica');
@@ -352,7 +353,7 @@ class PracticaController extends Controller
         $pdf = PDF::loadView('reportes.solicitud-aprobacion-practica', $data);
 
         return $pdf->stream('solicitud.pdf');
-    }
+    }*/
 
     public function createInformeFinal(): View
     {
@@ -370,7 +371,9 @@ class PracticaController extends Controller
             //Comprobar si existe un archivo ya cargado
             $existe = Auth::user()->practicante->practica->path_informe_final;
 
-            if ($existe) {Storage::delete('informes/' . $existe);}
+            if ($existe) {
+                Storage::delete('informes/' . $existe);
+            }
 
             $file = $request->file('documento_path');
             $nameDocumento = (new Practica())->guardarDocumento($file);
@@ -379,7 +382,7 @@ class PracticaController extends Controller
             ]);
         }
 
-        return redirect()->route('practicante.create-informe-final')->with('status','saved');
+        return redirect()->route('practicante.create-informe-final')->with('status', 'saved');
     }
 
     public function verPDFInforme(String $name)
@@ -395,5 +398,108 @@ class PracticaController extends Controller
         } else {
             return redirect()->back()->withErrors(['El archivo PDF no existe.']);
         }
+    }
+
+    public function verPDFDesignacionJurado(String $name)
+    {
+        $filePath = 'actas/' . $name;
+
+
+        if (Storage::disk('public')->exists($filePath)) {
+
+            $pdfPath = Storage::disk('public')->path($filePath);
+
+            return response()->file($pdfPath);
+        } else {
+            return redirect()->back()->withErrors(['El archivo PDF no existe.']);
+        }
+    }
+
+    public function vistaGenerarSolicitudDesignacionJurado()
+    {
+        return view('practicante.generar.generar-solicitud');
+    }
+
+    public function generarSolicitudDesignacionJurado(Request $request)
+    {
+        $request->validate([
+            'nameDirector' => 'required',
+            'direccion' => 'required',
+            'year' => 'required'
+        ]);
+
+        $data = [
+            'name_year' => $request->year,
+            'nameDirector' => $request->nameDirector,
+            'razon_social' => Auth::user()->practicante->razon_social,
+            'dni' => substr(Auth::user()->practicante->codigo_estudiante, 0, -2),
+            'codigo' => Auth::user()->practicante->codigo_estudiante,
+            'direccion' => $request->direccion,
+            'celular' => Auth::user()->practicante->telefono
+        ];
+
+        // Crear el objeto PDF y cargar la vista
+        $pdf = PDF::loadView('reportes.designacion-jurado', $data);
+
+        return $pdf->stream('designacion_jurado.pdf');
+    }
+
+    public function storeDesignacionJurado(Request $request)
+    {
+        $request->validate([
+            'documento_path' =>  ['required', File::types(['pdf'])]
+        ]);
+
+
+        //Save Acta
+        if ($request->hasFile('documento_path')) {
+
+            //Comprobar si existe un archivo ya cargado
+            $documentoExistente = Acta::where('practica_id', Auth::user()->practicante->practica->id)
+                ->where('tipoacta_id', 7)
+                ->first();
+
+            if ($documentoExistente) {
+                Storage::delete('actas/' . $documentoExistente->documento_path);
+
+                $file = $request->file('documento_path');
+                $nameDocumento = (new Acta())->guardarDocumento($file);
+
+                $documentoExistente->update([
+                    'documento_path' => $nameDocumento,
+                ]);
+
+                //Si no existe
+            } else {
+                $file = $request->file('documento_path');
+                $nameDocumento = (new Acta())->guardarDocumento($file);
+
+                Acta::create([
+                    'documento_path' => $nameDocumento,
+                    'tipoacta_id' => $request->tipo,
+                    'practica_id' => Auth::user()->practicante->practica->id
+                ]);
+            }
+        }
+
+
+        /*
+        if ($request->hasFile('documento_path')) {
+
+            //Comprobar si existe un archivo ya cargado
+            $existe = Auth::user()->practicante->practica->path_designacion_jurado;
+
+            if ($existe) {
+                Storage::delete('informes/' . $existe);
+            }
+
+            $file = $request->file('documento_path');
+            $nameDocumento = (new Practica())->guardarDocumento($file);
+            Auth::user()->practicante->practica->update([
+                'path_designacion_jurado' => $nameDocumento,
+            ]);
+        }*/
+
+        return redirect()->route('practicante.create-informe-final')->with('status', 'savedDesignacion');
     }
 }

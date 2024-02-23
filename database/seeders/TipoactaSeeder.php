@@ -31,7 +31,13 @@ class TipoactaSeeder extends Seeder
             ],
             [
                 'descripcion' => 'resolución de prácticas'
-            ]
+            ],
+            [
+                'descripcion' => 'solicitud para la designación de jurado'
+            ],
+            [
+                'descripcion' => 'resolución de informe final'
+            ],
         ];
 
         foreach ($registros as $item) {

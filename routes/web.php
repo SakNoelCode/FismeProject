@@ -14,6 +14,8 @@ use App\Http\Controllers\Secretaria\PracticaController as SecretariaPracticaCont
 use App\Http\Controllers\Secretaria\ProyectoController as SecretariaProyectoController;
 use App\Http\Controllers\Asesor\PracticaController as AsesorPracticaController;
 use App\Http\Controllers\Asesor\ComisionController as AsesorComisionController;
+use App\Http\Controllers\Asesor\JuradoCalificadorController as AsesorJuradoCalificadorController;
+use App\Http\Controllers\Director\JuradoCalificadorController;
 use App\Http\Controllers\Tesista\ProyectoTesistaController;
 use App\Http\Controllers\Tramite\ExpedienteController as TramiteExpedienteController;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +68,10 @@ Route::group(['middleware' => ['auth', 'role:practicante']], function () {
         Route::get('/informe-final', [PracticaController::class, 'createInformeFinal'])->name('practicante.create-informe-final');
         Route::post('/informe-final', [PracticaController::class, 'storeInformeFinal'])->name('practicante.store-informe-final');
         Route::get('/ver-pdf-informe/{name}', [PracticaController::class, 'verPDFInforme'])->name('practicante.verPDFInforme');
+        Route::get('/vista-generar-solicitud-designacion-jurado', [PracticaController::class, 'vistaGenerarSolicitudDesignacionJurado'])->name('practicante.vista-generar-solicitud-designacion-jurado');
+        Route::post('/generar-solicitud-designacion-jurado', [PracticaController::class, 'generarSolicitudDesignacionJurado'])->name('practicante.generar-solicitud-designacion-jurado');
+        Route::post('/store-designacion-jurado', [PracticaController::class, 'storeDesignacionJurado'])->name('practicante.store-designacion-jurado');
+        Route::get('/ver-pdf-designacion-jurado/{name}', [PracticaController::class, 'verPDFDesignacionJurado'])->name('practicante.ver-pdf-designacion-jurado');
     });
 });
 
@@ -116,9 +122,10 @@ Route::group(['middleware' => ['auth', 'role:secretaria']], function () {
         Route::post('/updateEstado/{practica}', [SecretariaPracticaController::class, 'updateEstado'])->name('secretaria.practicas.updateEstado');
         Route::post('/updateEtapa/{practica}', [SecretariaPracticaController::class, 'updateEtapa'])->name('secretaria.practicas.updateEtapa');
         Route::post('/loadFilePractica/{practica}', [SecretariaPracticaController::class, 'loadFilePractica'])->name('secretaria.practicas.loadFilePractica');
+        Route::post('/store-informe-final-practica/{practica}', [SecretariaPracticaController::class, 'storeInformeFinalPractica'])->name('secretaria.practicas.store-informe-final-practica');
         Route::get('/practica/ver-pdf/{name}', [SecretariaPracticaController::class, 'verPDF'])->name('secretaria.practica.ver-pdf');
-        Route::post('/uploadCargo/{practica}', [SecretariaPracticaController::class, 'uploadCargo'])->name('secretaria.practicas.uploadCargo');
-        Route::patch('/crearProveidoSolicitud/{practica}', [SecretariaPracticaController::class, 'crearProveidoSolicitud'])->name('secretaria.practicas.crearProveidoSolicitud');
+        Route::post('/uploadCargo/{practica}/{id}', [SecretariaPracticaController::class, 'uploadCargo'])->name('secretaria.practicas.uploadCargo');
+        Route::patch('/crearProveidoSolicitud/{practica}/{id}', [SecretariaPracticaController::class, 'crearProveidoSolicitud'])->name('secretaria.practicas.crearProveidoSolicitud');
     });
 });
 
@@ -152,11 +159,19 @@ Route::group(['middleware' => ['auth', 'role:asesor']], function () {
             Route::get('/ver-pdf/{name}', [AsesorComisionController::class, 'verPDF'])->name('asesor.comision.ver-pdf');
             Route::get('/ver-acta-revision/{practica}', [AsesorComisionController::class, 'verActaRevision'])->name('asesor.comision.ver-acta-revision');
             Route::post('/updateFechaSustentacion/{id}', [AsesorComisionController::class, 'updateFechaSustentacion'])->name('asesor.comision.updateFechaSustentacion');
-            Route::get('/generateActaSustentacionView/{practicante}',[AsesorComisionController::class,'generateActaSustentacionView'])->name('asesor.comision.generateActaSustentacionView');
-            Route::post('/generateActaSustentacionView/{practicante}',[AsesorComisionController::class,'generateActaSustentacion'])->name('asesor.comision.generateActaSustentacion');
-            Route::get('/generateActaRevisionView/{practicante}',[AsesorComisionController::class,'generateActaRevisionView'])->name('asesor.comision.generateActaRevisionView');
-            Route::post('/generateActaRevisionView/{practicante}',[AsesorComisionController::class,'generateActaRevision'])->name('asesor.comision.generateActaRevision');
-            Route::post('/subirActaRevision/{practicante}',[AsesorComisionController::class,'subirActaRevision'])->name('asesor.comision.subirActaRevision');
+            Route::get('/generateActaSustentacionView/{practicante}', [AsesorComisionController::class, 'generateActaSustentacionView'])->name('asesor.comision.generateActaSustentacionView');
+            Route::post('/generateActaSustentacionView/{practicante}', [AsesorComisionController::class, 'generateActaSustentacion'])->name('asesor.comision.generateActaSustentacion');
+            Route::get('/generateActaRevisionView/{practicante}', [AsesorComisionController::class, 'generateActaRevisionView'])->name('asesor.comision.generateActaRevisionView');
+            Route::post('/generateActaRevisionView/{practicante}', [AsesorComisionController::class, 'generateActaRevision'])->name('asesor.comision.generateActaRevision');
+            Route::post('/subirActaRevision/{practicante}', [AsesorComisionController::class, 'subirActaRevision'])->name('asesor.comision.subirActaRevision');
+        });
+
+        Route::prefix('jurado')->group(function () {
+            Route::get('/', [AsesorJuradoCalificadorController::class, 'index'])->name('asesor.jurado.index');
+            Route::get('/ver-pdf-informe-final/{name}',[AsesorJuradoCalificadorController::class,'verPDFInforme'])->name('asesor.jurado.ver-pdf-informe');
+            Route::get('/ver-pdf/{name}',[AsesorJuradoCalificadorController::class,'verPDF'])->name('asesor.jurado.ver-pdf');
+            Route::post('/update-fecha-sustentacio-final/{id}',[AsesorJuradoCalificadorController::class,'updateFechaSustentacionFinal'])->name('asesor.jurado.update-fecha-sustentacion-final');
+            Route::post('/store-acta-sustentacion/{practica}',[AsesorJuradoCalificadorController::class,'storeActaSustentacion'])->name('asesor.jurado.store-acta-sustentacion');
         });
     });
 });
@@ -166,6 +181,11 @@ Route::group(['middleware' => ['auth', 'role:director']], function () {
     Route::get('/comision', [ComisionController::class, 'index'])->name('director.comision.index');
     Route::get('/comision/create', [ComisionController::class, 'create'])->name('director.comision.create');
     Route::post('/comision/create', [ComisionController::class, 'update'])->name('director.comision.update');
+
+    Route::get('/jurado-calificador', [JuradoCalificadorController::class, 'index'])->name('director.juradoCalificador.index');
+    Route::get('/jurado-calificador/ver-pdf/{name}', [JuradoCalificadorController::class, 'verPDF'])->name('director.juradoCalificador.ver-pdf');
+    Route::get('/jurado-calificador/create/{practica}', [JuradoCalificadorController::class, 'create'])->name('director.juradoCalificador.create');
+    Route::post('/jurado-calificador/create/{practica}', [JuradoCalificadorController::class, 'update'])->name('director.juradoCalificador.update');
 });
 
 Route::middleware('auth')->group(function () {

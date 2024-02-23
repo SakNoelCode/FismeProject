@@ -16,7 +16,7 @@
                         <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                         </svg>
-                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Comisión permanente</span>
+                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Jurado calificador</span>
                     </div>
                 </li>
             </ol>
@@ -32,81 +32,67 @@
             <!----Encabezado--->
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <header class="flex flex-wrap items-center gap-y-5">
-                    <div class="w-full lg:w-2/3">
+                    <div class="w-full">
                         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Comisión para la revisión y aprobación de prácticas preprofesionales
+                            Lista de practicantes finales
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            Integrado por 4 docentes de la facultad.
+                            Luego de que los practicantes hayan terminado sus prácticas, deberá asignarles un jurado evaluador.
                         </p>
-                    </div>
-
-
-                    <div class="w-full lg:w-1/3">
-                        <a href="{{route('director.comision.create')}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            Asignar comisión
-                        </a>
                     </div>
 
                 </header>
             </div>
 
-         
 
-            <!---Registro de comisiones--->
-            @if ($comisiones->count())
+            @if ($practicantes->count())
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                        Registro de comisiones
+                        Practicantes aprobados
                     </caption>
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
-                                N°
+                                Nombre del practicante
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Docentes
+                                Informe final
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Fecha Inicio
+                                Jurados
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Fecha Fin
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Estado
+                                Opciones
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($comisiones as $item)
+                        @foreach ($practicantes as $item)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$item->id}}
+                                {{$item->razon_social}}
                             </th>
                             <td class="px-6 py-4">
-                                @foreach ($item->asesores as $asesor)
-                                - {{$asesor->pivot->cargo}}: {{$asesor->user->name}}<br>
-                                @endforeach
+                                <a target="_blank" href="{{route('director.juradoCalificador.ver-pdf',['name' => $item->path_informe_final])}}">{{$item->path_informe_final}}</a>
                             </td>
                             <td class="px-6 py-4">
-                                {{$item->fecha_inicio}}
+                                <ul>
+                                    <li>Presidente: {{$item->Presidente}}</li>
+                                    <li>Secretario: {{$item->Secretario}}</li>
+                                    <li>Vocal: {{$item->Vocal}}</li>
+                                    <li>Accesitario: {{$item->Accesitario}}</li>
+                                </ul>
                             </td>
                             <td class="px-6 py-4">
-                                {{$item->fecha_fin}}
-                            </td>
-                            <td>
-                                {{ucfirst($item->estado)}}
+                                <a href="{{route('director.juradoCalificador.create',['practica' => $item->id])}}">Asignar jurado evaluador</a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-
-
             @else
             <p class="mx-auto">Sin resultados</p>
             @endif

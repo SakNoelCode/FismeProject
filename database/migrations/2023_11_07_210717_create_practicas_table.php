@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('etapa', 50)->default('Inicio');
             $table->string('estado', 50)->default('neutro');
             $table->string('path_informe_final', 2048)->nullable();
-            $table->string('path_acta-revision', 2048)->nullable();
+            $table->string('path_acta_revison', 2048)->nullable();
             $table->timestamps();
         });
     }

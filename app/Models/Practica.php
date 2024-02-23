@@ -62,4 +62,12 @@ class Practica extends Model
         $uploadedFile->storeAs('actas', $uniqueFileName);
         return 'actas/' . $uniqueFileName;
     }
+
+    public function guardarActaSustentacion($file)
+    {
+        $uploadedFile = $file;
+        $uniqueFileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+        $uploadedFile->storeAs('actas', $uniqueFileName);
+        return $uniqueFileName;
+    }
 }

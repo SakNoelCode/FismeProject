@@ -53,19 +53,19 @@
 
 <body class="body">
 
-    <span class="title">"AÑO DE LA UNIDAD, LA PAZ Y EL DESARROLLO"</span>
+    <span class="title">"{{$name_year}}"</span>
     <br>
     <span class="asunto">
-        <span class="negrita">SUMILLA:</span>SOLICITO APROBACIÓN DE
+        <span class="negrita">SOLICITUD:</span>DESIGNACIÓN DE JURADO 
         <br>
-        PLAN DE PRÁCTICAS PRE
+        PARA REVISIÓN DE PRÁCTICAS PRE 
         <br>
-        PROFESIONAL.
+        PROFESIONALES.
     </span>
     <br>
     <span class="negrita">SEÑOR:</span>
     <br>
-    <span>DR. {{$nameDecano}}</span>
+    <span>DR. {{$nameDirector}}</span>
     <br>
     <span>Decano(a) de la Facultad de Ingeniería de Sistemas y Mecánica Eléctrica-FISME Bagua</span>
     <br>
@@ -73,17 +73,19 @@
     <p class="p-principal">
         Yo {{$razon_social}} estudiante y/o egresado de la Escuela Profesional de Ingeniería de
         Sistemas, Facultad de Ingeniería de Sistemas y Mecánica Eléctrica-Filial Bagua,
-        identificado con DNI {{$dni}} y código de estudiante {{$codigo}}, del octavo ciclo, domicilio
-        real en {{$direccion}}, que, en cumplimiento del Art. 4° del Reglamento de Practicas Pre
-        Profesionales, que a la letra dice: los estudiantes podrán realizar sus prácticas pre
-        profesionales, luego de haber aprobado todos los cursos del I al VIII ciclo del plan
-        estudios vigente, me dirijo a usted para saludarle cordialmente y al mismo tiempo
-        hacerle llegar plan de prácticas pre profesiones para revisión y aprobación.
+        identificado con DNI {{$dni}} y código de estudiante {{$codigo}}, domicilio
+        real en {{$direccion}},me dirijo a usted para saludarle y al mismo tiempo manifestarle
+        que en cumplimiento del Art. 20° del Reglamento de Practicas Pre Profesionales, <strong>solicito por escrito
+        ante el Director de Escuela la nominación de jurado para la revisión y sustentación del 
+        informe final de prácticas pre profesionales.</strong>
     </p>
 
     <p class="agradecimiento">
-        Agradeciendo por anticipado su atención a la presente, hago propicia la
-        oportunidad para testimoniar las muestras de mi especial consideración y estima.
+        Para lo cual adjunto:
+        <br>
+        -	03 ejemplares del informe.
+        <br>
+        -	03 cd del sistema.
     </p>
 
     <p class="agradecimiento">

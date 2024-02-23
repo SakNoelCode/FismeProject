@@ -73,12 +73,18 @@
                         {{ __('Comisión permanente') }}
                     </x-nav-link>
                     @endif
+                    <x-nav-link :href="route('asesor.jurado.index')" :active="request()->routeIs('asesor.jurado.index')">
+                        {{ __('Jurado calificador') }}
+                    </x-nav-link>
                     @endhasrole
 
                     <!--Menú Director-->
                     @hasrole('director')
                     <x-nav-link :href="route('director.comision.index')" :active="request()->routeIs('director.comision.index')">
-                        {{ __('Comisión') }}
+                        {{ __('Comisión permanente') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('director.juradoCalificador.index')" :active="request()->routeIs('director.juradoCalificador.index')">
+                        {{ __('Jurado calificador') }}
                     </x-nav-link>
                     @endhasrole
                 </div>
@@ -175,12 +181,18 @@
                 {{ __('Comisión permanente') }}
             </x-responsive-nav-link>
             @endif
+            <x-responsive-nav-link :href="route('asesor.jurado.index')" :active="request()->routeIs('asesor.jurado.index')">
+                {{ __('Jurado calificador') }}
+            </x-responsive-nav-link>
             @endhasrole
 
             <!--Menú  Director-->
             @hasrole('director')
             <x-responsive-nav-link :href="route('director.comision.index')" :active="request()->routeIs('director.comision.index')">
-                {{ __('Comisión') }}
+                {{ __('Comisión permanente') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('director.juradoCalificador.index')" :active="request()->routeIs('director.juradoCalificador.index')">
+                {{ __('Jurado calificador') }}
             </x-responsive-nav-link>
             @endhasrole
 
