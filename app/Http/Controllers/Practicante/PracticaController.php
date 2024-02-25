@@ -326,7 +326,7 @@ class PracticaController extends Controller
         }
     }
 
-    /*
+    
     public function generateSolicitudAprobacionPractica()
     {
         return view('practicante.actas.generate-solicitud-practica');
@@ -336,7 +336,8 @@ class PracticaController extends Controller
     {
         $request->validate([
             'nameDecano' => 'required',
-            'direccion' => 'required'
+            'direccion' => 'required',
+            'year' => 'required'
         ]);
 
 
@@ -346,14 +347,15 @@ class PracticaController extends Controller
             'dni' => substr(Auth::user()->practicante->codigo_estudiante, 0, -2),
             'codigo' => Auth::user()->practicante->codigo_estudiante,
             'direccion' => $request->direccion,
-            'celular' => Auth::user()->practicante->telefono
+            'celular' => Auth::user()->practicante->telefono,
+            'name_year' => $request->year
         ];
 
         // Crear el objeto PDF y cargar la vista
         $pdf = PDF::loadView('reportes.solicitud-aprobacion-practica', $data);
 
         return $pdf->stream('solicitud.pdf');
-    }*/
+    }
 
     public function createInformeFinal(): View
     {
