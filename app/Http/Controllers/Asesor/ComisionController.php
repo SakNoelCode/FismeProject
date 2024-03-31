@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Comision;
 use App\Models\Practica;
 use App\Models\Practicante;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 
 class ComisionController extends Controller
 {
@@ -89,27 +91,17 @@ class ComisionController extends Controller
             'observaciones' => 'nullable'
         ]);
 
-        $comision = Comision::with('asesores.user')->where('estado', 'activo')->first();
-        $presidente = '';
-        $secretario = '';
-        $vocal = '';
+        $presidente = User::whereHas('asesor', function (Builder $query) use ($practicante) {
+            $query->where('id', $practicante->practica->presidente_id);
+        })->first()->name;
 
-        foreach ($comision->asesores as $docente) {
-            $cargo = $docente->pivot->cargo;
-            $nombre = $docente->user->name;
-
-            switch ($cargo) {
-                case 'Presidente':
-                    $presidente = $nombre;
-                    break;
-                case 'Secretario':
-                    $secretario = $nombre;
-                    break;
-                case 'Vocal':
-                    $vocal = $nombre;
-                    break;
-            }
-        }
+        $secretario = User::whereHas('asesor', function (Builder $query) use ($practicante) {
+            $query->where('id', $practicante->practica->secretario_id);
+        })->first()->name;
+        ;
+        $vocal = User::whereHas('asesor', function (Builder $query) use ($practicante) {
+            $query->where('id', $practicante->practica->vocal_id);
+        })->first()->name;
 
         $data = [
             'fecha' => $request->fecha,

@@ -71,7 +71,9 @@
                                     <td class="px-6 py-4">
                                         <ul>
                                             <li>Informe final: <a target="_blank" href="{{route('asesor.jurado.ver-pdf-informe',['name'=>$item->path_informe_final])}}" class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">Ver</a></li>
+                                            @if ($item->path_acta_sustentacion)
                                             <li>Acta de sustentación: <a target="_blank" href="{{route('asesor.jurado.ver-pdf',['name'=>$item->path_acta_sustentacion])}}" class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">Ver</a></li>
+                                            @endif
                                         </ul>
                                         
                                     </td>
